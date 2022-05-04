@@ -105,7 +105,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#(32位)</span><br><span class="line">leave：</span><br><span class="line">mov esp, ebp;</span><br><span class="line">pop ebp; (esp = esp + 4)</span><br><span class="line"></span><br><span class="line">ret:</span><br><span class="line">pop eip;</span><br></pre></td></tr></table></figure>
 
 <h1 id="pwn-ciscn-2019-es-2-栈迁移"><a href="#pwn-ciscn-2019-es-2-栈迁移" class="headerlink" title="pwn-ciscn_2019_es_2(栈迁移)"></a>pwn-ciscn_2019_es_2(栈迁移)</h1><p>查看保护机制：只开启了NX（栈不可执行）</p>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220503213513775.png" alt="image-20220503213513775"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/image-20220503213513775.png" alt="image-20220503213513775"></p>
 <p>有<code>system</code>函数，但没有/bin/sh字符串，需要自己写入。</p>
 <p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220503213714353.png" alt="image-20220503213714353"></p>
 <p>通过main函数，进入vul函数，分析vul函数：</p>
@@ -141,7 +141,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/" data-id="cl2qvxtj60001c4uq5onags76" data-title="ciscn_2019_es_2栈迁移" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/" data-id="cl2qw48ec0000rcuq9h96edzp" data-title="ciscn_2019_es_2栈迁移" class="article-share-link">Share</a>
       
       
       
@@ -181,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/04/19/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" data-id="cl2qvxtj70002c4uq8z0t64ly" data-title="hexo博客搭建" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/04/19/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" data-id="cl2qw48em0006rcuqdpx31pgq" data-title="hexo博客搭建" class="article-share-link">Share</a>
       
       
       
@@ -232,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/01/10/hello-world/" data-id="cl2qvxtiz0000c4uqamdyeq0j" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/01/10/hello-world/" data-id="cl2qw48el0005rcuqavpecewj" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
