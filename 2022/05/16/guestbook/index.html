@@ -6,20 +6,20 @@
   
   <title>jarvisoj_tell_me_something | CX_Dlogver</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="jarvisoj_tell_me_something 只开启了NX（栈不可执行保护机制）  函数很简单，read函数存在栈溢出漏洞，接下来寻找是否存在后门函数。  在字符串窗口中可以看到有flag.txt字符串，定位字符串位置。  在good_game()函数中，直接执行了打开flag.txt的操作，那么只需要定位到该函数就可以打开flag了。 在while(1)循环中： fgetc函数 int">
+  <meta name="description" content="guestbook 只开启了NX（栈不可执行保护机制）  函数很简单，read函数存在栈溢出漏洞，接下来寻找是否存在后门函数。  在字符串窗口中可以看到有flag.txt字符串，定位字符串位置。  在good_game()函数中，直接执行了打开flag.txt的操作，那么只需要定位到该函数就可以打开flag了。 在while(1)循环中： fgetc函数 int fgetc( FILE * str">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jarvisoj_tell_me_something">
 <meta property="og:url" content="http://example.com/2022/05/16/guestbook/index.html">
 <meta property="og:site_name" content="CX_Dlogver">
-<meta property="og:description" content="jarvisoj_tell_me_something 只开启了NX（栈不可执行保护机制）  函数很简单，read函数存在栈溢出漏洞，接下来寻找是否存在后门函数。  在字符串窗口中可以看到有flag.txt字符串，定位字符串位置。  在good_game()函数中，直接执行了打开flag.txt的操作，那么只需要定位到该函数就可以打开flag了。 在while(1)循环中： fgetc函数 int">
+<meta property="og:description" content="guestbook 只开启了NX（栈不可执行保护机制）  函数很简单，read函数存在栈溢出漏洞，接下来寻找是否存在后门函数。  在字符串窗口中可以看到有flag.txt字符串，定位字符串位置。  在good_game()函数中，直接执行了打开flag.txt的操作，那么只需要定位到该函数就可以打开flag了。 在while(1)循环中： fgetc函数 int fgetc( FILE * str">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2022/05/16/guestbook/image-20220516225117192.png">
-<meta property="og:image" content="http://example.com/guestbook%5Cimage-20220516225231234.png">
-<meta property="og:image" content="d:/CX_appoincation/Typora/Node/Blog/cxDlogver/source_posts/guestbook/image-20220516225348009.png">
-<meta property="og:image" content="d:/CX_appoincation/Typora/Node/Blog/cxDlogver/source_posts/guestbook/image-20220516225433657.png">
-<meta property="og:image" content="d:/CX_appoincation/Typora/Node/Blog/cxDlogver/source_posts/guestbook/image-20220516230030198.png">
+<meta property="og:image" content="http://example.com/2022/05/16/guestbook/image-20220516225231234.png">
+<meta property="og:image" content="http://example.com/2022/05/16/guestbook/image-20220516225348009.png">
+<meta property="og:image" content="http://example.com/2022/05/16/guestbook/image-20220516225433657.png">
+<meta property="og:image" content="http://example.com/2022/05/16/guestbook/image-20220516230030198.png">
 <meta property="article:published_time" content="2022-05-16T14:48:36.000Z">
-<meta property="article:modified_time" content="2022-05-16T15:16:02.071Z">
+<meta property="article:modified_time" content="2022-05-16T15:20:39.158Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="栈溢出">
 <meta name="twitter:card" content="summary">
@@ -106,13 +106,13 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id="jarvisoj-tell-me-something"><a href="#jarvisoj-tell-me-something" class="headerlink" title="jarvisoj_tell_me_something"></a>jarvisoj_tell_me_something</h1><p><img src="/2022/05/16/guestbook/image-20220516225117192.png" alt="image-20220516225117192"></p>
+        <h2 id="guestbook"><a href="#guestbook" class="headerlink" title="guestbook"></a>guestbook</h2><p><img src="/2022/05/16/guestbook/image-20220516225117192.png" alt="image-20220516225117192"></p>
 <p>只开启了NX（栈不可执行保护机制）</p>
-<p><img src="/guestbook%5Cimage-20220516225231234.png" alt="image-20220516225231234"></p>
+<p><img src="/2022/05/16/guestbook/image-20220516225231234.png" alt="image-20220516225231234"></p>
 <p>函数很简单，<code>read</code>函数存在栈溢出漏洞，接下来寻找是否存在后门函数。</p>
-<p><img src="D:\CX_appoincation\Typora\Node\Blog\cxDlogver\source_posts\guestbook\image-20220516225348009.png" alt="image-20220516225348009"></p>
+<p><img src="/2022/05/16/guestbook/image-20220516225348009.png" alt="image-20220516225348009"></p>
 <p>在字符串窗口中可以看到有<code>flag.txt</code>字符串，定位字符串位置。</p>
-<p><img src="D:\CX_appoincation\Typora\Node\Blog\cxDlogver\source_posts\guestbook\image-20220516225433657.png" alt="image-20220516225433657"></p>
+<p><img src="/2022/05/16/guestbook/image-20220516225433657.png" alt="image-20220516225433657"></p>
 <p>在<code>good_game()</code>函数中，直接执行了打开flag.txt的操作，那么只需要定位到该函数就可以打开flag了。</p>
 <p>在while(1)循环中：</p>
 <h2 id="fgetc函数"><a href="#fgetc函数" class="headerlink" title="fgetc函数"></a><a target="_blank" rel="noopener" href="https://baike.sogou.com/v7936659.htm?fromTitle=fgetc&ch=frombaikevr">fgetc函数</a></h2><blockquote>
@@ -120,7 +120,7 @@
 </blockquote>
 <p>函数从输入流stream的当前位置返回下一个字符，。该字符作为一个无符号字符读取，并被转换成为一个整型值。若指针到达文件尾部或者读取错误，则返回 EOF即 -1</p>
 <p><strong>读入一个字节以后，位置指针将自动向后移动一个字节，那么再调用一次fgetc()函数，则读取的是第2个字符。</strong>循环到最后一定会出现返回EOF。</p>
-<p><img src="D:\CX_appoincation\Typora\Node\Blog\cxDlogver\source_posts\guestbook\image-20220516230030198.png" alt="image-20220516230030198"></p>
+<p><img src="/2022/05/16/guestbook/image-20220516230030198.png" alt="image-20220516230030198"></p>
 <p>在<code>main</code>函数中，发现函数返回时，并没有调用leave指令，即没有<code>pop ebp</code>操作，向前看可以发现ebp其实并没有入栈。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">leave_ret:</span><br><span class="line">mov rsp, rbp</span><br><span class="line">pop rbp</span><br><span class="line">pop rip</span><br><span class="line">#替换成</span><br><span class="line">add rsp, 88h</span><br><span class="line">pop rip</span><br></pre></td></tr></table></figure>
 
@@ -131,7 +131,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/05/16/guestbook/" data-id="cl38vckoy0000mcuqh5jv69ka" data-title="jarvisoj_tell_me_something" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/05/16/guestbook/" data-id="cl38vikuh0006yguq0oshd80r" data-title="jarvisoj_tell_me_something" class="article-share-link">Share</a>
       
       
       
