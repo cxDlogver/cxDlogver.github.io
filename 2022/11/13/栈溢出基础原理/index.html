@@ -11,16 +11,16 @@
 <meta property="og:url" content="http://example.com/2022/11/13/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/image-20220213224820235.png">
-<meta property="og:image" content="http://example.com/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/image-20220213231828239.png">
-<meta property="og:image" content="http://example.com/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/271650059007975.jpg">
-<meta property="og:image" content="http://example.com/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/image-20220214161648989.png">
+<meta property="og:image" content="http://example.com/.com//image-20220213224820235.png">
+<meta property="og:image" content="http://example.com/.com//image-20220213231828239.png">
+<meta property="og:image" content="http://example.com/.com//271650059007975.jpg">
+<meta property="og:image" content="http://example.com/.com//image-20220214161648989.png">
 <meta property="article:published_time" content="2022-11-13T08:20:54.000Z">
 <meta property="article:modified_time" content="2022-11-13T13:41:49.987Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="栈溢出">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/image-20220213224820235.png">
+<meta name="twitter:image" content="http://example.com/.com//image-20220213224820235.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -101,7 +101,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h1 id=""><a href="#" class="headerlink" title=""></a><span id="more"></span></h1><h2 id="抛出问题"><a href="#抛出问题" class="headerlink" title="抛出问题"></a>抛出问题</h2><ol>
+        <h1 id><a href="#" class="headerlink" title></a><span id="more"></span></h1><h2 id="抛出问题"><a href="#抛出问题" class="headerlink" title="抛出问题"></a>抛出问题</h2><ol>
 <li>进程的内存主要由哪几部分构成，其中栈结构主要保存什么内容？</li>
 <li>栈帧结构是什么样的？寄存器起到哪些作用？</li>
 <li>X86和X86_64的栈结构有哪些不同之处？</li>
@@ -109,7 +109,7 @@
 <li>栈溢出的原理是什么？</li>
 </ol>
 <h2 id="基础栈介绍"><a href="#基础栈介绍" class="headerlink" title="基础栈介绍"></a><a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/stackoverflow/x86/stack-intro/#_2">基础栈介绍</a></h2><p>每个程序在运行时都有<strong>虚拟地址空间</strong>，其中某一部分就是该程序对应的栈，用于<strong>保存<u>函数调用信息</u>和<u>局部变量</u><strong>。此外，常见的操作也是压栈与出栈。需要注意的是，</strong>程序的栈是从进程地址空间的高地址向低地址增长的</strong>。</p>
-<p><img src="/./%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/image-20220213224820235.png" alt="栈结构"></p>
+<p><img src="/.com//image-20220213224820235.png" alt="栈结构"></p>
 <p>进程使用的内存大致可以分成四个部分：代码区、数据区、堆区、栈区。这个将在《程序员的自我修养》读书笔记中重点分析。</p>
 <p>32 位和 64 位程序有以下简单的区别</p>
 <ul>
@@ -124,12 +124,12 @@
 <li>存储本地局部变量</li>
 </ol>
 <p>栈帧指针寄存器FP，在Intel CPU中用BP作帧指针。</p>
-<p><img src="/./%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/image-20220213231828239.png" alt="寄存器使用"></p>
+<p><img src="/.com//image-20220213231828239.png" alt="寄存器使用"></p>
 <blockquote>
 <p>寄存器<u><strong>%eax、%edx和%ecx</strong></u>主调函数保存寄存器由主调函数显式的保存到栈中，先于返回地址进入栈中。</p>
 <p>寄存器<u><strong>%ebx、%esi和%edi</strong></u>被调函数保存寄存器由被调函数保存到栈中，后于返回地址进入栈中。</p>
 </blockquote>
-<h3 id="栈帧结构"><a href="#栈帧结构" class="headerlink" title="栈帧结构"></a><strong>栈帧结构</strong></h3><p><img src="/./%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/271650059007975.jpg" alt="栈帧"></p>
+<h3 id="栈帧结构"><a href="#栈帧结构" class="headerlink" title="栈帧结构"></a><strong>栈帧结构</strong></h3><p><img src="/.com//271650059007975.jpg" alt="栈帧"></p>
 <blockquote>
 <p><strong>实参N-1 -&gt; 主调函数返回地址 -&gt; 主调函数帧基指针EBP -&gt; 被调函数局部变量1-N</strong></p>
 </blockquote>
@@ -159,7 +159,7 @@
 <p>前提：PIE保护关闭</p>
 <p><a target="_blank" rel="noopener" href="http://tttang.com/archive/1361/#toc__1">寻找危险函数</a></p>
 <p><a target="_blank" rel="noopener" href="http://tttang.com/archive/1361/#toc__2">确定填充长度</a></p>
-<p><img src="/./%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/image-20220214161648989.png" alt="栈表"></p>
+<p><img src="/.com//image-20220214161648989.png" alt="栈表"></p>
 <blockquote>
 <p>s表示<code>push ebp</code>的地址，r表示函数的返回地址，指定地址应该覆盖r所在的地址</p>
 </blockquote>
@@ -187,7 +187,7 @@
 <li>被调函数局部变量依次被压入栈，如果将数组压入栈，会执行<code>sub esp X</code>分配X大小的栈空间给数组。<u>同时被调函数也会把一些不能被覆盖的寄存器中的值压入栈</u>，才能调用寄存器。</li>
 <li>被调函数通过修改栈顶指针的值，为自己的局部变量在运行时栈中分配内存空间，并从帧基指针的位置处向低地址方向存放被调函数的局部变量和临时变量。</li>
 <li>被调函数执行自己任务，此时可能需要访问由主调函数传入的参数。若被调函数返回一个值，该值通常保存在一个指定寄存器中(如EAX)。</li>
-<li>一旦被调函数完成操作，为该函数局部变量分配的栈空间将被释放<u><strong>（<code>mov esp ebp</code>）</strong></u>。然后 恢复步骤3中保存的寄存器值，包含主调函数的帧基指针寄存器<u>（**<code>pop ebp</code><strong>）</u>。两个指令合并称为</strong>leave指令**</li>
+<li>一旦被调函数完成操作，为该函数局部变量分配的栈空间将被释放<u><strong>（<code>mov esp ebp</code>）</strong></u>。然后 恢复步骤3中保存的寄存器值，包含主调函数的帧基指针寄存器<u>（**<code>pop ebp</code><strong>）</strong></u>。两个指令合并称为leave指令**</li>
 <li>被调函数将控制权交还主调函数(使用<strong>ret</strong>指令)。根据使用的函数调用约定，该操作也可能从程序栈上清除先前传入的参数。</li>
 <li>主调函数再次获得控制权后，可能需要将先前的参数从栈上清除。</li>
 </ol>
@@ -208,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/13/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" data-id="clyuc7j5i0009igto2jytgzpl" data-title="栈溢出基础原理" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2022/11/13/%E6%A0%88%E6%BA%A2%E5%87%BA%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/" data-id="clyucadct0009p8to39ic5fgy" data-title="栈溢出基础原理" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
