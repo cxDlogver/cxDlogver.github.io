@@ -23,12 +23,17 @@
 <meta property="og:site_name" content="相">
 <meta property="og:description" content="文章记录Vue组件之间交互的几种方式，包括父组件和子组件之间的数据传参和事件触发。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/08/04/2024-08-04/%E5%9B%BE1.png">
+<meta property="og:image" content="http://example.com/2024/08/04/2024-08-04/%E5%9B%BE2.png">
+<meta property="og:image" content="http://example.com/2024/08/04/2024-08-04/%E5%9B%BE3.png">
+<meta property="og:image" content="http://example.com/2024/08/04/2024-08-04/%E5%9B%BE4.png">
 <meta property="article:published_time" content="2024-08-04T02:24:44.000Z">
 <meta property="article:modified_time" content="2024-08-06T03:57:31.831Z">
 <meta property="article:author" content="Xiang Chen">
 <meta property="article:tag" content="每日总结">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2024/08/04/2024-08-04/%E5%9B%BE1.png">
   
   
   
@@ -297,7 +302,7 @@
 <p><font color="#FFFF00">子组件：</font></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div class=&quot;child-container&quot;&gt;<br>    &#123;&#123; arr &#125;&#125;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script&gt;<br>export default &#123;<br>  props:&#123;<br>    newArr:&#123;<br>      type: Array,<br>      default: ()=&gt;[&quot;初始参数&quot;]<br>    &#125;<br>  &#125;,<br>  data()&#123;<br>    return&#123;<br>      arr:[&quot;子组件初始数据&quot;],<br>    &#125;<br>  &#125;,<br>  created()&#123;<br>    this.arr = this.newArr<br>    this.arr.push(&quot;子组件数据&quot;)<br>  &#125;<br>&#125;<br>&lt;/script&gt;<br><br>&lt;style land=&quot;scss&quot; scoped&gt;<br>.child-container &#123;<br>  height: 30%;<br>  width: 30%;<br>  background: #00b8b8;<br>  font-size: 30px;<br>  font-family: &quot;STZhongsong&quot;;<br>  color: white;<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
 
-
+<img src="/2024/08/04/2024-08-04/%E5%9B%BE1.png" srcset="/img/loading.gif" lazyload class title="图1">
 
 <p><font color="yellow">注意点：</font></p>
 <ol>
@@ -346,7 +351,7 @@
 <li><strong>生命周期钩子合并</strong>：<code>mixin</code> 中的生命周期钩子会与组件中的生命周期钩子合并。如果存在同名钩子函数，它们会被合并为一个函数，在执行时按定义的顺序依次调用。</li>
 <li><strong>全局混入</strong>：在<code>main.js</code>中使用<code>Vue.mixin(myMixin)</code>可以实现全局混入。</li>
 </ol>
-
+<img src="/2024/08/04/2024-08-04/%E5%9B%BE2.png" srcset="/img/loading.gif" lazyload class title="图2">
 
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Zy4y1K7SH?p=67">https://www.bilibili.com/video/BV1Zy4y1K7SH?p=67</a></p>
@@ -359,7 +364,7 @@
 <p><font color="yellow">子组件：</font></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div class=&quot;child-container&quot;&gt;<br>    &lt;slot name=&quot;first&quot;&gt;&lt;/slot&gt;<br>    &lt;slot name=&quot;second&quot;&gt;&lt;/slot&gt;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script&gt;<br>export default &#123;<br>&#125;<br>&lt;/script&gt;<br><br>&lt;style land=&quot;scss&quot; scoped&gt;<br>.child-container &#123;<br>  height: 30%;<br>  width: 30%;<br>  background: #00b8b8;<br>  font-size: 30px;<br>  font-family: &quot;STZhongsong&quot;;<br>  color: white;<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
 
-
+<img src="/2024/08/04/2024-08-04/%E5%9B%BE3.png" srcset="/img/loading.gif" lazyload class title="图3">
 
 <p>在子组件中定义<code>&lt;slot name=&quot;&quot;&gt;&lt;/slot&gt;</code>插槽，在父组件可以定义HTML结构并插入到子组件中。如果只有一个插槽则无需设置name，用默认插槽即可。</p>
 <p><font color="yellow">注意点：</font></p>
@@ -375,7 +380,7 @@
 
 
 
-
+<img src="/2024/08/04/2024-08-04/%E5%9B%BE4.png" srcset="/img/loading.gif" lazyload class title="图4">
 
 <p><font color="yellow">注意点：</font></p>
 <ul>
