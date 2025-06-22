@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Vue3学习记录视频  [1] 尚硅谷Vue2.0+Vue3.0全套教程 [2] 尚硅谷Vue3入门到实战  笔记  [1] vue3快速上手1.pdf [2] vue3快速上手2.pdf  创建Vue3项目 [1] P136-P141节 [2] P1-P10节  学习目标：  如何用vue-cli搭建一个vue3项目。 如何用vite搭建一个vue3项目。 vue3项目工程结构分析。 Optio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="相">
+<meta property="og:url" content="http://example.com/2024/10/25/VUE3%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="Vue3学习记录视频  [1] 尚硅谷Vue2.0+Vue3.0全套教程 [2] 尚硅谷Vue3入门到实战  笔记  [1] vue3快速上手1.pdf [2] vue3快速上手2.pdf  创建Vue3项目 [1] P136-P141节 [2] P1-P10节  学习目标：  如何用vue-cli搭建一个vue3项目。 如何用vite搭建一个vue3项目。 vue3项目工程结构分析。 Optio">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-25T01:43:08.768Z">
+<meta property="article:modified_time" content="2024-11-09T09:26:01.232Z">
+<meta property="article:author" content="Xiang Chen">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-25 09:43" pubdate>
+          2024年10月25日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Vue3学习记录"><a href="#Vue3学习记录" class="headerlink" title="Vue3学习记录"></a>Vue3学习记录</h1><p><strong>视频</strong></p>
+<ul>
+<li>[1] <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Zy4y1K7SH">尚硅谷Vue2.0+Vue3.0全套教程</a></li>
+<li>[2] <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Za4y1r7KE">尚硅谷Vue3入门到实战</a></li>
+</ul>
+<p><strong>笔记</strong></p>
+<ul>
+<li>[1] vue3快速上手1.pdf</li>
+<li>[2] vue3快速上手2.pdf</li>
+</ul>
+<h2 id="创建Vue3项目"><a href="#创建Vue3项目" class="headerlink" title="创建Vue3项目"></a>创建Vue3项目</h2><blockquote>
+<p>[1] P136-P141节</p>
+<p>[2] P1-P10节</p>
+</blockquote>
+<p><strong>学习目标：</strong></p>
+<ol>
+<li>如何用vue-cli搭建一个vue3项目。</li>
+<li>如何用vite搭建一个vue3项目。</li>
+<li>vue3项目工程结构分析。</li>
+<li>OptionsAPI和CompositionAPI的区别。</li>
+<li><code>setup</code>的使用方法。（执行时间；返回值； <code>setup</code>和<code>data</code>，<code>methods</code>同时存在时怎么办；语法糖）</li>
+</ol>
+<h2 id="Vue3的响应式布局"><a href="#Vue3的响应式布局" class="headerlink" title="Vue3的响应式布局"></a>Vue3的响应式布局</h2><blockquote>
+<p>[1] P141-P149节</p>
+<p>[2] P1-P15节</p>
+</blockquote>
+<p><strong>学习目标：</strong></p>
+<ol>
+<li><p><code>ref</code>函数处理基础数据和响应式数据。<br>基于<code>defaultProperty</code>函数，只绑定和监听一个属性<code>value</code>。<br>还是基于数据代理和数据劫持。处理响应式数据时本质还是<code>reactive</code></p>
+</li>
+<li><p><code>reactive</code>函数处理响应式数据。<br>基于<code>Proxy</code>代理函数。没有数据代理部分。</p>
+<p><code>Object.assign</code>复制对象</p>
+</li>
+<li><p>回顾Vue2响应式处理。<br>数据代理和数据劫持的模拟。</p>
+</li>
+<li><p>Vue3响应式处理原理（Proxy，Reflect）。</p>
+</li>
+<li><p><code>toRefs</code>和<code>toRef</code>。</p>
+</li>
+<li><p><code>setup</code>的参数，（props，slots，emits）</p>
+</li>
+</ol>
+<h2 id="Vue3路由管理"><a href="#Vue3路由管理" class="headerlink" title="Vue3路由管理"></a>Vue3路由管理</h2><p><strong>学习目标：</strong></p>
+<ol>
+<li>route中常用配置项（<code>path\fullPath\meta\params\query\matched</code>）</li>
+</ol>
+<h1 id="学习历程"><a href="#学习历程" class="headerlink" title="学习历程"></a>学习历程</h1><h2 id="2024-11-09"><a href="#2024-11-09" class="headerlink" title="2024-11-09"></a>2024-11-09</h2><ol>
+<li><h3 id="eslint-config-js文件的作用。"><a href="#eslint-config-js文件的作用。" class="headerlink" title="eslint.config.js文件的作用。"></a>eslint.config.js文件的作用。</h3></li>
+</ol>
+<blockquote>
+<p><code>eslint.config.js</code> 文件用于配置 ESLint，即 JavaScript 和 TypeScript 项目的代码质量和样式检查工具。通过此文件，我们可以自定义 ESLint 规则，比如允许或禁止某种代码写法。</p>
+<h3 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h3><p>以下是一个典型的 <code>eslint.config.js</code> 文件结构：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-comment">// 指定运行环境，支持的环境有 &#x27;browser&#x27;, &#x27;node&#x27;, &#x27;es2021&#x27; 等</span><br>  <span class="hljs-attr">env</span>: &#123;<br>    <span class="hljs-attr">browser</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">es2021</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">node</span>: <span class="hljs-literal">true</span>,<br>  &#125;,<br>  <br>  <span class="hljs-comment">// 继承的配置。可以使用多个标准配置，也可以用 `.eslintrc` 中的自定义配置</span><br>  <span class="hljs-attr">extends</span>: [<br>    <span class="hljs-string">&#x27;eslint:recommended&#x27;</span>, <span class="hljs-comment">// 推荐的 ESLint 配置</span><br>    <span class="hljs-string">&#x27;plugin:vue/vue3-recommended&#x27;</span>, <span class="hljs-comment">// Vue 3 的推荐配置（适用于 Vue 项目）</span><br>    <span class="hljs-string">&#x27;plugin:@typescript-eslint/recommended&#x27;</span> <span class="hljs-comment">// TypeScript 项目的推荐配置</span><br>  ],<br>  <br>  <span class="hljs-comment">// 设置解析器，TypeScript 项目一般使用 &#x27;@typescript-eslint/parser&#x27;</span><br>  <span class="hljs-attr">parser</span>: <span class="hljs-string">&#x27;@typescript-eslint/parser&#x27;</span>,<br>  <br>  <span class="hljs-comment">// 配置解析器选项，如 ECMA 版本和模块类型</span><br>  <span class="hljs-attr">parserOptions</span>: &#123;<br>    <span class="hljs-attr">ecmaVersion</span>: <span class="hljs-number">2021</span>,<br>    <span class="hljs-attr">sourceType</span>: <span class="hljs-string">&#x27;module&#x27;</span>,<br>  &#125;,<br>  <br>  <span class="hljs-comment">// 自定义 ESLint 规则，启用或禁用特定检查项</span><br>  <span class="hljs-attr">rules</span>: &#123;<br>    <span class="hljs-string">&#x27;no-console&#x27;</span>: <span class="hljs-string">&#x27;warn&#x27;</span>, <span class="hljs-comment">// console.log 警告而非错误</span><br>    <span class="hljs-string">&#x27;no-debugger&#x27;</span>: <span class="hljs-string">&#x27;error&#x27;</span>, <span class="hljs-comment">// debugger 语句引发错误</span><br>    <span class="hljs-string">&#x27;vue/multi-word-component-names&#x27;</span>: <span class="hljs-string">&#x27;off&#x27;</span>, <span class="hljs-comment">// 关闭多单词组件名称检查</span><br>    <span class="hljs-string">&#x27;@typescript-eslint/no-unused-vars&#x27;</span>: <span class="hljs-string">&#x27;warn&#x27;</span>, <span class="hljs-comment">// 未使用的变量引发警告</span><br>  &#125;,<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="主要配置项说明"><a href="#主要配置项说明" class="headerlink" title="主要配置项说明"></a>主要配置项说明</h3><ul>
+<li><strong>env</strong>：配置环境，告诉 ESLint 代码在哪些环境下运行，比如浏览器、Node.js 等。这样 ESLint 会自动识别对应的全局变量（如 <code>window</code>、<code>process</code>）。</li>
+<li><strong>extends</strong>：继承已有的规则集，可以引入标准或插件提供的规则，比如 <code>eslint:recommended</code>（ESLint 的推荐规则）。</li>
+<li><strong>parser</strong>：指定解析器，默认是 <code>espree</code>。在 TypeScript 项目中，应改为 <code>@typescript-eslint/parser</code>。</li>
+<li><strong>parserOptions</strong>：解析器的选项，比如 ES 版本、模块类型等。</li>
+<li><strong>rules</strong>：自定义规则，通过 <code>&#39;规则名&#39;: &#39;off&#39; | &#39;warn&#39; | &#39;error&#39;</code> 设置禁用、警告、或错误级别。规则可以使用字符串或数字形式设置级别，分别代表 <code>&#39;off&#39; = 0</code>、<code>&#39;warn&#39; = 1</code>、<code>&#39;error&#39; = 2</code>。</li>
+</ul>
+<h3 id="示例：关闭组件名称的多单词检查"><a href="#示例：关闭组件名称的多单词检查" class="headerlink" title="示例：关闭组件名称的多单词检查"></a>示例：关闭组件名称的多单词检查</h3><p>你提到想关闭 “组件名称必须多单词” 的检查。这可以通过在 <code>rules</code> 中添加以下配置实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">rules</span>: &#123;<br>  <span class="hljs-string">&#x27;vue/multi-word-component-names&#x27;</span>: <span class="hljs-string">&#x27;off&#x27;</span>, <span class="hljs-comment">// 允许单个单词的组件名</span><br>&#125;,<br></code></pre></td></tr></table></figure>
+
+<h3 id="常见配置的扩展"><a href="#常见配置的扩展" class="headerlink" title="常见配置的扩展"></a>常见配置的扩展</h3><ol>
+<li><p><strong>支持 TypeScript</strong>： 安装插件：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript"><span class="hljs-built_in">npm</span> install --save-dev @typescript-eslint/parser @typescript-eslint/eslint-plugin<br></code></pre></td></tr></table></figure>
+
+<p>然后添加到 <code>extends</code> 和 <code>parser</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">extends</span>: [<span class="hljs-string">&#x27;plugin:@typescript-eslint/recommended&#x27;</span>],<br><span class="hljs-attr">parser</span>: <span class="hljs-string">&#x27;@typescript-eslint/parser&#x27;</span>,<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在 CI 中使用更严格的规则</strong>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">rules</span>: &#123;<br>  <span class="hljs-string">&#x27;no-console&#x27;</span>: <span class="hljs-string">&#x27;error&#x27;</span>, <span class="hljs-comment">// 在 CI 环境中禁用 console.log</span><br>&#125;,<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>与 Prettier 配合</strong>：安装 <code>eslint-config-prettier</code> 以解决与 Prettier 冲突。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">extends</span>: [<span class="hljs-string">&#x27;plugin:prettier/recommended&#x27;</span>], <span class="hljs-comment">// 配合 Prettier</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="保存并自动修复"><a href="#保存并自动修复" class="headerlink" title="保存并自动修复"></a>保存并自动修复</h3><p>可以在编辑器中配置自动修复 ESLint 问题，或运行命令行工具：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">npx eslint --fix .<br></code></pre></td></tr></table></figure>
+
+<p>这样，<code>eslint.config.js</code> 便可用于定制化的 ESLint 规则检查，确保代码的风格一致和质量高。</p>
+</blockquote>
+<ol start="2">
+<li><h3 id="scss安装"><a href="#scss安装" class="headerlink" title="scss安装"></a>scss安装</h3></li>
+</ol>
+<blockquote>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2024/10/25/VUE3使用教程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/06/23/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/text/" title="test">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">test</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/26/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="Java基础知识">
+                        <span class="hidden-mobile">Java基础知识</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
