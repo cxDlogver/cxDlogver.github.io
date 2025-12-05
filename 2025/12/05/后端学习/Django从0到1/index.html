@@ -1,0 +1,1026 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="实现一个Django从0到1的搭建过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django从0到1搭建">
+<meta property="og:url" content="http://example.com/2025/12/05/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/Django%E4%BB%8E0%E5%88%B01/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="实现一个Django从0到1的搭建过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/12/05/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/Django%E4%BB%8E0%E5%88%B01/1aICZBUzrgLgc5GoWuiFHcw.jpegutm_source=chatgpt.jpeg">
+<meta property="og:image" content="http://example.com/2025/12/05/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/Django%E4%BB%8E0%E5%88%B01/1jRO4h3b3f8cmsxW81NCoig.pngutm_source=chatgpt-1764944514302-1.png">
+<meta property="article:published_time" content="2025-12-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-05T14:22:27.620Z">
+<meta property="article:author" content="Xiang Chen">
+<meta property="article:tag" content="后端框架">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/12/05/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/Django%E4%BB%8E0%E5%88%B01/1aICZBUzrgLgc5GoWuiFHcw.jpegutm_source=chatgpt.jpeg">
+  
+  
+  
+  <title>Django从0到1搭建 - 相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Django从0到1搭建"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-05 00:00" pubdate>
+          2025年12月5日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Django从0到1搭建</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>实现一个Django从0到1的搭建过程。</p>
+<span id="more"></span>
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<h4 id="Django-DRF基础教程（前后端分离）"><a href="#Django-DRF基础教程（前后端分离）" class="headerlink" title="Django+DRF基础教程（前后端分离）"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_71273766/article/details/133218567">Django+DRF基础教程（前后端分离）</a></h4><h4 id="django框架向DRF框架演变过程详解"><a href="#django框架向DRF框架演变过程详解" class="headerlink" title="django框架向DRF框架演变过程详解"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39208536/article/details/131701180">django框架向DRF框架演变过程详解</a></h4><h4 id="一文到底——Django使用教程"><a href="#一文到底——Django使用教程" class="headerlink" title="一文到底——Django使用教程"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/Ans_min/article/details/123146335"><strong>一文到底——Django使用教程</strong></a></h4><h4 id="Django官方文档"><a href="#Django官方文档" class="headerlink" title="Django官方文档"></a><a target="_blank" rel="noopener" href="https://docs.djangoproject.com/zh-hans/5.0/">Django官方文档</a></h4></blockquote>
+<h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><h3 id="项目总览"><a href="#项目总览" class="headerlink" title="项目总览"></a>项目总览</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 安装</span><br>pip install django<br><span class="hljs-comment"># 创建项目</span><br>django-admin startproject mysite<br><span class="hljs-comment"># 创建APP应用</span><br>python manage.py startapp blog<br><span class="hljs-comment"># 目录结构</span><br>mysite/<br>    manage.py<br>    mysite/           <span class="hljs-comment"># 配置目录</span><br>        settings.py<br>        urls.py<br>        wsgi.py<br><span class="hljs-comment"># 运行项目</span><br>python manage.py runserver<br><span class="hljs-comment"># 浏览器访问</span><br>http://<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">8000</span>/ <span class="hljs-comment"># 默认</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Django 采用 <strong>“一个项目 Project + 多个应用 App”</strong> 的结构。</p>
+</blockquote>
+<p><img src="/2025/12/05/后端学习/Django从0到1/1aICZBUzrgLgc5GoWuiFHcw.jpegutm_source=chatgpt.jpeg" srcset="/img/loading.gif" lazyload alt="How to Structure Your Django Project" style="zoom: 50%;"><img src="/2025/12/05/后端学习/Django从0到1/1jRO4h3b3f8cmsxW81NCoig.pngutm_source=chatgpt-1764944514302-1.png" srcset="/img/loading.gif" lazyload alt="Django Project Architecture: The best project skeleton ever. | by Mandanka  Rajan | Medium" style="zoom: 33%;"></p>
+<h4 id="从0到1的一个Django示例"><a href="#从0到1的一个Django示例" class="headerlink" title="从0到1的一个Django示例"></a>从0到1的一个Django示例</h4><p><a target="_blank" rel="noopener" href="https://github.com/cxDlogver/Front_End/tree/main/%E5%AE%9E%E6%88%98%E9%A1%B9%E7%9B%AE/mysite">Front_End&#x2F;实战项目&#x2F;mysite at main · cxDlogver&#x2F;Front_End</a></p>
+<h3 id="项目基本结构"><a href="#项目基本结构" class="headerlink" title="项目基本结构"></a>项目基本结构</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">mysite/<br>    manage.py<br>    mysite/<br>        __init__.py<br>        settings.py<br>        urls.py<br>        asgi.py<br>        wsgi.py<br>    blog/<br>        __init__.py<br>        admin.py<br>        apps.py<br>        models.py<br>        tests.py<br>        views.py<br>        migrations/<br>            __init__.py<br></code></pre></td></tr></table></figure>
+
+<h4 id="1-manage-py"><a href="#1-manage-py" class="headerlink" title="1. manage.py"></a>1. manage.py</h4><p>位置：<code>mysite/manage.py</code></p>
+<p>基本代码示例（创建后）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    os.environ.setdefault(<span class="hljs-string">&#x27;DJANGO_SETTINGS_MODULE&#x27;</span>, <span class="hljs-string">&#x27;mysite.settings&#x27;</span>)<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">from</span> django.core.management <span class="hljs-keyword">import</span> execute_from_command_line<br>    <span class="hljs-keyword">except</span> ImportError <span class="hljs-keyword">as</span> exc:<br>        <span class="hljs-keyword">raise</span> ImportError(<br>            <span class="hljs-string">&quot;Couldn&#x27;t import Django.&quot;</span><br>        ) <span class="hljs-keyword">from</span> exc<br>    execute_from_command_line(sys.argv)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+
+<p>作用</p>
+<ul>
+<li>整个 Django 项目的命令入口。</li>
+<li>负责加载 <code>mysite.settings</code>，并执行各种 <code>manage.py</code> 子命令。</li>
+<li>Django 的 <code>python manage.py &lt;command&gt;</code> 指令体系是<strong>由 manage.py 调用 Django 的命令框架（django.core.management）实现的</strong>。</li>
+<li>Django 从两类位置加载命令： 内置 commands + INSTALLED_APPS 的 custom commands， 每个APP可以自定义命令。</li>
+</ul>
+<p>常用命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">python manage.py runserver          <span class="hljs-comment"># 启动开发服务器</span><br>python manage.py startapp blog      <span class="hljs-comment"># 创建应用</span><br>python manage.py makemigrations     <span class="hljs-comment"># 创建迁移文件</span><br>python manage.py migrate            <span class="hljs-comment"># 应用迁移到数据库</span><br>python manage.py createsuperuser    <span class="hljs-comment"># 创建后台管理员</span><br>python manage.py shell              <span class="hljs-comment"># 启动 Django shell</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一般不修改此文件。</p>
+</blockquote>
+<h4 id="2-项目包-mysite"><a href="#2-项目包-mysite" class="headerlink" title="2. 项目包 mysite&#x2F;"></a>2. 项目包 mysite&#x2F;</h4><h5 id="2-1-mysite-init-py"><a href="#2-1-mysite-init-py" class="headerlink" title="2.1 mysite&#x2F;init.py"></a>2.1 mysite&#x2F;<strong>init</strong>.py</h5><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta"># 空文件，一般是空的或只做版本标记</span><br></code></pre></td></tr></table></figure>
+
+<p>作用：标记 <code>mysite</code> 为一个 Python 包。一般不改。</p>
+<hr>
+<h5 id="2-2-mysite-settings-py"><a href="#2-2-mysite-settings-py" class="headerlink" title="2.2 mysite&#x2F;settings.py"></a>2.2 mysite&#x2F;settings.py</h5><p>项目的全局配置文件。</p>
+<p>精简示例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pathlib <span class="hljs-keyword">import</span> Path<br><br>BASE_DIR = Path(__file__).resolve().parent.parent<br><br>SECRET_KEY = <span class="hljs-string">&#x27;开发环境随机密钥&#x27;</span><br><br>DEBUG = <span class="hljs-literal">True</span><br><br>ALLOWED_HOSTS = []  <span class="hljs-comment"># 部署时改为域名 / IP</span><br><br>INSTALLED_APPS = [<br>    <span class="hljs-string">&#x27;django.contrib.admin&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.auth&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.contenttypes&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.sessions&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.messages&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.staticfiles&#x27;</span>,<br><br>    <span class="hljs-string">&#x27;blog&#x27;</span>,  <span class="hljs-comment"># 自己的应用</span><br>]<br><br>MIDDLEWARE = [<br>    <span class="hljs-string">&#x27;django.middleware.security.SecurityMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.sessions.middleware.SessionMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.middleware.common.CommonMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.middleware.csrf.CsrfViewMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.auth.middleware.AuthenticationMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.contrib.messages.middleware.MessageMiddleware&#x27;</span>,<br>    <span class="hljs-string">&#x27;django.middleware.clickjacking.XFrameOptionsMiddleware&#x27;</span>,<br>]<br><br>ROOT_URLCONF = <span class="hljs-string">&#x27;mysite.urls&#x27;</span><br><br>TEMPLATES = [<br>    &#123;<br>        <span class="hljs-string">&#x27;BACKEND&#x27;</span>: <span class="hljs-string">&#x27;django.template.backends.django.DjangoTemplates&#x27;</span>,<br>        <span class="hljs-string">&#x27;DIRS&#x27;</span>: [BASE_DIR / <span class="hljs-string">&#x27;templates&#x27;</span>],  <span class="hljs-comment"># 全局模板目录</span><br>        <span class="hljs-string">&#x27;APP_DIRS&#x27;</span>: <span class="hljs-literal">True</span>,                  <span class="hljs-comment"># 自动扫描各 app 的 templates/</span><br>        <span class="hljs-string">&#x27;OPTIONS&#x27;</span>: &#123;<br>            <span class="hljs-string">&#x27;context_processors&#x27;</span>: [<br>                <span class="hljs-string">&#x27;django.template.context_processors.debug&#x27;</span>,<br>                <span class="hljs-string">&#x27;django.template.context_processors.request&#x27;</span>,<br>                <span class="hljs-string">&#x27;django.contrib.auth.context_processors.auth&#x27;</span>,<br>                <span class="hljs-string">&#x27;django.contrib.messages.context_processors.messages&#x27;</span>,<br>            ],<br>        &#125;,<br>    &#125;,<br>]<br><br>WSGI_APPLICATION = <span class="hljs-string">&#x27;mysite.wsgi.application&#x27;</span><br><br>DATABASES = &#123;<br>    <span class="hljs-string">&#x27;default&#x27;</span>: &#123;<br>        <span class="hljs-string">&#x27;ENGINE&#x27;</span>: <span class="hljs-string">&#x27;django.db.backends.sqlite3&#x27;</span>,      <span class="hljs-comment"># 默认 sqlite</span><br>        <span class="hljs-string">&#x27;NAME&#x27;</span>: BASE_DIR / <span class="hljs-string">&#x27;db.sqlite3&#x27;</span>,<br>    &#125;<br>&#125;<br><br>AUTH_PASSWORD_VALIDATORS = [<br>    &#123;<span class="hljs-string">&#x27;NAME&#x27;</span>: <span class="hljs-string">&#x27;django.contrib.auth.password_validation.UserAttributeSimilarityValidator&#x27;</span>,&#125;,<br>    &#123;<span class="hljs-string">&#x27;NAME&#x27;</span>: <span class="hljs-string">&#x27;django.contrib.auth.password_validation.MinimumLengthValidator&#x27;</span>,&#125;,<br>    &#123;<span class="hljs-string">&#x27;NAME&#x27;</span>: <span class="hljs-string">&#x27;django.contrib.auth.password_validation.CommonPasswordValidator&#x27;</span>,&#125;,<br>    &#123;<span class="hljs-string">&#x27;NAME&#x27;</span>: <span class="hljs-string">&#x27;django.contrib.auth.password_validation.NumericPasswordValidator&#x27;</span>,&#125;,<br>]<br><br>LANGUAGE_CODE = <span class="hljs-string">&#x27;zh-hans&#x27;</span><br>TIME_ZONE = <span class="hljs-string">&#x27;Asia/Shanghai&#x27;</span><br>USE_I18N = <span class="hljs-literal">True</span><br>USE_TZ = <span class="hljs-literal">True</span><br><br>STATIC_URL = <span class="hljs-string">&#x27;static/&#x27;</span><br>STATICFILES_DIRS = [BASE_DIR / <span class="hljs-string">&#x27;static&#x27;</span>]   <span class="hljs-comment"># 全局静态目录</span><br><br>DEFAULT_AUTO_FIELD = <span class="hljs-string">&#x27;django.db.models.BigAutoField&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>作用</strong></p>
+<ul>
+<li>指定项目的所有全局配置。</li>
+<li>关键部分：<ul>
+<li>INSTALLED_APPS：启用哪些应用</li>
+<li>DATABASES：数据库类型和连接配置</li>
+<li>TEMPLATES：模板引擎和模板目录</li>
+<li>STATIC_URL &#x2F; STATICFILES_DIRS：静态文件设置</li>
+<li>LANGUAGE_CODE &#x2F; TIME_ZONE：语言与时区</li>
+<li>DEBUG &#x2F; ALLOWED_HOSTS：调试模式与安全相关设置</li>
+</ul>
+</li>
+</ul>
+<p><strong>常见改动</strong></p>
+<ul>
+<li><p>添加自己的 app：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">INSTALLED_APPS += [<span class="hljs-string">&#x27;blog&#x27;</span>]<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>切换数据库到 MySQL、PostgreSQL 等。</p>
+</li>
+<li><p>新增模板目录、静态目录、媒体文件配置等。</p>
+</li>
+</ul>
+<hr>
+<h5 id="2-3-mysite-urls-py"><a href="#2-3-mysite-urls-py" class="headerlink" title="2.3 mysite&#x2F;urls.py"></a>2.3 mysite&#x2F;urls.py</h5><p>全局 URL 路由入口。</p>
+<p><strong>基本代码示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.contrib <span class="hljs-keyword">import</span> admin<br><span class="hljs-keyword">from</span> django.urls <span class="hljs-keyword">import</span> path, include<br><br>urlpatterns = [<br>    path(<span class="hljs-string">&#x27;admin/&#x27;</span>, admin.site.urls),        <span class="hljs-comment"># 后台站点</span><br>    path(<span class="hljs-string">&#x27;blog/&#x27;</span>, include(<span class="hljs-string">&#x27;blog.urls&#x27;</span>)),   <span class="hljs-comment"># 分发到 blog 应用</span><br>]<br></code></pre></td></tr></table></figure>
+
+<p><strong>作用</strong></p>
+<ul>
+<li>接收浏览器请求的 URL，决定交给哪个应用处理。</li>
+<li>每个应用有自己的 <code>urls.py</code>，通过 <code>include()</code> 引入。</li>
+<li>常用模式：项目级 <code>urls.py</code> 里只做路由分发，不写业务逻辑。</li>
+</ul>
+<hr>
+<h5 id="2-4-mysite-wsgi-py"><a href="#2-4-mysite-wsgi-py" class="headerlink" title="2.4 mysite&#x2F;wsgi.py"></a>2.4 mysite&#x2F;wsgi.py</h5><p>WSGI 部署入口，一般用于生产环境部署如 Gunicorn、uWSGI。</p>
+<p><strong>基本代码示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> django.core.wsgi <span class="hljs-keyword">import</span> get_wsgi_application<br><br>os.environ.setdefault(<span class="hljs-string">&#x27;DJANGO_SETTINGS_MODULE&#x27;</span>, <span class="hljs-string">&#x27;mysite.settings&#x27;</span>)<br><br>application = get_wsgi_application()<br></code></pre></td></tr></table></figure>
+
+<p><strong>作用</strong></p>
+<ul>
+<li>提供一个名为 <code>application</code> 的 WSGI 应用对象，供 Web 服务器调用。</li>
+<li>部署时写在 Gunicorn &#x2F; uWSGI 的配置中。</li>
+<li>开发阶段基本不改。</li>
+</ul>
+<hr>
+<h5 id="2-5-mysite-asgi-py"><a href="#2-5-mysite-asgi-py" class="headerlink" title="2.5 mysite&#x2F;asgi.py"></a>2.5 mysite&#x2F;asgi.py</h5><p>ASGI 部署入口，用于异步支持（如 WebSocket）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> django.core.asgi <span class="hljs-keyword">import</span> get_asgi_application<br><br>os.environ.setdefault(<span class="hljs-string">&#x27;DJANGO_SETTINGS_MODULE&#x27;</span>, <span class="hljs-string">&#x27;mysite.settings&#x27;</span>)<br><br>application = get_asgi_application()<br></code></pre></td></tr></table></figure>
+
+<p>作用类似 wsgi.py，只是用于 ASGI 服务器（如 uvicorn、daphne）。</p>
+<h4 id="3-应用目录-blog"><a href="#3-应用目录-blog" class="headerlink" title="3. 应用目录 blog&#x2F;"></a>3. 应用目录 blog&#x2F;</h4><h5 id="3-1-blog-init-py"><a href="#3-1-blog-init-py" class="headerlink" title="3.1 blog&#x2F;init.py"></a>3.1 blog&#x2F;<strong>init</strong>.py</h5><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-meta"># 一般为空</span><br></code></pre></td></tr></table></figure>
+
+<p>作用：标记 <code>blog</code> 为 Python 包。</p>
+<hr>
+<h5 id="3-2-blog-apps-py"><a href="#3-2-blog-apps-py" class="headerlink" title="3.2 blog&#x2F;apps.py"></a>3.2 blog&#x2F;apps.py</h5><p>应用配置类。</p>
+<p><strong>默认代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.apps <span class="hljs-keyword">import</span> AppConfig<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BlogConfig</span>(<span class="hljs-title class_ inherited__">AppConfig</span>):<br>    default_auto_field = <span class="hljs-string">&#x27;django.db.models.BigAutoField&#x27;</span><br>    name = <span class="hljs-string">&#x27;blog&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>作用</strong></p>
+<ul>
+<li>标识 app 在项目中的配置名。</li>
+<li>如果需要应用级别的启动逻辑（如信号注册），可以在这里扩展。</li>
+<li>通常在 <code>INSTALLED_APPS </code> 中会看到 <code>&#39;blog.apps.BlogConfig&#39;</code> 或简写 <code>&#39;blog&#39;</code>。</li>
+</ul>
+<hr>
+<h5 id="3-3-blog-models-py"><a href="#3-3-blog-models-py" class="headerlink" title="3.3 blog&#x2F;models.py"></a>3.3 blog&#x2F;models.py</h5><p>用于定义数据库表（模型，Model）。</p>
+<p><strong>示例：定义文章模型</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Article</span>(models.Model):<br>    title = models.CharField(max_length=<span class="hljs-number">200</span>, verbose_name=<span class="hljs-string">&#x27;标题&#x27;</span>)<br>    content = models.TextField(verbose_name=<span class="hljs-string">&#x27;内容&#x27;</span>)<br>    created_at = models.DateTimeField(auto_now_add=<span class="hljs-literal">True</span>, verbose_name=<span class="hljs-string">&#x27;创建时间&#x27;</span>)<br>    updated_at = models.DateTimeField(auto_now=<span class="hljs-literal">True</span>, verbose_name=<span class="hljs-string">&#x27;更新时间&#x27;</span>)<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Meta</span>:<br>        ordering = [<span class="hljs-string">&#x27;-created_at&#x27;</span>]           <span class="hljs-comment"># 默认按时间倒序</span><br>        verbose_name = <span class="hljs-string">&#x27;文章&#x27;</span><br>        verbose_name_plural = <span class="hljs-string">&#x27;文章&#x27;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__str__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.title<br></code></pre></td></tr></table></figure>
+
+<p><strong>作用</strong></p>
+<ul>
+<li><p>每个 Model 类对应数据库中的一张表。</p>
+</li>
+<li><p>字段（Field）对应表中的列，例如 CharField、TextField、DateTimeField 等。</p>
+</li>
+<li><p>定义好后通过：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">python manage.py makemigrations<br>python manage.py migrate<br></code></pre></td></tr></table></figure>
+
+<p>来生成并同步数据库结构。</p>
+</li>
+</ul>
+<hr>
+<h5 id="3-4-blog-migrations"><a href="#3-4-blog-migrations" class="headerlink" title="3.4 blog&#x2F;migrations&#x2F;"></a>3.4 blog&#x2F;migrations&#x2F;</h5><p>迁移文件目录。</p>
+<ul>
+<li><code>__init__.py</code> 标记为包。</li>
+<li>每次 <code>makemigrations</code> 会生成类似 <code>0001_initial.py</code> 的文件。</li>
+</ul>
+<p>示例（自动生成，大概结构）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># blog/migrations/0001_initial.py</span><br><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> migrations, models<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Migration</span>(migrations.Migration):<br><br>    initial = <span class="hljs-literal">True</span><br><br>    dependencies = []<br><br>    operations = [<br>        migrations.CreateModel(<br>            name=<span class="hljs-string">&#x27;Article&#x27;</span>,<br>            fields=[<br>                (<span class="hljs-string">&#x27;id&#x27;</span>, models.BigAutoField(primary_key=<span class="hljs-literal">True</span>, serialize=<span class="hljs-literal">False</span>)),<br>                (<span class="hljs-string">&#x27;title&#x27;</span>, models.CharField(max_length=<span class="hljs-number">200</span>)),<br>                (<span class="hljs-string">&#x27;content&#x27;</span>, models.TextField()),<br>                (<span class="hljs-string">&#x27;created_at&#x27;</span>, models.DateTimeField(auto_now_add=<span class="hljs-literal">True</span>)),<br>            ],<br>        ),<br>    ]<br></code></pre></td></tr></table></figure>
+
+<p>作用：记录数据库结构变更，可版本化管理、回滚。</p>
+<hr>
+<h5 id="3-5-blog-views-py"><a href="#3-5-blog-views-py" class="headerlink" title="3.5 blog&#x2F;views.py"></a>3.5 blog&#x2F;views.py</h5><p>视图函数或类视图，处理具体业务逻辑。</p>
+<p>示例 1：最简单的 HttpResponse</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.http <span class="hljs-keyword">import</span> HttpResponse<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">hello</span>(<span class="hljs-params">request</span>):<br>    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">&quot;Hello Django, this is blog hello page.&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>示例 2：结合模板渲染</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.shortcuts <span class="hljs-keyword">import</span> render<br><span class="hljs-keyword">from</span> .models <span class="hljs-keyword">import</span> Article<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>(<span class="hljs-params">request</span>):<br>    articles = Article.objects.<span class="hljs-built_in">all</span>()<br>    context = &#123;<span class="hljs-string">&quot;articles&quot;</span>: articles&#125;<br>    <span class="hljs-keyword">return</span> render(request, <span class="hljs-string">&quot;blog/index.html&quot;</span>, context)<br></code></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<ul>
+<li>接收请求对象 <code>request</code>；</li>
+<li>调用 Model 查询数据；</li>
+<li>渲染模板或返回 Json &#x2F; HttpResponse；</li>
+<li>返回响应给浏览器。</li>
+</ul>
+<hr>
+<h5 id="3-6-blog-urls-py"><a href="#3-6-blog-urls-py" class="headerlink" title="3.6 blog&#x2F;urls.py"></a>3.6 blog&#x2F;urls.py</h5><p>需要手动创建，用于定义 blog 应用内的路由。</p>
+<p><strong>示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.urls <span class="hljs-keyword">import</span> path<br><span class="hljs-keyword">from</span> . <span class="hljs-keyword">import</span> views<br><br>urlpatterns = [<br>    path(<span class="hljs-string">&#x27;hello/&#x27;</span>, views.hello, name=<span class="hljs-string">&#x27;blog_hello&#x27;</span>),<br>    path(<span class="hljs-string">&#x27;&#x27;</span>, views.index, name=<span class="hljs-string">&#x27;blog_index&#x27;</span>),<br>]<br></code></pre></td></tr></table></figure>
+
+<p>然后在 <code>mysite/urls.py</code> 中 include：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">path(<span class="hljs-string">&#x27;blog/&#x27;</span>, include(<span class="hljs-string">&#x27;blog.urls&#x27;</span>)),<br></code></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<ul>
+<li>把与 blog 相关的 URL 集中维护。</li>
+<li>利于模块化和解耦。</li>
+</ul>
+<hr>
+<h5 id="3-7-blog-admin-py"><a href="#3-7-blog-admin-py" class="headerlink" title="3.7 blog&#x2F;admin.py"></a>3.7 blog&#x2F;admin.py</h5><p>注册模型到 Django Admin 后台。</p>
+<p><strong>示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.contrib <span class="hljs-keyword">import</span> admin<br><span class="hljs-keyword">from</span> .models <span class="hljs-keyword">import</span> Article<br><br><span class="hljs-meta">@admin.register(<span class="hljs-params">Article</span>)</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ArticleAdmin</span>(admin.ModelAdmin):<br>    list_display = (<span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;title&#x27;</span>, <span class="hljs-string">&#x27;created_at&#x27;</span>)<br>    search_fields = (<span class="hljs-string">&#x27;title&#x27;</span>,)<br>    list_filter = (<span class="hljs-string">&#x27;created_at&#x27;</span>,)<br></code></pre></td></tr></table></figure>
+
+<p><strong>作用：</strong></p>
+<ul>
+<li>控制对应模型在 <code>/admin/</code> 后台中的展示方式：<ul>
+<li>列表显示哪些字段</li>
+<li>支持搜索、过滤、排序等</li>
+</ul>
+</li>
+<li>是快速构建后台管理界面的关键文件。</li>
+</ul>
+<hr>
+<h5 id="3-8-blog-tests-py"><a href="#3-8-blog-tests-py" class="headerlink" title="3.8 blog&#x2F;tests.py"></a>3.8 blog&#x2F;tests.py</h5><p>编写单元测试。</p>
+<p><strong>示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> django.test <span class="hljs-keyword">import</span> TestCase<br><span class="hljs-keyword">from</span> .models <span class="hljs-keyword">import</span> Article<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ArticleModelTest</span>(<span class="hljs-title class_ inherited__">TestCase</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">test_create_article</span>(<span class="hljs-params">self</span>):<br>        a = Article.objects.create(title=<span class="hljs-string">&quot;Test&quot;</span>, content=<span class="hljs-string">&quot;Content&quot;</span>)<br>        <span class="hljs-variable language_">self</span>.assertEqual(a.title, <span class="hljs-string">&quot;Test&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<ul>
+<li>用于验证模型、视图等逻辑是否正确。</li>
+<li>在持续集成、重构时尤其重要。</li>
+</ul>
+<h4 id="4-常见辅助目录"><a href="#4-常见辅助目录" class="headerlink" title="4. 常见辅助目录"></a>4. 常见辅助目录</h4><h5 id="4-1-templates"><a href="#4-1-templates" class="headerlink" title="4.1 templates&#x2F;"></a>4.1 templates&#x2F;</h5><p>项目根目录下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">mysite/<br>    templates/<br>        blog/<br>            index.html<br></code></pre></td></tr></table></figure>
+
+<p><code>index.html</code> 示例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Blog Index<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>文章列表<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>    &#123;% for a in articles %&#125;<br>        <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>&#123;&#123; a.title &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;&#123; a.content|truncatechars:100 &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">small</span>&gt;</span>&#123;&#123; a.created_at &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">small</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span><br>    &#123;% empty %&#125;<br>        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>暂无文章<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    &#123;% endfor %&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>作用：存放 HTML 模板，配合 <code>render()</code> 使用。</p>
+<hr>
+<h5 id="4-2-static"><a href="#4-2-static" class="headerlink" title="4.2 static&#x2F;"></a>4.2 static&#x2F;</h5><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">mysite/<br>    <span class="hljs-keyword">static</span>/<br>        css/<br>            style.css<br></code></pre></td></tr></table></figure>
+
+<p><code>style.css</code> 示例：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span> &#123; <span class="hljs-attribute">font-family</span>: sans-serif; &#125;<br><span class="hljs-selector-tag">h1</span> &#123; <span class="hljs-attribute">font-size</span>: <span class="hljs-number">24px</span>; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>模板里引用：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html">&#123;% load static %&#125;<br><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;&#123;% static &#x27;css/style.css&#x27; %&#125;&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>作用：管理 CSS &#x2F; JS &#x2F; 图片 等静态资源。</p>
+<h3 id="MVT结构"><a href="#MVT结构" class="headerlink" title="MVT结构"></a>MVT结构</h3><h4 id="1-什么是-Django-的-MVT-结构"><a href="#1-什么是-Django-的-MVT-结构" class="headerlink" title="1. 什么是 Django 的 MVT 结构"></a>1. 什么是 Django 的 MVT 结构</h4><p>Django 使用一种类似 MVC（Model–View–Controller）的架构，但强调 Web 开发中的模板渲染，因此称为 <strong>MVT（Model–View–Template）</strong>。</p>
+<p>核心思想：</p>
+<ul>
+<li><strong>Model</strong>：负责数据层（数据库结构、ORM 操作）</li>
+<li><strong>View</strong>：负责业务逻辑层（处理请求、数据处理、返回响应）</li>
+<li><strong>Template</strong>：负责展示层（HTML 页面渲染）</li>
+</ul>
+<p>与 MVC 的不同点：</p>
+<ul>
+<li>Django 把“控制器”隐藏在框架内部（URL 分发器、模板渲染器），开发者无需手动写 Controller</li>
+<li>视图函数（View）更接近 MVC 中的“Controller”</li>
+</ul>
+<p>因此 Django 实际结构：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scss">用户请求 → URL 路由 → <span class="hljs-built_in">View</span>(业务逻辑) ↔ <span class="hljs-built_in">Model</span>(数据库)<br>                                    ↓<br>                               <span class="hljs-built_in">Template</span>(页面)<br>                                    ↓<br>                               返回给浏览器<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="2-部分的职责与代码位置"><a href="#2-部分的职责与代码位置" class="headerlink" title="2. 部分的职责与代码位置"></a>2. 部分的职责与代码位置</h4><h5 id="2-1-Model（模型层）"><a href="#2-1-Model（模型层）" class="headerlink" title="2.1. Model（模型层）"></a>2.1. Model（模型层）</h5><p>位置：<code>app/models.py</code></p>
+<p>职责：</p>
+<ul>
+<li>定义数据库表结构（映射为 Python 类）</li>
+<li>使用 Django ORM 提供增删改查（查询集 QuerySet）</li>
+<li>承担业务实体的数据规则（字段类型、关系）</li>
+</ul>
+<p>模型的本质：</p>
+<p><strong>数据库的一行记录 -&gt; 一个 Python 对象</strong></p>
+<hr>
+<h5 id="2-2-View（视图层）"><a href="#2-2-View（视图层）" class="headerlink" title="2.2. View（视图层）"></a>2.2. View（视图层）</h5><p>位置：<code>app/views.py</code></p>
+<p>职责：</p>
+<ul>
+<li>接收 HTTP 请求</li>
+<li>调用 Model 获取或处理数据</li>
+<li>选择模板并渲染</li>
+<li>返回 HTTP 响应（HTML、JSON 等）</li>
+</ul>
+<p>View 的本质：</p>
+<p><strong>业务逻辑处理方法，是 Django 中最接近 MVC Controller 的部分</strong></p>
+<hr>
+<h5 id="2-3-Template（模板层）"><a href="#2-3-Template（模板层）" class="headerlink" title="2.3. Template（模板层）"></a>2.3. Template（模板层）</h5><p>位置：<code>templates/目录/*.html</code></p>
+<p>职责：</p>
+<ul>
+<li>负责页面呈现（HTML、CSS）</li>
+<li>不包含业务逻辑（仅渲染数据，不处理数据）</li>
+<li>使用 Django 模板语言（DTL）</li>
+</ul>
+<p>Template 的本质：</p>
+<p><strong>纯展示层，不做逻辑运算，只展示 View 传来的数据</strong></p>
+<hr>
+<h4 id="3-URL-路由（MVT-的入口）"><a href="#3-URL-路由（MVT-的入口）" class="headerlink" title="3. URL 路由（MVT 的入口）"></a>3. URL 路由（MVT 的入口）</h4><p>虽然不属于 MVT 三部分本身，但它是 MVT 的启动点。</p>
+<p>位置：</p>
+<ul>
+<li>项目级：<code>mysite/urls.py</code></li>
+<li>应用级：<code>blog/urls.py</code></li>
+</ul>
+<p>示例：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"># blog/urls.py<br><span class="hljs-keyword">from</span> django.urls <span class="hljs-keyword">import</span> <span class="hljs-type">path</span><br><span class="hljs-keyword">from</span> . <span class="hljs-keyword">import</span> views<br><br>urlpatterns = [<br>    path(<span class="hljs-string">&#x27;articles/&#x27;</span>, views.article_list),<br>]<br></code></pre></td></tr></table></figure>
+
+<p>作用：</p>
+<ul>
+<li>将 URL 与 View 对应起来</li>
+<li>决定用户访问哪个页面时由哪个 View 来处理</li>
+</ul>
+<p>本质上 URL 分发器承担了传统 MVC 的 Controller 中的一部分工作。</p>
+<hr>
+<h4 id="4-MVT-与-MVC-的关系"><a href="#4-MVT-与-MVC-的关系" class="headerlink" title="4. MVT 与 MVC 的关系"></a>4. MVT 与 MVC 的关系</h4><p>Django 的 MVT 对应 MVC 的映射关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>Django</th>
+<th>MVC 对应</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Model</td>
+<td>Model</td>
+<td>数据与业务实体</td>
+</tr>
+<tr>
+<td>View</td>
+<td>Controller</td>
+<td>业务逻辑、响应请求</td>
+</tr>
+<tr>
+<td>Template</td>
+<td>View</td>
+<td>展示 HTML 页面</td>
+</tr>
+<tr>
+<td>URL Dispatcher（系统内部）</td>
+<td>Controller</td>
+<td>路由分发</td>
+</tr>
+</tbody></table>
+<p>关键点：</p>
+<ul>
+<li>Django 框架自动处理了 Controller 的大量工作，因此你只需要写 View（业务逻辑）</li>
+</ul>
+<hr>
+<h4 id="5-完整的数据流（面试常问）"><a href="#5-完整的数据流（面试常问）" class="headerlink" title="5. 完整的数据流（面试常问）"></a>5. 完整的数据流（面试常问）</h4><p>请求过程（从访问 URL 到页面显示）：</p>
+<ol>
+<li>浏览器访问 URL，例如 <code>/blog/articles/</code></li>
+<li><code>urls.py</code> 匹配到对应 View，例如 <code>article_list()</code></li>
+<li>View 调用 Model 查询数据库</li>
+<li>View 将数据传给 Template 渲染</li>
+<li>Template 生成 HTML</li>
+<li>View 将 HTML 包装成 HttpResponse 返回给浏览器</li>
+</ol>
+<p>流程图（文字版）：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">URL → <span class="hljs-keyword">View</span> → Model → 数据 → <span class="hljs-keyword">View</span> → <span class="hljs-keyword">Template</span> → HTML → Response → 用户<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>为什么 Django 使用 MVT 而不是 MVC？</p>
+</blockquote>
+<p>原因：</p>
+<ol>
+<li>Web 开发中 HTML 模板是核心部分，因此作为独立层 Template 更合理</li>
+<li>Django 自动处理了传统 MVC 的 Controller，例如路由调度、模板渲染器</li>
+<li>开发者关注点清晰：<ul>
+<li>Model：数据</li>
+<li>View：逻辑</li>
+<li>Template：呈现</li>
+</ul>
+</li>
+</ol>
+<p>Django 提供了更高层封装，使 Web 开发更轻量和快速。</p>
+<blockquote>
+<p>Django 的 MVT 和 MVC 有什么区别？</p>
+</blockquote>
+<p><u>最大的区别即MVT提供了更高层封装，例如URL分发器等框架自动处理了 Controller 的大量工作，将重心放在的业务逻辑处理和页面渲染。</u></p>
+<p>Django 采用 MVT 模式，它是对 MVC 的一种实现变体。三者的角色是：</p>
+<ol>
+<li><strong>Model</strong>：负责数据和业务实体部分，和 MVC 中的 Model 完全一致</li>
+<li><strong>View（Django）</strong>：负责接收请求与业务逻辑，这部分更像 MVC 中的 Controller</li>
+<li><strong>Template</strong>：负责页面展示逻辑，对应 MVC 中的 View</li>
+</ol>
+<p>换句话说：</p>
+<ul>
+<li>Django 把 Controller 的工作拆成两部分：<br>1）URL 分发器（由框架自动处理）<br>2）View（编写的业务逻辑函数或类）</li>
+</ul>
+<p>所以常见映射是：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-section">MVC              MVT(Django)</span><br><span class="hljs-section">--------------------------------------</span><br>Model     -&gt;     Model<br>View      -&gt;     Template<br>Controller-&gt;     View + URL Dispatcher<br></code></pre></td></tr></table></figure>
+
+<p>举例说明（文章列表页）：</p>
+<ul>
+<li>在 MVC 里 Controller 负责调取文章数据，并让 View 显示</li>
+<li>在 Django MVT 里 View 负责调取数据，然后把数据交给 Template 展示</li>
+</ul>
+<p>因此 MVT 本质上和 MVC 思想一致，只是名称和职责边界因 Django 的封装而有所不同。</p>
+<h2 id="DRF"><a href="#DRF" class="headerlink" title="DRF"></a>DRF</h2><p>实现 Django REST 和前后端分离，本质上是把「Django 输出 HTML 页面」改成「Django 输出 JSON API」，由前端框架（Vue&#x2F;React 等）来渲染界面。需要调整的部分包括：</p>
+<ol>
+<li>Django REST + 前后端分离的核心是：<strong>后端不再渲染 HTML，只提供 JSON API</strong>，页面由前端框架负责。</li>
+<li>后端需要：引入 DRF、使用 Serializer 和 APIView&#x2F;ViewSet、设计 RESTful URL、改用 Token&#x2F;JWT 认证、处理好 CORS 和 CSRF。</li>
+<li>部署上：前端和后端解耦，往往分域名&#x2F;端口部署，通过 Nginx 或代理把 <code>/api/</code> 转给 Django，其它路径交给前端静态资源。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/" class="category-chain-item">后端学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/" class="print-no-link">#后端框架</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Django从0到1搭建</div>
+      <div>http://example.com/2025/12/05/后端学习/Django从0到1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/08/05/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/" title="前端面试资源">
+                        <span class="hidden-mobile">前端面试资源</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
