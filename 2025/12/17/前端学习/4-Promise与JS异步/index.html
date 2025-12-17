@@ -1,0 +1,971 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="为什么要引入Promise？ 如何理解Promise？ 什么是微任务与宏任务？ async 和 await 的原理和作用是什么？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Promise与JS异步">
+<meta property="og:url" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/4-Promise%E4%B8%8EJS%E5%BC%82%E6%AD%A5/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="为什么要引入Promise？ 如何理解Promise？ 什么是微任务与宏任务？ async 和 await 的原理和作用是什么？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-17T09:43:13.000Z">
+<meta property="article:modified_time" content="2025-12-17T09:44:30.485Z">
+<meta property="article:author" content="Xiang Chen">
+<meta property="article:tag" content="前端面试题">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Promise与JS异步 - 相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Promise与JS异步"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-17 17:43" pubdate>
+          2025年12月17日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Promise与JS异步</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li>为什么要引入Promise？</li>
+<li>如何理解Promise？</li>
+<li>什么是微任务与宏任务？</li>
+<li>async 和 await 的原理和作用是什么？</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="Promise-与-JS异步-微任务与宏任务-async-与-await"><a href="#Promise-与-JS异步-微任务与宏任务-async-与-await" class="headerlink" title="Promise 与 JS异步 &#x2F; 微任务与宏任务 &#x2F; async 与 await"></a>Promise 与 JS异步 &#x2F; 微任务与宏任务 &#x2F; async 与 await</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://cxdlogver.github.io/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/NodeJS%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93/#Promise%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93">NodeJS核心总结 - 相</a></p>
+<p><a target="_blank" rel="noopener" href="https://lilichao.com/?p=6460">异步编程 – 李立超 | lilichao.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1qN4y1A7jM?spm_id_from=333.788.videopod.episodes&vd_source=ff414aaf189e3a685358d2a984fd4742&p=3">03_Promise介绍_哔哩哔哩_bilibili</a></p>
+</blockquote>
+<p>推荐B站李立超老师的教学视频和笔记，重点突出且内容精简，已针对老师视频和资料做了详细的总结。</p>
+<ol>
+<li>为什么要引入Promise？</li>
+<li>如何理解Promise？</li>
+<li>什么是微任务与宏任务？</li>
+<li>async 和 await 的原理和作用是什么？</li>
+</ol>
+<hr>
+<h3 id="1-Promise的引入"><a href="#1-Promise的引入" class="headerlink" title="1.Promise的引入"></a>1.Promise的引入</h3><p><strong>Promise 在 JavaScript 中用于实现异步编程？</strong></p>
+<p>在 JavaScript 中，<strong>异步编程</strong>是为了解决<strong>单线程模型下的耗时操作不阻塞主线程</strong>的问题。</p>
+<p>JavaScript 本身是<strong>单线程执行</strong>的，所有代码默认是同步执行的。如果将网络请求、文件读取、定时器等<strong>耗时操作</strong>都以同步方式执行，会直接阻塞主线程，导致页面卡顿甚至失去响应。</p>
+<p>与JAVA等语言通过多线程的方式不同，为了解决这个问题，JavaScript 采用了<strong>异步机制</strong>：</p>
+<ul>
+<li>将耗时任务<strong>交给宿主环境（如浏览器或 Node.js）中的异步 API 执行</strong></li>
+<li>当异步操作完成后，宿主环境会把对应的回调任务<strong>以事件的形式放入任务队列</strong></li>
+<li>JavaScript 主线程通过事件循环机制，在合适的时机取出这些任务并执行回调函数</li>
+</ul>
+<p>这就是 JavaScript 异步执行的基本原理，例如：<code>setTimeout</code> 的异步任务由<strong>宿主环境执行</strong>，计时完成后，宿主环境将<strong>回调函数作为一个宏任务放入任务队列</strong>；当 JS 主线程空闲时，事件循环机制会将该回调函数取出并压入调用栈执行。</p>
+<p><strong>最早的异步方案：回调函数</strong></p>
+<p>JavaScript 最早通过<strong>回调函数（callback）</strong>来处理异步操作：在发起异步任务时传入一个回调函数，等任务完成后再调用该回调处理结果。</p>
+<p>但回调方式存在明显缺陷：</p>
+<ol>
+<li>多层异步嵌套会形成“<strong>回调地狱</strong>”，代码结构混乱、可读性差</li>
+<li>错误处理分散在各个回调中，难以统一管理</li>
+<li>异步流程不直观，不利于维护和扩展</li>
+</ol>
+<p><strong>Promise 的作用</strong></p>
+<p>为了解决回调函数的问题，ES6 引入了 <strong>Promise</strong>。</p>
+<p><strong>Promise 本质上是一个用于描述“异步操作最终结果”的对象</strong>，它有三种状态：</p>
+<ul>
+<li><code>pending</code>（进行中）</li>
+<li><code>fulfilled</code>（已成功）</li>
+<li><code>rejected</code>（已失败）</li>
+</ul>
+<p>Promise 的核心价值在于：</p>
+<ol>
+<li><strong>支持链式调用</strong>（<code>then</code> &#x2F; <code>catch</code>），避免回调地狱</li>
+<li><strong>统一错误处理</strong>，异常可以沿链向下传递</li>
+<li><strong>使异步流程更清晰</strong>，逻辑结构更接近同步代码</li>
+<li>为 <code>async / await</code> 提供了基础能力</li>
+</ol>
+<p><strong>总结一句话</strong></p>
+<p>JavaScript 的异步编程是通过将耗时任务交给宿主环境执行、再通过事件机制回到主线程完成的；Promise 通过<font color="#409eff">状态管理</font>和<font color="#409eff">链式调用</font>，解决了回调函数在可读性、错误处理和维护性上的问题，是现代 JavaScript 异步编程的核心基础。</p>
+<h3 id="2-Promise介绍"><a href="#2-Promise介绍" class="headerlink" title="2.Promise介绍"></a>2.Promise介绍</h3><h4 id="【状态管理】"><a href="#【状态管理】" class="headerlink" title="【状态管理】"></a>【状态管理】</h4><p>首先要明确一点：<strong>Promise 本质上也是一个对象</strong>，它的作用是用来“保存数据”。<br> 那它和普通对象（比如 <code>&#123;&#125;</code>、<code>Map</code>）有什么本质区别？</p>
+<p>区别不在于“能不能存数据”，而在于——<strong>Promise 专门用来存储「异步任务的结果」</strong>。</p>
+<p><strong>异步任务有一个天然的问题：结果不是立即产生的，而是在未来某个时间点才会出现。</strong>因此，异步任务在设计上必须依赖<strong>回调函数</strong>来“通知结果已经产生”。</p>
+<p>这样的回调函数再Promise中有两个，<code>resolve</code>表示任务成功时的回调，<code>reject</code> 表示失败时的回调，最原始的异步模型大致是这样的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">AsynchronousFunction</span>(<span class="hljs-params">resolve, reject</span>) &#123;<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;哈哈&#x27;</span>)<br>    &#125;, <span class="hljs-number">10000</span>)<br>&#125;<br><br><span class="hljs-title class_">AsynchronousFunction</span>(<span class="hljs-function">(<span class="hljs-params">args</span>)=&gt;</span>&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(args)<br>&#125;, <span class="hljs-function">(<span class="hljs-params">args</span>)=&gt;</span>&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(args)<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>这里的 <code>AsynchronousFunction</code> 并不是返回结果，而是<strong>在未来的某个时间点主动调用回调函数</strong>。</p>
+<p>在 Promise 中，<code>resolve</code> 和 <code>reject</code> <strong>不再负责“打印结果”或“立刻处理结果”</strong>，<br> 而是负责——<strong>把结果保存到 Promise 对象内部</strong>。</p>
+<p>因此，异步函数不再是我们自己调用的函数，而是作为 <strong>Promise 构造函数的参数</strong>：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">const promise = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-params">(resolve, reject)</span> =&gt;</span> &#123;<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;<br>        resolve(<span class="hljs-string">&quot;哈哈&quot;</span>)<br>    &#125;, <span class="hljs-number">10000</span>)<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>这段代码里有两个非常重要的点：</p>
+<ol>
+<li><code>new Promise(...)</code> 会<strong>立刻执行</strong>传入的函数</li>
+<li>异步任务在这个函数内部执行，结果通过 <code>resolve / reject</code> 存入 Promise</li>
+</ol>
+<p>此时，Promise 对象已经创建完成了，但异步任务还没有结束。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>)=&gt;</span>&#123;<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;哈哈&quot;</span>)<br>    &#125;, <span class="hljs-number">10000</span>)<br>&#125;)<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(promise) <span class="hljs-comment">// PromiseState = &#x27;pending&#x27;, PromiseResult = &#x27;undefined&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>如果我们立刻读取这个 Promise是读不到结果的。原因是数据还没回来。这个时候我们就需要<font color="#409eff">promise告诉我们任务是否结束</font>，也就是当前的状态，这里就引出了 Promise 的第一个核心能力：<strong>状态管理</strong>。</p>
+<p>Promise 内部维护了两个“隐藏属性”：</p>
+<ul>
+<li><code>PromiseState</code>：表示当前状态</li>
+<li><code>PromiseResult</code>：真正存储数据的位置</li>
+</ul>
+<p>Promise 一共有三种状态：</p>
+<ul>
+<li><code>pending</code>：初始状态，异步任务尚未完成</li>
+<li><code>fulfilled</code>：任务成功完成，数据通过 <code>resolve</code> 存入</li>
+<li><code>rejected</code>：任务失败或抛出异常，数据通过 <code>reject</code> 或错误存入</li>
+</ul>
+<p>状态变化只有一种方向：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js">pending → fulfilled<br>pending → rejected<br></code></pre></td></tr></table></figure>
+
+<p><strong>一旦状态发生变化，就不可逆转</strong>。<br> 这也意味着：</p>
+<ul>
+<li><code>resolve</code> 和 <code>reject</code> 只能有一个生效</li>
+<li>且只能执行一次</li>
+</ul>
+<p>当异步任务完成后，Promise 内部会变成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;哈哈&quot;</span>)<br>    &#125;, <span class="hljs-number">10000</span>)<br>&#125;)<br><br><span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(promise)<br>    <span class="hljs-comment">// PromiseState: &quot;fulfilled&quot;</span><br>    <span class="hljs-comment">// PromiseResult: &quot;哈哈&quot;</span><br>&#125;, <span class="hljs-number">11000</span>)<br></code></pre></td></tr></table></figure>
+
+<p>问题到这里就变成了：</p>
+<p><em><strong>既然不能同步读取 PromiseResult，那怎么才能在“合适的时机”拿到结果？</strong></em></p>
+<p>答案就是：<code>then</code>。</p>
+<p><code>then</code> 是 Promise 的实例方法，用来<strong>注册“当状态发生变化后要执行的回调函数”</strong>。</p>
+<ul>
+<li>当 Promise 变为 <code>fulfilled</code> 时，执行第一个回调</li>
+<li>当 Promise 变为 <code>rejected</code> 时，执行第二个回调</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>        <span class="hljs-title function_">reject</span>(<span class="hljs-string">&quot;哈哈&quot;</span>)<br>    &#125;, <span class="hljs-number">10000</span>)<br>&#125;)<br><br>promise.<span class="hljs-title function_">then</span>(<br>    <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data)<br>    &#125;,<br>    <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;出错了&quot;</span>, err)<br>    &#125;<br>)<br></code></pre></td></tr></table></figure>
+
+<p>这里的关键不是“then 能拿到数据”，而是<strong>then 会被 Promise 主动调用，而不是我们去“轮询”Promise 的状态。</strong></p>
+<p>这也是 Promise 相比定时器、回调嵌套最大的进步。</p>
+<p>在实际开发中，为了让错误处理更集中，通常会使用 <code>catch</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js">promise<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data)<br>    &#125;)<br>    .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;出错了&quot;</span>, err)<br>    &#125;)<br></code></pre></td></tr></table></figure>
+
+<p><code>catch</code> 本质上只关心 <code>rejected</code> 状态。</p>
+<p>此外，Promise 还提供了 <code>finally</code> 方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js">promise.<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;无论成功还是失败都会执行&quot;</span>)<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p><code>finally</code> 不接收结果参数，也不区分状态，它只关心一件事：<strong>这个异步任务“结束了”。</strong></p>
+<h4 id="【链式调用】"><a href="#【链式调用】" class="headerlink" title="【链式调用】"></a>【链式调用】</h4><p>到这里我们已经知道，Promise 的核心作用是：<br> <strong>通过状态管理，在合适的时间点取到异步任务的结果</strong>。</p>
+<p>但仅仅能“取到结果”还不够。真实开发中，异步任务往往不是一步，而是<strong>多个异步步骤顺序执行</strong>，并且要求：</p>
+<ol>
+<li>上一步的结果作为下一步的输入</li>
+<li>错误能够统一处理</li>
+<li>代码不能层层嵌套形成“回调地狱”</li>
+</ol>
+<p>这正是 Promise 的<strong>链式调用</strong>要解决的问题。</p>
+<p>那么，什么是链式调用？</p>
+<p>从语法角度看，链式调用并不神秘，它只依赖一个条件：<strong>一个对象的方法，返回的还是一个对象，并且这个对象也具有相同的方法。</strong></p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">object.<span class="hljs-title function_">method1</span>().<span class="hljs-title function_">method2</span>().<span class="hljs-title function_">method3</span>()<br></code></pre></td></tr></table></figure>
+
+<p>只要 <code>method1</code> 的返回值仍然是一个拥有 <code>method2</code> 的对象，这个链条就可以一直写下去。</p>
+<p>如果某个方法返回的还是同一个对象实例，那么形式可能变成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">object.<span class="hljs-title function_">method1</span>().<span class="hljs-title function_">method1</span>().<span class="hljs-title function_">method1</span>()<br></code></pre></td></tr></table></figure>
+
+<p>而 Promise 的 <code>then</code>，正是基于这种思想设计的。</p>
+<p>关键结论是：<strong>每一次 <code>then</code> 执行，都会返回一个全新的 Promise 对象。</strong></p>
+<p>这个新的 Promise 会把 <code>then</code> 回调函数的<strong>返回值</strong>作为自己的结果保存起来：</p>
+<ul>
+<li>如果 <code>then</code> 中 <strong>返回普通值</strong><br> → 这个值会被包装成一个“已成功的 Promise”</li>
+<li>如果 <strong>没有显式 return</strong><br> → 新 Promise 的结果为 <code>undefined</code></li>
+<li>如果 <strong>返回的是一个 Promise</strong><br> → 新 Promise 会“等待”这个 Promise 的结果</li>
+</ul>
+<p>先看一个最直观的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;第一步执行结果&quot;</span>)<br>&#125;)<br><br><span class="hljs-keyword">const</span> promise2 = promise.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;收到结果：&quot;</span>, result)<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;第二步执行结果&quot;</span><br>&#125;)<br><br><span class="hljs-keyword">const</span> promise3 = promise2.<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;收到结果：&quot;</span>, result)<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;第三步执行结果&quot;</span><br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>这里并没有发生什么“魔法”，只是：</p>
+<ol>
+<li>第一个 Promise 成功</li>
+<li><code>then</code> 被触发</li>
+<li><code>then</code> 返回一个值</li>
+<li>这个值被存入<strong>新的 Promise</strong></li>
+<li>下一个 <code>then</code> 再从这个新 Promise 中取值</li>
+</ol>
+<p>因为 <code>then</code> 返回的一定是 Promise，所以这段代码完全可以写成链式形式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;第一步执行结果&quot;</span>)<br>&#125;)<br><br>promise<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;收到结果：&quot;</span>, result)<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;第二步执行结果&quot;</span><br>    &#125;)<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;收到结果：&quot;</span>, result)<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;第三步执行结果&quot;</span><br>    &#125;)<br></code></pre></td></tr></table></figure>
+
+<p>这样写的本质是：<strong>把“嵌套的回调结构”，改造成“值的顺序传递模型”。</strong></p>
+<p>也正因为每一步都只是“返回一个值或 Promise”，代码结构从“向右不断缩进”，变成了“从上到下线性展开”，这就从根本上解决了<strong>回调地狱</strong>的问题。</p>
+<p>接下来是另一个关键问题：<strong>错误应该怎么处理？</strong></p>
+<p>如果在每一个 <code>then</code> 中都写错误处理代码，不但冗余，而且很难维护。Promise 提供的做法是：**统一在链条末尾使用 <code>catch</code>**。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">sum</span>(<span class="hljs-number">123</span>, <span class="hljs-number">456</span>)<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> <span class="hljs-title function_">sum</span>(result, <span class="hljs-number">777</span>))<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> <span class="hljs-title function_">sum</span>(result, <span class="hljs-number">888</span>))<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result))<br>    .<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;哎呀出错了，随便返回一个吧&quot;</span>, <span class="hljs-number">8888</span>)<br>    &#125;)<br></code></pre></td></tr></table></figure>
+
+<p>这段代码里有一个非常重要但常被忽略的规则：<strong>只要前面的 Promise 链条处于“正常 fulfilled 状态”，<code>catch</code> 就不会执行，将参数不变地封装成一个新的 Promise 并返回。</strong></p>
+<p>也就是说：</p>
+<ul>
+<li><code>catch</code> 只会在<strong>某一步返回 rejected 或抛出异常</strong>时触发</li>
+<li>一旦进入 <code>catch</code>，错误就被“接住”了</li>
+<li>如果错误被处理并返回一个值，链条仍然可以继续</li>
+</ul>
+<p>因此可以这样理解：</p>
+<ul>
+<li><code>then</code> 负责<strong>正常流程的结果传递</strong></li>
+<li><code>catch</code> 负责<strong>异常流程的集中处理</strong></li>
+</ul>
+<p>Promise 的链式调用，本质上并不是“连续调用函数”，而是<strong>用 Promise 对象，把“异步执行过程”拆分成一段一段可组合的状态转换。</strong></p>
+<p>到这里，Promise 的三个核心能力已经完整闭合：</p>
+<ol>
+<li>用状态保存异步结果</li>
+<li>用 <code>then</code> 实现顺序依赖</li>
+<li>用 <code>catch</code> 实现统一错误处理</li>
+</ol>
+<h3 id="3-微任务与宏任务"><a href="#3-微任务与宏任务" class="headerlink" title="3.微任务与宏任务"></a>3.微任务与宏任务</h3><p>在 JavaScript 中，代码的执行并不是“写一行、立刻执行一行”，而是基于<strong>事件循环机制（Event Loop）</strong>来完成的。<br> 为了协调同步代码、异步回调以及 UI 渲染，JavaScript 将任务按照执行优先级划分为两类：<strong>宏任务（MacroTask）</strong> 和 <strong>微任务（MicroTask）</strong>。</p>
+<p>ES 规范中定义了一个内部队列，称为 <strong>PromiseJobs</strong>，用于存放由 Promise 产生的回调任务（如 <code>then</code>、<code>catch</code>、<code>finally</code>）。这个队列在实际开发和学习中通常被称为<strong>微任务队列（microtask queue）</strong>。<br> 与之相对，像 <code>setTimeout</code>、<code>setInterval</code> 等 API 所产生的回调，会被放入<strong>宏任务队列（macrotask queue）</strong>。</p>
+<p>当 JavaScript 引擎开始执行代码时，<strong>整个 <code>script</code> 脚本本身会被视为第一个宏任务</strong>，并进入宏任务队列。此时：</p>
+<ul>
+<li>调用栈（Call Stack）为空</li>
+<li>微任务队列为空</li>
+<li>宏任务队列中包含当前脚本任务</li>
+</ul>
+<p><font color="#409eff">事件循环的整体执行流程可以概括为以下几个步骤：</font></p>
+<ol>
+<li>从宏任务队列中取出一个宏任务（最开始就是 <code>script</code>），放入调用栈中执行</li>
+<li>在宏任务执行过程中，如果产生了微任务（例如 Promise 的 <code>then</code> 回调），就将它们加入微任务队列</li>
+<li>当前宏任务执行完成后，调用栈清空，此时<strong>不会立刻执行下一个宏任务</strong></li>
+<li>引擎会立刻检查微任务队列，并按照先进先出的顺序，将所有微任务依次放入调用栈中执行，直到微任务队列被清空</li>
+<li>微任务全部执行完毕后，事件循环才会继续取出下一个宏任务</li>
+<li>重复上述过程，直到所有任务执行完成</li>
+</ol>
+<p>需要特别强调的是：<br> <strong>在一次宏任务执行结束后，微任务队列一定会被“清空执行”，而不是只执行其中一个微任务。</strong></p>
+<p>正是这种调度策略，使得微任务具有比宏任务更高的执行优先级。<br> 因此在实际表现上：</p>
+<ul>
+<li><code>Promise.then / catch / finally</code> 的回调</li>
+<li>总是会比 <code>setTimeout(fn, 0)</code> 更早执行</li>
+</ul>
+<p>这种设计的好处在于：微任务可以在两个宏任务之间，对程序状态进行快速、连续的补充处理，从而保证 Promise 状态变化和链式调用的<strong>一致性与及时性</strong>，同时也提高了程序的整体响应速度。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>)<br>&#125;)<br><br><span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>)<br>&#125;)<br><br><span class="hljs-comment">// 2 , 1 </span><br></code></pre></td></tr></table></figure>
+
+<p>那么现在对于前面提到的一个例子如下，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>)=&gt;</span>&#123;<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">()=&gt;</span>&#123;<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;哈哈&quot;</span>)<br>    &#125;,<span class="hljs-number">1000</span>)<br>&#125;).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">data</span>)=&gt;</span>&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data)<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p><strong>整个执行顺序如下：</strong></p>
+<p><strong>宏任务：script（当前整段代码）</strong></p>
+<ul>
+<li>执行 <code>new Promise(...)</code><ul>
+<li>注册定时器（1s 后才可能入宏任务队列）</li>
+</ul>
+</li>
+<li>执行 <code>.then(...)</code><ul>
+<li>把回调登记到 Promise 上（此时不入微任务队列）</li>
+</ul>
+</li>
+</ul>
+<p>1s 后：</p>
+<ul>
+<li><strong>宏任务：timer 回调入队并被执行</strong><ul>
+<li>执行 <code>resolve(&quot;哈哈&quot;)</code><ul>
+<li>Promise fulfilled</li>
+<li><code>then</code> 回调 <strong>入微任务队列</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>timer 宏任务执行完毕</li>
+<li><strong>立刻清空微任务队列</strong><ul>
+<li>执行 <code>then</code> 回调 → <code>console.log(&quot;哈哈&quot;)</code></li>
+</ul>
+</li>
+</ul>
+<p><strong><code>Promise</code>登记过程</strong></p>
+<p>在规范层面，每一个 Promise 内部至少维护这三类“槽位”：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs lua">Promise &#123;<br>  <span class="hljs-string">[[PromiseState]]</span>: pending | fulfilled | rejected<br>  <span class="hljs-string">[[PromiseResult]]</span>: value | reason<br>  <span class="hljs-string">[[PromiseReactions]]</span>: &#123;<br>      fulfillReactions: [],<br>      rejectReactions: []<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>.then()</code> 做的事情，本质上只有三步，当写：</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pf">promise.then(<span class="hljs-keyword">on</span>Fulfilled, <span class="hljs-keyword">on</span>Rejected)<br></code></pre></td></tr></table></figure>
+
+<p>JS 引擎内部（逻辑等价，不是源码）会做：</p>
+<p>① 创建一个新的 Promise（这是链式调用的根）</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">newPromise</span> <span class="hljs-operator">=</span> new Promise(...)<br></code></pre></td></tr></table></figure>
+
+<p>这个 Promise 还没有状态，是 <code>pending</code>。</p>
+<p>② 把回调“包装成 reaction 对象”：不是简单存一个函数，而是一个<strong>结构体</strong>，类似这样：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-attr">reaction</span> <span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><br>  onFulfilled,          <span class="hljs-comment">// 成功回调</span><br>  onRejected,           <span class="hljs-comment">// 失败回调</span><br><span class="hljs-symbol">  capability:</span> <span class="hljs-punctuation">&#123;</span><br>    resolve,            <span class="hljs-comment">// newPromise 的 resolve</span><br>    reject              <span class="hljs-comment">// newPromise 的 reject</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>这一步非常关键：<strong>reaction 把“当前 Promise 的回调”和“下一个 Promise 的控制权”绑在了一起</strong></p>
+<p>这就是为什么：<code>then</code> 的返回值会由回调的返回值决定</p>
+<p>③ 根据当前 Promise 状态，决定“登记”还是“立刻调度”</p>
+<p><strong>情况 A：当前 Promise 是 <code>pending</code></strong></p>
+<p>此时引擎会做：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua">promise.<span class="hljs-string">[[PromiseReactions]]</span>.fulfillReactions.push(reaction)<br>promise.<span class="hljs-string">[[PromiseReactions]]</span>.rejectReactions.push(reaction)<br></code></pre></td></tr></table></figure>
+
+<p><strong>只登记，不执行，不入队列</strong></p>
+<p>也就是说：<code>.then()</code> 在 pending 状态下只是“订阅事件”，类似 addEventListener</p>
+<p><strong>情况 B：当前 Promise 已经是 <code>fulfilled</code></strong></p>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">Promise.<span class="hljs-meta">resolve</span>(100).the<span class="hljs-meta">n</span>(fn)<br></code></pre></td></tr></table></figure>
+
+<p>此时不会登记到列表，而是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">把 reaction 立刻封装成一个 microtask<br>推入 PromiseJobs（微任务队列）<br></code></pre></td></tr></table></figure>
+
+<p>这就是为什么：</p>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">Promise.<span class="hljs-meta">resolve</span>().the<span class="hljs-meta">n</span>(fn)<br></code></pre></td></tr></table></figure>
+
+<p><strong>一定是异步执行的</strong></p>
+<p>情况 C：当前 Promise 已经是 <code>rejected</code></p>
+<p>逻辑完全对称，只走 reject 分支。</p>
+<p><strong>状态一旦切换，Promise 就“封印”了，取出之前登记的 reactions</strong></p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-variable">for</span> <span class="hljs-variable">each</span> <span class="hljs-variable">reaction</span> <span class="hljs-variable"><span class="hljs-keyword">in</span></span> <span class="hljs-variable">fulfillReactions</span>:<br>    <span class="hljs-function"><span class="hljs-title">enqueueMicrotask</span>(<span class="hljs-variable">reaction</span>)</span><br></code></pre></td></tr></table></figure>
+
+<p>注意这句话非常重要：<strong>是 resolve 触发了微任务的创建，而不是 then</strong></p>
+<h3 id="4-async-和-await"><a href="#4-async-和-await" class="headerlink" title="4.async 和 await"></a>4.async 和 await</h3><p><code>async</code> 和 <code>await</code> 是 ES2017 引入的基于 Promise 的语法糖，用来以同步的书写方式处理异步操作。被 <code>async</code> 修饰的函数会始终返回一个 Promise，当函数返回普通值时会被自动包装成一个已完成状态的 Promise，当函数抛出异常时则会返回一个拒绝状态的 Promise。<code>await</code> 只能在 <code>async</code> 函数中使用，它会暂停函数的执行，等待其后表达式返回的 Promise 完成，并将完成的值作为返回结果，如果 Promise 被拒绝则会抛出异常，需要用 <code>try...catch</code> 来捕获。<font color="#409eff">即使 <code>await</code> 后面不是 Promise，也会被转换成一个已完成的 Promise 再处理。</font><code>async/await</code> 的核心优势是让异步代码看起来像同步代码一样直观，减少回调嵌套和链式 then 带来的可读性问题，同时可以通过 <code>try...catch</code> 统一捕获错误，从而让异步逻辑结构更清晰。但它并没有改变 JavaScript 单线程、事件循环的本质，底层依然是通过 Promise 和微任务机制来调度执行的。</p>
+<h4 id="【async函数】"><a href="#【async函数】" class="headerlink" title="【async函数】"></a>【async函数】</h4><p>async是一个加在函数前的修饰符，用来创建一个异步函数，被async定义的函数会默认返回一个Promise对象resolve的值。</p>
+<p>因此对async函数可以直接then，返回值就是then方法传入的函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// async基础语法</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fun0</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><span class="hljs-title function_">fun0</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">val</span>=&gt;</span>&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(val) <span class="hljs-comment">// 1,1</span><br>&#125;)<br><br><span class="hljs-comment">// ===&gt; 等价于</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">fun0</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">resolve,reject</span>)&#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>);<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-number">1</span>);<br>    &#125;)<br>&#125;<br><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fun1</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Promise&#x27;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">resolve,reject</span>)&#123;<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Promise&#x27;</span>)<br>    &#125;)<br>&#125;<br><span class="hljs-title function_">fun1</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">val</span> =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(val); <span class="hljs-comment">// Promise Promise</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="【await】"><a href="#【await】" class="headerlink" title="【await】"></a>【await】</h4><p>await 也是一个修饰符，只能放在async定义的函数内。可以理解为<strong>等待</strong>。</p>
+<p>await 修饰的如果是Promise对象，可以获取Promise中返回的内容（resolve或reject的参数），且取到值后语句才会往下执行；如果不是Promise对象：把这个非promise的东西当做await表达式的结果。</p>
+<p><code>await expr</code> 的语义近似是<strong>把 <code>expr</code> 先变成 <code>Promise.resolve(expr)</code>，然后在它 fulfilled 之后，用 <code>.then(...)</code> 继续执行后续代码。</strong>即使 <code>expr</code> 是普通值（比如 <code>1</code>），也会走一次“异步恢复”（微任务）。</p>
+<p>注意事项</p>
+<ul>
+<li>await必须写在async函数中，但是async函数中可以没有await</li>
+<li>如果await的promise失败了，就会抛出异常，需要通过try…catch捕获处理</li>
+<li><font color="#409eff">当我们使用await调用函数后，当前函数后面的所有代码会在当前函数执行完毕以后，被放入到微任务队列中。</font></li>
+</ul>
+<h4 id="【面试题】"><a href="#【面试题】" class="headerlink" title="【面试题】"></a>【面试题】</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fun</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-keyword">let</span> a = <span class="hljs-keyword">await</span> <span class="hljs-number">1</span>; <span class="hljs-comment">// 非promise的东西当做await表达式的结果</span><br>    <span class="hljs-keyword">let</span> b = <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve,reject</span>)=&gt;</span>&#123;<br>        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<br>            <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;setTimeout&#x27;</span>)<br>        &#125;,<span class="hljs-number">3000</span>)  <span class="hljs-comment">// Promise中返回的内容（resolve或reject的参数）</span><br>    &#125;)<br>    <span class="hljs-keyword">let</span> c = <span class="hljs-keyword">await</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;function&#x27;</span><br>    &#125;()<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a,b,c)<br>&#125;<br><span class="hljs-comment">// === &gt; </span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">fun2</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">let</span> a, b, c;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(<span class="hljs-number">1</span>)                 <span class="hljs-comment">// await 1</span><br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> &#123;<br>      a = v;<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> &#123;     <span class="hljs-comment">// await new Promise(...)</span><br>        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>          <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&quot;setTimeout&quot;</span>);<br>        &#125;, <span class="hljs-number">3000</span>);<br>      &#125;);<br>    &#125;)<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> &#123;<br>      b = v;<br>      <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>((<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123; <span class="hljs-comment">// await IIFE</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;function&quot;</span>;<br>      &#125;)());<br>    &#125;)<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">v</span>) =&gt;</span> &#123;<br>      c = v;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a, b, c);<br>      <span class="hljs-comment">// async fun 默认返回 Promise&lt;undefined&gt;</span><br>      <span class="hljs-comment">// 这里不 return 等价于 return undefined，链会 resolve(undefined)</span><br>    &#125;);<br>&#125;<br><br><br><span class="hljs-title function_">fun</span>(); <span class="hljs-comment">// 3秒后输出： 1 &quot;setTimeout&quot; &quot;function&quot;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs js">aysnc <span class="hljs-keyword">function</span> <span class="hljs-title function_">fn4</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>)<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">3</span>)<br>&#125;<br><span class="hljs-title function_">fn4</span>()<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">4</span>)<br><br><span class="hljs-comment">// =&gt;</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">fn4</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>)=&gt;</span>&#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>)<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>)<br>        <span class="hljs-title function_">resolve</span>()<br>    &#125;).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>)=&gt;</span>&#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">3</span>)<br>    &#125;)<br>&#125;<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">4</span>)<br><br><span class="hljs-comment">// 1,2,4,3</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> <span class="hljs-title function_">first</span> = (<span class="hljs-params"></span>) =&gt; (<span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">3</span>)<br>    <span class="hljs-keyword">let</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">7</span>)<br>        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">5</span>)<br>            <span class="hljs-title function_">resolve</span>(<span class="hljs-number">6</span>)<br>        &#125;, <span class="hljs-number">0</span>)<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-number">1</span>)<br>    &#125;)<br>    <span class="hljs-title function_">resolve</span>(<span class="hljs-number">2</span>)<br>    p.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(arg)<br>    &#125;)<br><br>&#125;))<br><span class="hljs-title function_">first</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(arg)<br>&#125;)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">4</span>)<br><span class="hljs-comment">// 3,7,4,1,2,5</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id><a href="#" class="headerlink" title></a></h2>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/" class="category-chain-item">前端学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E9%A2%98/" class="print-no-link">#前端面试题</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Promise与JS异步</div>
+      <div>http://example.com/2025/12/17/前端学习/4-Promise与JS异步/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/NodeJS%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93/" title="NodeJS核心总结">
+                        <span class="hidden-mobile">NodeJS核心总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
