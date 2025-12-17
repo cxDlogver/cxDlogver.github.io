@@ -16,18 +16,18 @@
   <meta name="author" content="Xiang Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="如何描述Vue采用的MVVM框架？ 如何描述Vue2的响应式原理 （流程&#x2F;数据劫持原理）？ 如何描述Vue3的响应式原理 （与Vue2差异 &#x2F; Proxy &#x2F; Reflect)？ 数据代理。">
+    <meta name="description" content="如何描述Vue采用的MVVM框架？ 如何描述Vue2的响应式原理 （流程&#x2F;数据劫持原理）？ 如何描述Vue3的响应式原理 （与Vue2差异 &#x2F; Proxy &#x2F; Reflect)？ 数据代理的思想？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="5-Vue基本原理">
+<meta property="og:title" content="5.Vue基本原理">
 <meta property="og:url" content="http://example.com/2025/12/18/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/5-Vue%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="相">
-<meta property="og:description" content="如何描述Vue采用的MVVM框架？ 如何描述Vue2的响应式原理 （流程&#x2F;数据劫持原理）？ 如何描述Vue3的响应式原理 （与Vue2差异 &#x2F; Proxy &#x2F; Reflect)？ 数据代理。">
+<meta property="og:description" content="如何描述Vue采用的MVVM框架？ 如何描述Vue2的响应式原理 （流程&#x2F;数据劫持原理）？ 如何描述Vue3的响应式原理 （与Vue2差异 &#x2F; Proxy &#x2F; Reflect)？ 数据代理的思想？">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2025/12/18/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/5-Vue%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/image-20251217223808740.png">
 <meta property="og:image" content="http://example.com/2025/12/18/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/5-Vue%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/image-20251218021138928.png">
 <meta property="og:image" content="http://example.com/2025/12/18/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/5-Vue%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/image-20250903140313714.png">
 <meta property="article:published_time" content="2025-12-17T20:17:10.000Z">
-<meta property="article:modified_time" content="2025-12-17T20:18:30.156Z">
+<meta property="article:modified_time" content="2025-12-17T20:32:01.985Z">
 <meta property="article:author" content="Xiang Chen">
 <meta property="article:tag" content="前端面试题">
 <meta name="twitter:card" content="summary_large_image">
@@ -35,7 +35,7 @@
   
   
   
-  <title>5-Vue基本原理 - 相</title>
+  <title>5.Vue基本原理 - 相</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="5-Vue基本原理"></span>
+            <span id="subtitle" data-typed-text="5.Vue基本原理"></span>
           
         </div>
 
@@ -272,7 +272,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">5-Vue基本原理</h1>
+            <h1 id="seo-header">5.Vue基本原理</h1>
             
             
               <div class="markdown-body">
@@ -281,7 +281,7 @@
 <li>如何描述Vue采用的MVVM框架？</li>
 <li>如何描述Vue2的响应式原理 （流程&#x2F;数据劫持原理）？</li>
 <li>如何描述Vue3的响应式原理 （与Vue2差异 &#x2F; Proxy &#x2F; Reflect)？</li>
-<li>数据代理。</li>
+<li>数据代理的思想？</li>
 </ol>
 <span id="more"></span>
 
@@ -322,7 +322,7 @@
 </ul>
 <p>Vue 在这里只是：</p>
 <ul>
-<li>通过**<font color="#409eff">数据绑定</font>**<code>Data Bingdings</code>，自动绑定了事件，省去了手写监听与赋值的代码</li>
+<li>通过<font color="#409eff"><strong>数据绑定</strong></font><code>Data Bingdings</code>，自动绑定了事件，省去了手写监听与赋值的代码</li>
 </ul>
 <h4 id="【model-view】"><a href="#【model-view】" class="headerlink" title="【model-&gt;view】"></a>【<code>model-&gt;view</code>】</h4><p>当 <code>data.value</code> 被修改后，页面中：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>value 的值为 &#123;&#123; value &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
@@ -770,7 +770,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>5-Vue基本原理</div>
+      <div>5.Vue基本原理</div>
       <div>http://example.com/2025/12/18/前端学习/5-Vue基本原理/</div>
     </div>
     <div class="license-meta">
