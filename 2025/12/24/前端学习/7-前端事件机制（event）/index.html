@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="如何描述JavaScript DOM？ 如何描述JavaScript的事件？ JS事件绑定方式有哪些，事件对象是什么，它的常用属性有哪些？ 如何理解事件冒泡和事件委托？ 如何自定义一个JS事件？ 如何描述Vue的事件监听机制？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7.前端事件机制（event）">
+<meta property="og:url" content="http://example.com/2025/12/24/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/7-%E5%89%8D%E7%AB%AF%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6%EF%BC%88event%EF%BC%89/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="如何描述JavaScript DOM？ 如何描述JavaScript的事件？ JS事件绑定方式有哪些，事件对象是什么，它的常用属性有哪些？ 如何理解事件冒泡和事件委托？ 如何自定义一个JS事件？ 如何描述Vue的事件监听机制？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-23T18:07:32.000Z">
+<meta property="article:modified_time" content="2025-12-23T18:08:32.052Z">
+<meta property="article:author" content="Xiang Chen">
+<meta property="article:tag" content="前端面试题">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>7.前端事件机制（event） - 相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="7.前端事件机制（event）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-24 02:07" pubdate>
+          2025年12月24日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">7.前端事件机制（event）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li>如何描述JavaScript DOM？</li>
+<li>如何描述JavaScript的事件？</li>
+<li>JS事件绑定方式有哪些，事件对象是什么，它的常用属性有哪些？</li>
+<li>如何理解事件冒泡和事件委托？</li>
+<li>如何自定义一个JS事件？</li>
+<li>如何描述Vue的事件监听机制？</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="前端的事件机制（event"><a href="#前端的事件机制（event" class="headerlink" title="前端的事件机制（event)"></a>前端的事件机制（event)</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://cxdlogver.github.io/2025/08/04/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/JavaScript%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93/#JavaScript-DOM">JavaScript DOM &#x2F; event</a></p>
+</blockquote>
+<h3 id="1-JavaScript-DOM"><a href="#1-JavaScript-DOM" class="headerlink" title="1. JavaScript DOM"></a>1. JavaScript DOM</h3><p>DOM（Document Object Model，文档对象模型）是 <strong>Web API 的一部分</strong>，用于将 HTML 页面以一种<strong>树形结构</strong>的方式抽象成对象模型。简单来说，DOM 会把整个页面结构“对象化”，页面中的<strong>标签、文本、注释等都会被表示为节点（Node）</strong>，共同组成一棵 DOM 树。</p>
+<p>在 DOM 中，**<code>document</code> 对象表示整个页面**，它是 JavaScript 访问和操作页面的入口。浏览器会将 HTML 文档解析后，封装成一个 <code>document</code> 对象，通过它可以获取页面中的任意节点，同时也可以访问页面的 URL、域名等信息。</p>
+<p>通过 <code>document</code> 对象，可以使用多种方式获取页面中的元素节点，例如：</p>
+<ul>
+<li><code>getElementById</code></li>
+<li><code>getElementsByClassName</code></li>
+<li><code>getElementsByTagName</code></li>
+<li><code>querySelector</code> &#x2F; <code>querySelectorAll</code></li>
+</ul>
+<p>这些方法最终都会返回<strong>一个节点或节点集合（元素对象）</strong>。</p>
+<p>每一个元素对象在 DOM 树中都对应一个节点，它既是树结构中的一个成员，也可以作为操作起点，对与之相关的其他节点进行操作。例如，可以获取其父节点、子节点、兄弟节点，也可以在 DOM 树中插入新节点或删除已有节点。</p>
+<p>除了结构操作之外，DOM 还支持对节点内容和表现形式的修改，包括但不限于：</p>
+<ul>
+<li>修改文本内容</li>
+<li>修改属性</li>
+<li>修改样式</li>
+<li>动态增删节点</li>
+</ul>
+<p>其中，<strong>事件机制是 DOM 设计的核心功能之一</strong>。DOM 的设计初衷就是让网页能够与用户产生动态交互，而这种交互正是通过事件系统实现的。通过为元素绑定事件监听器，JavaScript 可以在用户点击、输入、滚动等操作发生时执行相应的逻辑，从而实现页面的动态行为。</p>
+<h3 id="2-JavaScript-Event"><a href="#2-JavaScript-Event" class="headerlink" title="2. JavaScript Event"></a>2. JavaScript Event</h3><p>在 JavaScript 中，事件通过<strong>绑定回调函数</strong>来处理用户的各种操作。当用户在页面上进行点击、输入、移动鼠标等行为时，浏览器会触发相应的事件；一旦事件被触发，与之绑定的<strong>事件监听器</strong>就会调用对应的<strong>回调函数</strong>。因此，事件回调函数也常被称为<strong>事件处理函数或事件响应函数</strong>。</p>
+<h4 id="【事件的绑定方式】"><a href="#【事件的绑定方式】" class="headerlink" title="【事件的绑定方式】"></a>【事件的绑定方式】</h4><p>JavaScript 中常见的事件绑定方式主要有三种：</p>
+<ol>
+<li><p><strong>通过 HTML 标签的事件属性</strong>（不推荐）</p>
+<figure class="highlight hsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs hsp">&lt;<span class="hljs-keyword">button</span> <span class="hljs-keyword">onclick</span>=<span class="hljs-string">&quot;handleClick()&quot;</span>&gt;点击&lt;/<span class="hljs-keyword">button</span>&gt;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>通过元素对象的事件属性</strong></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">element.onclick</span> = function () &#123;&#125;<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>通过 <code>addEventListener</code> 绑定事件监听器（推荐）</strong></p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">element.addEventListener(<span class="hljs-symbol">&#x27;click</span>&#x27;, <span class="hljs-keyword">function</span> <span class="hljs-title"></span>() &#123;&#125;);<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>其中，<code>addEventListener</code> 是最灵活、最规范的方式，支持多个监听器、事件捕获与冒泡控制。</p>
+<h4 id="【事件对象（Event-Object）】"><a href="#【事件对象（Event-Object）】" class="headerlink" title="【事件对象（Event Object）】"></a>【事件对象（Event Object）】</h4><p>当事件触发时，浏览器会自动向事件回调函数传入一个参数，这个参数就是<strong>事件对象（event）</strong>。事件对象中包含了与当前事件相关的各种信息。</p>
+<p><code>Event</code> 是所有事件对象的基类，在此基础上派生出多种具体事件类型，例如：</p>
+<ul>
+<li><code>MouseEvent</code>：处理鼠标事件（点击、移动、坐标等）</li>
+<li><code>KeyboardEvent</code>：处理键盘事件（按键、键值等）</li>
+<li><code>InputEvent</code>：处理输入相关事件</li>
+</ul>
+<p>常用的事件对象属性包括：</p>
+<ul>
+<li><code>event.type</code>：事件类型</li>
+<li><code>event.target</code>：触发事件的元素</li>
+<li><code>event.currentTarget</code>：当前绑定事件的元素</li>
+<li><code>event.bubbles</code>：是否支持冒泡</li>
+<li><code>event.cancelable</code>：是否可以取消默认行为</li>
+<li><code>event.timeStamp</code>：事件发生的时间</li>
+</ul>
+<h4 id="【事件传播机制】"><a href="#【事件传播机制】" class="headerlink" title="【事件传播机制】"></a>【事件传播机制】</h4><p>要理解事件冒泡和事件委托，首先需要了解<strong>事件传播的三个阶段</strong>：</p>
+<ol>
+<li><strong>捕获阶段</strong><br>事件从 <code>window</code> 开始，沿着 DOM 树向下传播，直到目标元素。在这一阶段，默认情况下不会触发事件监听器。</li>
+<li><strong>目标阶段</strong><br>事件到达目标元素，在目标元素上触发对应的事件监听器。</li>
+<li><strong>冒泡阶段</strong><br>事件从目标元素开始，沿着 DOM 树向上传播，直到 <code>document</code>，依次触发祖先元素上绑定的事件监听器（如果存在）。</li>
+</ol>
+<p>这是“已确定 target 的情况下”才存在的传播路径，</p>
+<h4 id="【事件冒泡与事件委托】"><a href="#【事件冒泡与事件委托】" class="headerlink" title="【事件冒泡与事件委托】"></a>【事件冒泡与事件委托】</h4><p>事件冒泡的一个重要作用是实现<strong>事件委托</strong>。</p>
+<p>事件委托的核心思想是：</p>
+<blockquote>
+<p>如果父元素和其多个子元素需要处理同一类事件，可以只在父元素上绑定一次事件监听器，利用事件冒泡统一处理。</p>
+</blockquote>
+<p>例如，在一个包含多个子元素的大容器中，如果希望监听鼠标移动事件：</p>
+<ul>
+<li>鼠标移动时，事件会先在目标子元素上触发</li>
+<li>随后通过冒泡传播到父元素</li>
+<li>父元素即可统一处理该事件</li>
+</ul>
+<p>这样做的好处是：</p>
+<ul>
+<li>不需要为每个子元素单独绑定事件</li>
+<li>减少代码量</li>
+<li>降低逻辑复杂度</li>
+<li><strong>对动态新增的子元素同样有效</strong></li>
+</ul>
+<p>当然，并不是所有事件都适合冒泡。如果某些事件<strong>不希望被祖先元素接收到</strong>，可以通过关闭冒泡或阻止传播来控制。</p>
+<h3 id="3-自定义一个JS事件"><a href="#3-自定义一个JS事件" class="headerlink" title="3. 自定义一个JS事件"></a>3. 自定义一个JS事件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;div id=<span class="hljs-string">&quot;outer&quot;</span> style=<span class="hljs-string">&quot;padding:20px;border:2px solid #999;&quot;</span>&gt;<br>  outer<br>  &lt;div id=<span class="hljs-string">&quot;inner&quot;</span> style=<span class="hljs-string">&quot;margin-top:10px;padding:20px;border:2px solid #666;&quot;</span>&gt;<br>    inner<br>    &lt;button id=<span class="hljs-string">&quot;btn&quot;</span>&gt;dispatch&lt;/button&gt;<br>  &lt;/div&gt;<br>&lt;/div&gt;<br><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-keyword">const</span> outer = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;outer&quot;</span>);</span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-keyword">const</span> inner = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;inner&quot;</span>);</span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-keyword">const</span> btn = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;btn&quot;</span>);</span></span><br><span class="language-javascript"><span class="language-xml"></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-comment">// 打印工具：你能一眼看到 target/currentTarget 以及处于哪个阶段</span></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-keyword">function</span> <span class="hljs-title function_">log</span>(<span class="hljs-params">tag</span>) &#123;</span></span><br><span class="language-javascript"><span class="language-xml">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) &#123;</span></span><br><span class="language-javascript"><span class="language-xml">      <span class="hljs-keyword">const</span> phaseMap = &#123; <span class="hljs-number">1</span>: <span class="hljs-string">&quot;capture&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;target&quot;</span>, <span class="hljs-number">3</span>: <span class="hljs-string">&quot;bubble&quot;</span> &#125;;</span></span><br><span class="language-javascript"><span class="language-xml">      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(</span></span><br><span class="language-javascript"><span class="language-xml">        <span class="hljs-string">`[<span class="hljs-subst">$&#123;tag&#125;</span>] phase=<span class="hljs-subst">$&#123;phaseMap[e.eventPhase]&#125;</span> `</span> +</span></span><br><span class="language-javascript"><span class="language-xml">        <span class="hljs-string">`target=#<span class="hljs-subst">$&#123;e.target.id&#125;</span> currentTarget=#<span class="hljs-subst">$&#123;e.currentTarget.id&#125;</span> `</span> +</span></span><br><span class="language-javascript"><span class="language-xml">        <span class="hljs-string">`detail=<span class="hljs-subst">$&#123;<span class="hljs-built_in">JSON</span>.stringify(e.detail)&#125;</span>`</span></span></span><br><span class="language-javascript"><span class="language-xml">      );</span></span><br><span class="language-javascript"><span class="language-xml">    &#125;;</span></span><br><span class="language-javascript"><span class="language-xml">  &#125;</span></span><br><span class="language-javascript"><span class="language-xml"></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-comment">// 1) 监听器：捕获阶段</span></span></span><br><span class="language-javascript"><span class="language-xml">  outer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;num-threshold&quot;</span>, <span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;outer CAPTURE&quot;</span>), <span class="hljs-literal">true</span>);</span></span><br><span class="language-javascript"><span class="language-xml">  inner.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;num-threshold&quot;</span>, <span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;inner CAPTURE&quot;</span>), <span class="hljs-literal">true</span>);</span></span><br><span class="language-javascript"><span class="language-xml">	<span class="hljs-comment">// 这里的 true 表示：监听器在「事件捕获阶段」执行。</span></span></span><br><span class="language-javascript"><span class="language-xml"></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-comment">// 2) 监听器：冒泡阶段（默认 false）</span></span></span><br><span class="language-javascript"><span class="language-xml">  outer.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;num-threshold&quot;</span>, <span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;outer BUBBLE&quot;</span>));</span></span><br><span class="language-javascript"><span class="language-xml">  inner.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;num-threshold&quot;</span>, <span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;inner BUBBLE&quot;</span>));</span></span><br><span class="language-javascript"><span class="language-xml">  btn.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;num-threshold&quot;</span>, <span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;btn BUBBLE&quot;</span>));</span></span><br><span class="language-javascript"><span class="language-xml"></span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-comment">// 3) 点击按钮：创建并派发自定义事件</span></span></span><br><span class="language-javascript"><span class="language-xml">  btn.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;</span></span><br><span class="language-javascript"><span class="language-xml">    <span class="hljs-keyword">const</span> ev = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CustomEvent</span>(<span class="hljs-string">&quot;num-threshold&quot;</span>, &#123;</span></span><br><span class="language-javascript"><span class="language-xml">      <span class="hljs-attr">detail</span>: &#123; <span class="hljs-attr">num</span>: <span class="hljs-number">5</span>, <span class="hljs-attr">threshold</span>: <span class="hljs-number">5</span> &#125;,</span></span><br><span class="language-javascript"><span class="language-xml">      <span class="hljs-attr">bubbles</span>: <span class="hljs-literal">true</span>,   <span class="hljs-comment">// 允许冒泡（否则只有目标阶段）</span></span></span><br><span class="language-javascript"><span class="language-xml">      <span class="hljs-attr">cancelable</span>: <span class="hljs-literal">true</span> <span class="hljs-comment">// 允许 preventDefault（自定义事件通常用不到，但可演示）</span></span></span><br><span class="language-javascript"><span class="language-xml">    &#125;);</span></span><br><span class="language-javascript"><span class="language-xml"></span></span><br><span class="language-javascript"><span class="language-xml">    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;---- dispatch start ----&quot;</span>);</span></span><br><span class="language-javascript"><span class="language-xml">    btn.<span class="hljs-title function_">dispatchEvent</span>(ev); <span class="hljs-comment">// 派发到目标：btn</span></span></span><br><span class="language-javascript"><span class="language-xml">    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;---- dispatch end ----&quot;</span>);</span></span><br><span class="language-javascript"><span class="language-xml">  &#125;);</span></span><br><span class="language-javascript"><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br><br></code></pre></td></tr></table></figure>
+
+<p>当你点按钮后，控制台会按顺序输出类似：</p>
+<ol>
+<li><code>outer CAPTURE</code>（捕获，从外到内）</li>
+<li><code>inner CAPTURE</code></li>
+<li><code>btn BUBBLE</code>（目标阶段：监听器会以 target 触发；eventPhase 显示 target）</li>
+<li><code>inner BUBBLE</code>（冒泡，从内到外）</li>
+<li><code>outer BUBBLE</code></li>
+</ol>
+<p>这里最关键的是两点：</p>
+<ul>
+<li><strong><code>event.target</code> 永远是事件真正发生&#x2F;派发的目标（btn）</strong></li>
+<li><strong><code>event.currentTarget</code> 是当前正在执行监听器的那个元素（outer&#x2F;inner&#x2F;btn 会变化）</strong></li>
+</ul>
+<hr>
+<p>把它和“派发&#x2F;监听器过程”对应起来（你要的主线）</p>
+<ol>
+<li>创建事件对象(CustomEvent是DOM Level 3 Events 标准的一部分，就叫自定义事件）</li>
+</ol>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs actionscript"><span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">&quot;num-threshold&quot;</span>, &#123; detail, bubbles &#125;)<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>绑定监听器</li>
+</ol>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">addEventListener</span><span class="hljs-params">(<span class="hljs-string">&quot;num-threshold&quot;</span>, handler, useCapture?)</span></span><br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>派发事件（关键动作）</li>
+</ol>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs maxima">btn.dispatchEvent(<span class="hljs-built_in">ev</span>)<br></code></pre></td></tr></table></figure>
+
+<p>一旦派发，浏览器就会根据 DOM 树生成路径，并按阶段执行监听器：</p>
+<ul>
+<li><strong>捕获阶段</strong>：window → … → outer → inner</li>
+<li><strong>目标阶段</strong>：btn</li>
+<li><strong>冒泡阶段</strong>：inner → outer → … → document（前提：<code>bubbles: true</code>）</li>
+</ul>
+<h3 id="4-Vue-事件监听机制"><a href="#4-Vue-事件监听机制" class="headerlink" title="4. Vue 事件监听机制"></a>4. Vue 事件监听机制</h3><p>Vue 的事件系统并不是一套“新的事件模型”，而是<strong>对原生 DOM 事件机制的封装与语法抽象</strong>。<br> 其核心目标是：<strong>在不改变事件本质的前提下，降低事件绑定、传播控制和逻辑组织的复杂度</strong>。</p>
+<h4 id="【Vue-中的事件监听方式】"><a href="#【Vue-中的事件监听方式】" class="headerlink" title="【Vue 中的事件监听方式】"></a>【Vue 中的事件监听方式】</h4><p>Vue 使用 <code>v-on</code> 指令（简写为 <code>@</code>）来监听事件：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;button @click=<span class="hljs-string">&quot;handleClick&quot;</span>&gt;点击&lt;/button&gt;<br></code></pre></td></tr></table></figure>
+
+<p>从本质上看，这一写法等价于：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">element.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, handleClick);<br></code></pre></td></tr></table></figure>
+
+<p>不同之处在于：</p>
+<ul>
+<li>事件绑定由 Vue 在 <strong>组件挂载阶段</strong> 自动完成</li>
+<li>回调函数默认绑定到当前组件实例（<code>this</code> 指向组件）</li>
+</ul>
+<h4 id="【Vue-事件与原生-JS-事件】"><a href="#【Vue-事件与原生-JS-事件】" class="headerlink" title="【Vue 事件与原生 JS 事件】"></a>【Vue 事件与原生 JS 事件】</h4><blockquote>
+<p>Vue 事件 ≠ 自定义事件系统</p>
+<p>Vue 事件 &#x3D; 原生 DOM 事件 + 语法层封装</p>
+</blockquote>
+<p>具体体现在：</p>
+<ol>
+<li><p><strong>事件触发来源</strong></p>
+<ul>
+<li>Vue 的 DOM 事件最终仍由浏览器触发</li>
+<li>Vue 不接管浏览器的事件派发过程</li>
+</ul>
+</li>
+<li><p><strong>事件对象</strong></p>
+<ul>
+<li>Vue 事件回调中接收到的 <code>$event</code> 本质就是原生 <code>Event</code> 对象</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;handleClick($event)&quot;</span>&gt;</span>点击<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">methods</span>: &#123;<br>  <span class="hljs-title function_">handleClick</span>(<span class="hljs-params">e</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Event</span>); <span class="hljs-comment">// true</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>事件传播机制</strong></p>
+<ul>
+<li>捕获 → 目标 → 冒泡</li>
+<li>完全遵循 DOM 标准事件流</li>
+</ul>
+</li>
+</ol>
+<p>从 JS 视角看，Vue 事件修饰符本质是：<strong>把“事件控制逻辑”从回调函数中前移到模板声明层</strong></p>
+<p>对比：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 原生 JS</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">handleClick</span>(<span class="hljs-params">e</span>) &#123;<br>  e.<span class="hljs-title function_">stopPropagation</span>();<br>  e.<span class="hljs-title function_">preventDefault</span>();<br>&#125;<br>&lt;!-- <span class="hljs-title class_">Vue</span> --&gt;<br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click.stop.prevent</span>=<span class="hljs-string">&quot;handleClick&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>带来的好处：</p>
+<ul>
+<li>事件行为一眼可见</li>
+<li>减少样板代码</li>
+<li>事件控制语义化</li>
+<li>更利于模板阅读与维护</li>
+</ul>
+<p>Vue 事件 vs JS 事件对照总结</p>
+<table>
+<thead>
+<tr>
+<th>对比点</th>
+<th>原生 JS 事件</th>
+<th>Vue DOM 事件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>触发来源</td>
+<td>浏览器</td>
+<td>浏览器</td>
+</tr>
+<tr>
+<td>事件对象</td>
+<td>Event</td>
+<td>Event（$event）</td>
+</tr>
+<tr>
+<td>传播机制</td>
+<td>捕获&#x2F;冒泡</td>
+<td>完全一致</td>
+</tr>
+<tr>
+<td>绑定方式</td>
+<td>addEventListener</td>
+<td>v-on &#x2F; @</td>
+</tr>
+<tr>
+<td>事件控制</td>
+<td>手动调用 API</td>
+<td>修饰符声明</td>
+</tr>
+<tr>
+<td>组件通信</td>
+<td>不支持</td>
+<td><code>$emit</code></td>
+</tr>
+</tbody></table>
+<h4 id="【Vue-事件修饰符】"><a href="#【Vue-事件修饰符】" class="headerlink" title="【Vue 事件修饰符】"></a>【Vue 事件修饰符】</h4><p>事件修饰符是 Vue 对<strong>事件传播控制与默认行为控制</strong>的语法级抽象。</p>
+<p> <code>.stop</code> —— 阻止冒泡</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">&lt;button @click.stop=<span class="hljs-string">&quot;handleClick&quot;</span>&gt;点击&lt;/button&gt;<br></code></pre></td></tr></table></figure>
+
+<p>等价原生写法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js">element.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>  e.<span class="hljs-title function_">stopPropagation</span>();<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p><code>.prevent</code> —— 阻止默认行为</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;a <span class="hljs-attribute">href</span>=<span class="hljs-string">&quot;#&quot;</span> @click.<span class="hljs-attribute">prevent</span>=<span class="hljs-string">&quot;handleClick&quot;</span>&gt;链接&lt;/a&gt;<br></code></pre></td></tr></table></figure>
+
+<p>等价原生写法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">e.<span class="hljs-title function_">preventDefault</span>();<br></code></pre></td></tr></table></figure>
+
+<p><code>.stop.prevent</code> —— 组合修饰符</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;form @submit.<span class="hljs-property">stop</span>.<span class="hljs-property">prevent</span>=<span class="hljs-string">&quot;submitForm&quot;</span>&gt;&lt;/form&gt;<br></code></pre></td></tr></table></figure>
+
+<p>等价于：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js">e.<span class="hljs-title function_">stopPropagation</span>();<br>e.<span class="hljs-title function_">preventDefault</span>();<br></code></pre></td></tr></table></figure>
+
+<p><code>.capture</code> —— 捕获阶段监听</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">&lt;<span class="hljs-keyword">div</span> @click.capture=<span class="hljs-string">&quot;handleClick&quot;</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>等价于：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, handler, <span class="hljs-literal">true</span>);<br></code></pre></td></tr></table></figure>
+
+<p>这与 JS 中 <code>addEventListener(type, handler, true)</code> 的含义完全一致。</p>
+<p><code>.once</code> —— 只执行一次</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click.once</span>=<span class="hljs-string">&quot;handleClick&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>等价原生写法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, handler, &#123; <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span> &#125;);<br></code></pre></td></tr></table></figure>
+
+<p><code>.self</code> —— 只响应自身触发</p>
+<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gml">&lt;<span class="hljs-keyword">div</span> @click.<span class="hljs-symbol">self</span>=<span class="hljs-string">&quot;handleClick&quot;</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>逻辑等价于：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">if</span> (e.<span class="hljs-property">target</span> === e.<span class="hljs-property">currentTarget</span>) &#123;<br>  <span class="hljs-title function_">handleClick</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>常用于防止事件委托误触。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/" class="category-chain-item">前端学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E9%A2%98/" class="print-no-link">#前端面试题</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>7.前端事件机制（event）</div>
+      <div>http://example.com/2025/12/24/前端学习/7-前端事件机制（event）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/18/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/6-JS%E7%9A%84%E5%87%BD%E6%95%B0%E9%97%AE%E9%A2%98/" title="6.JS的函数问题">
+                        <span class="hidden-mobile">6.JS的函数问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
