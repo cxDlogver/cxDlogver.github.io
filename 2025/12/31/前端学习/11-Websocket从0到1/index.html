@@ -1,0 +1,1703 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="WebSocket的作用是什么？ WebSocket的基础用法有哪些？ WebSocket的完整生命周期有哪些？ WebSocket的鉴权方法有哪些？ WebSocket的心跳机制如何实现？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Websocket从0到1">
+<meta property="og:url" content="http://example.com/2025/12/31/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/11-Websocket%E4%BB%8E0%E5%88%B01/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="WebSocket的作用是什么？ WebSocket的基础用法有哪些？ WebSocket的完整生命周期有哪些？ WebSocket的鉴权方法有哪些？ WebSocket的心跳机制如何实现？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-31T02:40:35.000Z">
+<meta property="article:modified_time" content="2026-01-05T08:04:47.694Z">
+<meta property="article:author" content="Xiang Chen">
+<meta property="article:tag" content="前端面试题">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Websocket从0到1 - 相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Websocket从0到1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-31 10:40" pubdate>
+          2025年12月31日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Websocket从0到1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li>WebSocket的作用是什么？</li>
+<li>WebSocket的基础用法有哪些？</li>
+<li>WebSocket的完整生命周期有哪些？</li>
+<li>WebSocket的鉴权方法有哪些？</li>
+<li>WebSocket的心跳机制如何实现？</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h2><h3 id="1-WebSocket的诞生-——-HTTP的局限性"><a href="#1-WebSocket的诞生-——-HTTP的局限性" class="headerlink" title="1. WebSocket的诞生 —— HTTP的局限性"></a>1. WebSocket的诞生 —— HTTP的局限性</h3><h4 id="【HTTP的局限性】"><a href="#【HTTP的局限性】" class="headerlink" title="【HTTP的局限性】"></a>【HTTP的局限性】</h4><p>HTTP 协议是 <strong>请求-响应模型</strong>，它的核心特征可以用一句话概括：</p>
+<blockquote>
+<p><strong>客户端先发请求，服务器才能响应</strong></p>
+</blockquote>
+<p>也就是说：</p>
+<ul>
+<li>服务器 <strong>不能主动</strong> 给客户端发消息</li>
+<li>一次请求，对应一次响应</li>
+<li>通信是<strong>短连接</strong>或逻辑上的短会话</li>
+</ul>
+<p>在 Web 应用的发展过程中，“<strong>实时性</strong>”几乎是一个绕不开的话题。聊天室、在线协作、即时通知、游戏状态同步，这些场景都有一个共同点：<strong>服务器需要在“任何时刻”主动把消息推送给客户端</strong>。</p>
+<p>为了“模拟”实时通信，开发者在 HTTP 之上发明了几种方案。</p>
+<h5 id="轮询（Polling）"><a href="#轮询（Polling）" class="headerlink" title="轮询（Polling）"></a>轮询（Polling）</h5><p>客户端每隔一段时间就问一次服务器：</p>
+<blockquote>
+<p>“有新消息吗？”</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs">请求 → 没有<br>请求 → 没有<br>请求 → 没有<br>请求 → 有了<br></code></pre></td></tr></table></figure>
+
+<p><strong>问题：</strong></p>
+<ul>
+<li>大量无意义请求</li>
+<li>延迟取决于轮询间隔</li>
+<li>浪费服务器和网络资源</li>
+</ul>
+<hr>
+<h5 id="长轮询（Long-Polling）"><a href="#长轮询（Long-Polling）" class="headerlink" title="长轮询（Long Polling）"></a>长轮询（Long Polling）</h5><p>客户端发起请求后，服务器<strong>先不立即返回</strong>，等有数据再返回。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">请求 → 等待 → 有消息 → 返回<br></code></pre></td></tr></table></figure>
+
+<p>然后客户端立刻再发下一次请求。</p>
+<p><strong>比轮询好，但仍然存在问题：</strong></p>
+<ul>
+<li>本质仍是 HTTP 请求</li>
+<li>高并发下服务器压力大</li>
+</ul>
+<hr>
+<h4 id="Server-Sent-Events（SSE）"><a href="#Server-Sent-Events（SSE）" class="headerlink" title="Server-Sent Events（SSE）"></a>Server-Sent Events（SSE）</h4><p>服务器可以<strong>单向</strong>推送数据给客户端。</p>
+<p><strong>限制很明显：</strong></p>
+<ul>
+<li>只能服务端 → 客户端</li>
+<li>客户端不能实时向服务端发送消息</li>
+<li>聊天室、协作编辑等场景不适用</li>
+</ul>
+<hr>
+<p>无论哪种方案，本质问题始终存在：</p>
+<blockquote>
+<p><strong>HTTP 并不是一个为“持续、双向通信”设计的协议</strong></p>
+</blockquote>
+<p>我们真正需要的是：</p>
+<ul>
+<li>一条 <strong>长期存在的连接</strong></li>
+<li>客户端和服务器 <strong>地位对等</strong></li>
+<li>任意一方都能 <strong>随时发送消息</strong></li>
+<li>低延迟、低开销</li>
+</ul>
+<p>这正是 WebSocket 出现的背景。</p>
+<h4 id="【WebSocket的诞生】"><a href="#【WebSocket的诞生】" class="headerlink" title="【WebSocket的诞生】"></a>【WebSocket的诞生】</h4><p>WebSocket 并不是 HTTP 的“改良版”，而是一个<strong>全新的通信协议</strong>，它的目标非常明确：</p>
+<blockquote>
+<p><strong>在浏览器与服务器之间建立一条真正的、持久的、全双工通信通道</strong></p>
+</blockquote>
+<p>关键词拆解一下：</p>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>持久</td>
+<td>连接一旦建立，不用反复创建</td>
+</tr>
+<tr>
+<td>全双工</td>
+<td>客户端和服务器可同时发送</td>
+</tr>
+<tr>
+<td>实时</td>
+<td>消息可以立即到达</td>
+</tr>
+<tr>
+<td>低开销</td>
+<td>没有重复的 HTTP 头部</td>
+</tr>
+</tbody></table>
+<h5 id="WebSocket-与-HTTP-的关系"><a href="#WebSocket-与-HTTP-的关系" class="headerlink" title="WebSocket 与 HTTP 的关系"></a>WebSocket 与 HTTP 的关系</h5><p>一个容易误解的点是：</p>
+<blockquote>
+<p>WebSocket <strong>不是</strong> HTTP 的替代品</p>
+</blockquote>
+<p>它们的关系是：</p>
+<ul>
+<li><strong>建立连接时使用 HTTP</strong></li>
+<li><strong>建立完成后不再使用 HTTP</strong></li>
+</ul>
+<p>具体来说：</p>
+<ol>
+<li>浏览器发起一个 <strong>HTTP 请求</strong></li>
+<li>请求中声明：<code>我要升级为 WebSocket</code></li>
+<li>服务器同意升级</li>
+<li>协议从 HTTP <strong>切换为 WebSocket</strong></li>
+<li>后续通信全部走 WebSocket 帧</li>
+</ol>
+<p>你可以理解为：</p>
+<blockquote>
+<p>HTTP 负责“牵线搭桥”，WebSocket 负责“长期交流”</p>
+</blockquote>
+<h5 id="WebSocket-的核心特性"><a href="#WebSocket-的核心特性" class="headerlink" title="WebSocket 的核心特性"></a>WebSocket 的核心特性</h5><ol>
+<li>真正的双向通信（Full-Duplex）</li>
+</ol>
+<p>在 WebSocket 中：</p>
+<ul>
+<li>客户端 <strong>可以随时发消息</strong></li>
+<li>服务器 <strong>也可以随时推送</strong></li>
+<li>不需要“请求—响应”这一前提</li>
+</ul>
+<p>这使得聊天、推送、协作变得非常自然。</p>
+<hr>
+<ol start="2">
+<li>单连接、长期存在</li>
+</ol>
+<p>WebSocket 连接一旦建立：</p>
+<ul>
+<li>不会频繁创建和销毁</li>
+<li>不需要反复携带 HTTP Header</li>
+<li>网络和 CPU 开销显著降低</li>
+</ul>
+<p>对于高并发场景尤其重要。</p>
+<hr>
+<ol start="3">
+<li>更轻量的消息格式</li>
+</ol>
+<p>HTTP 每次请求都包含大量头部信息，而 WebSocket 使用的是<strong>二进制帧（Frame）</strong>：</p>
+<ul>
+<li>帧结构简单</li>
+<li>传输效率高</li>
+<li>基于 WebSocket + JWT 鉴权，结合自定义心跳与指数退避重连，解决实时链路假死、断连与权限失效问题，实现多源传感器数据稳定低延迟推送。</li>
+</ul>
+<hr>
+<ol start="4">
+<li>原生浏览器支持</li>
+</ol>
+<p>现代浏览器内置了 WebSocket API：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">const ws <span class="hljs-operator">=</span> new WebSocket(<span class="hljs-string">&quot;ws://example.com&quot;</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>无需插件、无需额外协议栈，这使 WebSocket 成为 Web 实时通信的事实标准。</p>
+<h3 id="2-WebSocket-API"><a href="#2-WebSocket-API" class="headerlink" title="2. WebSocket API"></a>2. WebSocket API</h3><h4 id="【HTML-WebSocket-API】"><a href="#【HTML-WebSocket-API】" class="headerlink" title="【HTML WebSocket API】"></a>【HTML WebSocket API】</h4><ol>
+<li>创建连接</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> ws = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocket</span>(<span class="hljs-string">&quot;url&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>常用属性</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript">ws.<span class="hljs-property">readyState</span> <span class="hljs-comment">// 连接状态</span><br><span class="hljs-comment">// 0 CONNETING</span><br><span class="hljs-comment">// 1 OPEN</span><br><span class="hljs-comment">// 2 CLOSING</span><br><span class="hljs-comment">// 3 CLOSED</span><br>ws.<span class="hljs-property">url</span> <span class="hljs-comment">// 连接路径</span><br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>常用事件</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 第一种写法， 通过事件定义函数</span><br>ws.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;open&#x27;</span>, <span class="hljs-function">()=&gt;</span>&#123;&#125;)  <span class="hljs-comment">// 开启  ==&gt; 配合 new WebSocket()</span><br>ws.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;message&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;&#125;); <span class="hljs-comment">// 获取消息</span><br>ws.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;close&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;&#125;); <span class="hljs-comment">// 关闭 ==&gt; 配合 ws.close</span><br>ws.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;error&quot;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;&#125;); <span class="hljs-comment">// 错误</span><br><br><span class="hljs-comment">// 第二种写法， 通过属性值</span><br>ws.<span class="hljs-property">onopen</span> = <span class="hljs-function">()=&gt;</span>&#123;&#125;<br>ws.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;&#125;;<br>ws.<span class="hljs-property">onclose</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;&#125;;<br>ws.<span class="hljs-property">onerror</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;&#125;;<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open</code></td>
+<td>握手成功</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>服务端推送</td>
+</tr>
+<tr>
+<td><code>close</code></td>
+<td>服务端或客户端关闭</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>连接异常</td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li>发送与关闭</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript">ws.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;hello&quot;</span>);              <span class="hljs-comment">// 发送文本</span><br>ws.<span class="hljs-title function_">send</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Uint8Array</span>([<span class="hljs-number">1</span>]));  <span class="hljs-comment">// 发送二进制</span><br>ws.<span class="hljs-title function_">close</span>(<span class="hljs-number">1000</span>, <span class="hljs-string">&quot;bye&quot;</span>);         <span class="hljs-comment">// 正常关闭</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="【NodeJS-ws库-API】"><a href="#【NodeJS-ws库-API】" class="headerlink" title="【NodeJS ws库 API】"></a>【NodeJS ws库 API】</h4><p>分为客户端和服务器端，客户端和HTML API用法相同</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 连接 </span><br><span class="hljs-keyword">const</span> <span class="hljs-title class_">WebSocket</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;ws&quot;</span>);<br><span class="hljs-keyword">const</span> ws = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocket</span>(<span class="hljs-string">&quot;ws://localhost:8080&quot;</span>);<br><br><span class="hljs-comment">// 常用方法</span><br>ws.<span class="hljs-title function_">send</span>(data);              <span class="hljs-comment">// 发送消息</span><br>ws.<span class="hljs-title function_">close</span>(code, reason);     <span class="hljs-comment">// 主动关闭</span><br>ws.<span class="hljs-title function_">terminate</span>();             <span class="hljs-comment">// 立即断开（不走 close handshake）</span><br></code></pre></td></tr></table></figure>
+
+<p>ws 更多用在 NodeJS 创建 WebSocket 服务器。</p>
+<ol>
+<li>创建 WebSocket 服务（绑定 HTTP Server)</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;http&quot;</span>);<br><span class="hljs-keyword">const</span> &#123; <span class="hljs-title class_">WebSocketServer</span> &#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;ws&quot;</span>);<br><br><span class="hljs-keyword">const</span> server = http.<span class="hljs-title function_">createServer</span>();<br><span class="hljs-keyword">const</span> wss = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocketServer</span>(&#123; server &#125;);<br><br>server.<span class="hljs-title function_">listen</span>(<span class="hljs-number">8080</span>);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>服务器端核心事件 <code>connection</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript">wss.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;connection&quot;</span>, <span class="hljs-function">(<span class="hljs-params">ws, request</span>) =&gt;</span> &#123;<br>  <span class="hljs-comment">// ws：单个客户端连接</span><br>  <span class="hljs-comment">// request：HTTP 握手请求</span><br>&#125;);<br><br><span class="hljs-comment">// 单个连接 ws 的事件 ==&gt; 接收 客户端 new WebSocket 的接口。</span><br>wss.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;connection&quot;</span>, <span class="hljs-function">(<span class="hljs-params">ws, req</span>) =&gt;</span> &#123;<br>  ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;message&quot;</span>, <span class="hljs-function">(<span class="hljs-params">data, isBinary</span>) =&gt;</span> &#123;&#125;);<br>  ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;close&quot;</span>, <span class="hljs-function">(<span class="hljs-params">code, reason</span>) =&gt;</span> &#123;&#125;);<br>  ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;error&quot;</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;&#125;);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：</p>
+<ul>
+<li><strong>服务端的 <code>ws</code> 对象 ≈ 客户端的 <code>ws</code> 对象</strong></li>
+<li>差别在于：<strong>服务端可以管理“多个 ws”</strong></li>
+</ul>
+</blockquote>
+<hr>
+<ol start="3">
+<li>服务器端独有的能力</li>
+</ol>
+<p>3.1 客户端集合</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">wss.<span class="hljs-property">clients</span>; <span class="hljs-comment">// Set&lt;WebSocket&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>常用于广播：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> client <span class="hljs-keyword">of</span> wss.<span class="hljs-property">clients</span>) &#123;<br>  <span class="hljs-keyword">if</span> (client.<span class="hljs-property">readyState</span> === client.<span class="hljs-property">OPEN</span>) &#123;<br>    client.<span class="hljs-title function_">send</span>(<span class="hljs-string">&quot;broadcast&quot;</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>3.2 关闭整个服务</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js">wss.<span class="hljs-title function_">close</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;server closed&quot;</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>3.3 鉴权</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript">wss.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;connection&quot;</span>, <span class="hljs-function">(<span class="hljs-params">ws, req</span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> token = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(req.<span class="hljs-property">url</span>, <span class="hljs-string">&quot;http://localhost&quot;</span>).<span class="hljs-property">searchParams</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;token&quot;</span>);<br>  <span class="hljs-keyword">if</span> (!token) &#123;<br>    ws.<span class="hljs-title function_">close</span>(<span class="hljs-number">1008</span>, <span class="hljs-string">&quot;unauthorized&quot;</span>);<br>    <span class="hljs-keyword">return</span>;<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>客户端 vs 服务器端 API 对照表</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>ws 客户端</th>
+<th>ws 服务器端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建方式</td>
+<td><code>new WebSocket(url)</code></td>
+<td><code>new WebSocketServer()</code></td>
+</tr>
+<tr>
+<td>角色</td>
+<td>主动连接</td>
+<td>被动接入</td>
+</tr>
+<tr>
+<td>是否有 <code>connection</code> 事件</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>是否管理多个连接</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>是否有 <code>clients</code></td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>message</code> 事件</td>
+<td>接收服务端消息</td>
+<td>接收客户端消息</td>
+</tr>
+<tr>
+<td><code>send</code></td>
+<td>发给服务端</td>
+<td>发给某个客户端</td>
+</tr>
+<tr>
+<td><code>broadcast</code></td>
+<td>不支持</td>
+<td>自行实现</td>
+</tr>
+</tbody></table>
+<h4 id="【关键点】"><a href="#【关键点】" class="headerlink" title="【关键点】"></a>【关键点】</h4><p><strong>WebSocket 传输的是“帧”，不是 HTTP 请求</strong></p>
+<ul>
+<li>HTTP：请求-响应，一次一条（除非用 SSE&#x2F;长轮询等）</li>
+<li>WebSocket：一次升级握手后，保持长连接，双向随时发</li>
+</ul>
+<p><strong>消息格式建议：统一 JSON 协议</strong></p>
+<p>不要在工程里混发“裸字符串”，建议统一：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123; <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;chat&quot;</span>, <span class="hljs-string">&quot;text&quot;</span>: <span class="hljs-string">&quot;...&quot;</span>, <span class="hljs-string">&quot;from&quot;</span>: <span class="hljs-string">&quot;...&quot;</span>, <span class="hljs-string">&quot;ts&quot;</span>: <span class="hljs-number">123</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>前后端都按 <code>type</code> 分发处理。</p>
+<h3 id="3-WebSocket-完整生命周期"><a href="#3-WebSocket-完整生命周期" class="headerlink" title="3. WebSocket 完整生命周期"></a>3. WebSocket 完整生命周期</h3><p>WebSocket 是一种基于 TCP 的全双工通信协议。与传统 HTTP 不同，WebSocket 建立的是<strong>长连接</strong>，其复杂度并不在“连接本身”，而在<strong>连接建立之后的生命周期管理</strong>。</p>
+<p>在实现一个WebSocket功能是，需要考虑 WebSocket 从 <strong>建立连接 → 鉴权 → 状态绑定 → 心跳 → 业务处理 → 异常与清理</strong> 的完整生命周期。</p>
+<h4 id="【连接建立阶段（Connection-Establishment）】"><a href="#【连接建立阶段（Connection-Establishment）】" class="headerlink" title="【连接建立阶段（Connection Establishment）】"></a>【连接建立阶段（Connection Establishment）】</h4><h5 id="1-基于-HTTP-的-Upgrade-握手"><a href="#1-基于-HTTP-的-Upgrade-握手" class="headerlink" title="1. 基于 HTTP 的 Upgrade 握手"></a>1. 基于 HTTP 的 Upgrade 握手</h5><p>WebSocket 的连接并不是一开始就使用 WebSocket 协议，而是：</p>
+<ol>
+<li>客户端先发起 <strong>HTTP 请求</strong></li>
+<li>通过 <code>Upgrade: websocket</code> 头部请求协议升级</li>
+<li>服务器返回 <code>101 Switching Protocols</code></li>
+<li>连接从 HTTP 升级为 WebSocket</li>
+</ol>
+<p>此阶段的本质是：</p>
+<blockquote>
+<p><strong>WebSocket 是通过 HTTP 建立连接，但不会继续使用 HTTP 进行通信</strong></p>
+</blockquote>
+<p>一旦握手完成：</p>
+<ul>
+<li>HTTP 协议结束</li>
+<li>后续通信完全基于 WebSocket 帧协议</li>
+</ul>
+<hr>
+<h5 id="2-连接成功的误区"><a href="#2-连接成功的误区" class="headerlink" title="2. 连接成功的误区"></a>2. 连接成功的误区</h5><p>需要特别强调：</p>
+<blockquote>
+<p><strong>WebSocket 连接成功（open） ≠ 用户身份合法 ≠ 业务可用</strong></p>
+</blockquote>
+<p><code>open</code> 事件只说明：</p>
+<ul>
+<li>网络通信正常</li>
+<li>协议升级成功</li>
+</ul>
+<p>并不代表：</p>
+<ul>
+<li>用户已登录</li>
+<li>权限已校验</li>
+</ul>
+<h4 id="【实时通信阶段（WebSocket-Event-Model）】"><a href="#【实时通信阶段（WebSocket-Event-Model）】" class="headerlink" title="【实时通信阶段（WebSocket Event Model）】"></a>【实时通信阶段（WebSocket Event Model）】</h4><p>连接建立后，通信通过 WebSocket 的事件模型进行。</p>
+<h5 id="1-核心事件"><a href="#1-核心事件" class="headerlink" title="1. 核心事件"></a>1. 核心事件</h5><ul>
+<li><code>open</code>：连接建立成功</li>
+<li><code>message</code>：接收对端消息</li>
+<li><code>error</code>：底层通信异常</li>
+<li><code>close</code>：连接关闭</li>
+</ul>
+<h5 id="2-数据收发模型"><a href="#2-数据收发模型" class="headerlink" title="2. 数据收发模型"></a>2. 数据收发模型</h5><ul>
+<li>通过 <code>send()</code> 发送数据</li>
+<li>所有业务消息通过 <code>message</code> 接收</li>
+<li>WebSocket 本身不理解业务数据结构</li>
+</ul>
+<p>因此，<strong>必须在应用层自行定义消息协议</strong>。</p>
+<h4 id="【连接级鉴权（Authentication）】"><a href="#【连接级鉴权（Authentication）】" class="headerlink" title="【连接级鉴权（Authentication）】"></a>【连接级鉴权（Authentication）】</h4><h5 id="1-为什么-WebSocket-必须单独鉴权"><a href="#1-为什么-WebSocket-必须单独鉴权" class="headerlink" title="1. 为什么 WebSocket 必须单独鉴权"></a>1. 为什么 WebSocket 必须单独鉴权</h5><p>WebSocket 与 HTTP API 最大的不同在于：</p>
+<ul>
+<li>没有 request body</li>
+<li>没有 REST 路由</li>
+<li>一次连接，长期存在</li>
+</ul>
+<p>如果不进行连接级鉴权，会导致：</p>
+<ul>
+<li>任意用户可建立长连接占用资源</li>
+<li>可伪造身份发送业务消息</li>
+<li>权限控制完全失效</li>
+</ul>
+<hr>
+<h5 id="2-常见鉴权方式"><a href="#2-常见鉴权方式" class="headerlink" title="2. 常见鉴权方式"></a>2. 常见鉴权方式</h5><p>工程中最常见、最可靠的方式是：</p>
+<ul>
+<li><strong>Token 鉴权（JWT &#x2F; Access Token）</strong></li>
+<li><strong>首包鉴权（open 后第一条消息）</strong></li>
+</ul>
+<p>典型流程：</p>
+<ol>
+<li>HTTP 登录获取 token</li>
+<li>WebSocket 建立连接</li>
+<li>客户端发送 <code>auth</code> 消息</li>
+<li>服务端校验 token</li>
+<li>鉴权成功后才允许业务通信</li>
+</ol>
+<p>这在语义上等价于 HTTP 中的 <code>Authorization</code>。</p>
+<hr>
+<h5 id="3-鉴权状态机"><a href="#3-鉴权状态机" class="headerlink" title="3. 鉴权状态机"></a>3. 鉴权状态机</h5><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">CONNECTED</span><br>   ↓<br>AUTH_PENDING<br>   ↓<br>AUTHED<br></code></pre></td></tr></table></figure>
+
+<p>在 <code>AUTHED</code> 之前：</p>
+<ul>
+<li>不允许处理任何业务消息</li>
+<li>非法消息直接关闭连接</li>
+</ul>
+<h4 id="【权限控制（Authorization）】"><a href="#【权限控制（Authorization）】" class="headerlink" title="【权限控制（Authorization）】"></a>【权限控制（Authorization）】</h4><h5 id="1-鉴权-≠-授权"><a href="#1-鉴权-≠-授权" class="headerlink" title="1. 鉴权 ≠ 授权"></a>1. 鉴权 ≠ 授权</h5><p>这是非常容易混淆的一点：</p>
+<ul>
+<li><strong>鉴权（Authentication）</strong>：你是谁</li>
+<li><strong>授权（Authorization）</strong>：你能做什么</li>
+</ul>
+<p>例如在聊天室系统中：</p>
+<ul>
+<li>普通用户：发消息、进群</li>
+<li>管理员：踢人、禁言、解散群聊</li>
+</ul>
+<hr>
+<h5 id="2-权限数据来源"><a href="#2-权限数据来源" class="headerlink" title="2. 权限数据来源"></a>2. 权限数据来源</h5><p>权限信息通常存储在：</p>
+<ul>
+<li>数据库</li>
+<li>Redis</li>
+<li>内存缓存</li>
+</ul>
+<p>在鉴权完成后，将权限信息加载并绑定到连接上下文中，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js">ws.<span class="hljs-property">userId</span><br>ws.<span class="hljs-property">roles</span> = [<span class="hljs-string">&#x27;admin&#x27;</span>]<br>ws.<span class="hljs-property">permissions</span> = [...]<br></code></pre></td></tr></table></figure>
+
+<h4 id="【连接状态绑定（Connection-Binding）】"><a href="#【连接状态绑定（Connection-Binding）】" class="headerlink" title="【连接状态绑定（Connection Binding）】"></a>【连接状态绑定（Connection Binding）】</h4><h5 id="1-为什么要做状态绑定"><a href="#1-为什么要做状态绑定" class="headerlink" title="1. 为什么要做状态绑定"></a>1. 为什么要做状态绑定</h5><p>WebSocket 是“连接导向”的协议，业务却是“用户导向”的。</p>
+<p>因此必须建立映射关系：</p>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pf"><span class="hljs-keyword">user</span>Id  <span class="hljs-variable">&lt;-&gt;</span>  WebSocket 连接<br></code></pre></td></tr></table></figure>
+
+<p>并考虑：</p>
+<ul>
+<li>一个用户多端登录</li>
+<li>一个用户多个连接</li>
+</ul>
+<hr>
+<h5 id="2-常见映射结构"><a href="#2-常见映射结构" class="headerlink" title="2. 常见映射结构"></a>2. 常见映射结构</h5><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs coq">userId -&gt; <span class="hljs-keyword">Set</span>&lt;WebSocket&gt;<br>roomId -&gt; <span class="hljs-keyword">Set</span>&lt;WebSocket&gt;<br></code></pre></td></tr></table></figure>
+
+<h4 id="【心跳机制（Heartbeat）】"><a href="#【心跳机制（Heartbeat）】" class="headerlink" title="【心跳机制（Heartbeat）】"></a>【心跳机制（Heartbeat）】</h4><h5 id="1-为什么必须有心跳"><a href="#1-为什么必须有心跳" class="headerlink" title="1. 为什么必须有心跳"></a>1. 为什么必须有心跳</h5><p>WebSocket 的连接在以下情况下不会立即触发 <code>close</code>：</p>
+<ul>
+<li>客户端断网</li>
+<li>NAT &#x2F; 代理回收连接</li>
+<li>移动网络切换</li>
+</ul>
+<p>没有心跳会产生大量“假在线”连接。</p>
+<hr>
+<h5 id="2-心跳实现方式"><a href="#2-心跳实现方式" class="headerlink" title="2. 心跳实现方式"></a>2. 心跳实现方式</h5><p>方式一：协议级 ping &#x2F; pong</p>
+<ul>
+<li>WebSocket 原生支持</li>
+<li>不携带业务信息</li>
+</ul>
+<p>方式二：应用层自定义心跳</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ping&quot;</span> <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pong&quot;</span> <span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="3-心跳的工程目标"><a href="#3-心跳的工程目标" class="headerlink" title="3. 心跳的工程目标"></a>3. 心跳的工程目标</h5><ul>
+<li>定期确认连接是否存活</li>
+<li>超时即主动关闭</li>
+<li>释放服务端资源</li>
+</ul>
+<h4 id="【业务消息处理（Business-Processing）】"><a href="#【业务消息处理（Business-Processing）】" class="headerlink" title="【业务消息处理（Business Processing）】"></a>【业务消息处理（Business Processing）】</h4><h5 id="1-消息协议设计"><a href="#1-消息协议设计" class="headerlink" title="1. 消息协议设计"></a>1. 消息协议设计</h5><p>WebSocket 只传输字节流，业务语义由应用层定义。</p>
+<p>推荐统一消息格式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;chat&quot;</span>,<br>  <span class="hljs-string">&quot;payload&quot;</span>: &#123;&#125;,<br>  <span class="hljs-string">&quot;requestId&quot;</span>: <span class="hljs-string">&quot;uuid&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-消息路由"><a href="#2-消息路由" class="headerlink" title="2. 消息路由"></a>2. 消息路由</h5><p>典型处理流程：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">message</span><br> → parse<br> → 校验权限<br> → 业务处理<br> → 推送结果<br></code></pre></td></tr></table></figure>
+
+<h4 id="【异常处理与重连策略（Error-Reconnect）】"><a href="#【异常处理与重连策略（Error-Reconnect）】" class="headerlink" title="【异常处理与重连策略（Error &amp; Reconnect）】"></a>【异常处理与重连策略（Error &amp; Reconnect）】</h4><h5 id="1-异常来源"><a href="#1-异常来源" class="headerlink" title="1. 异常来源"></a>1. 异常来源</h5><ul>
+<li>网络中断</li>
+<li>心跳超时</li>
+<li>鉴权失败</li>
+<li>协议错误</li>
+</ul>
+<hr>
+<h5 id="2-客户端重连"><a href="#2-客户端重连" class="headerlink" title="2. 客户端重连"></a>2. 客户端重连</h5><p>WebSocket <strong>不会自动重连</strong>，需要客户端自行实现：</p>
+<ul>
+<li>指数退避</li>
+<li>最大重试次数</li>
+<li>网络恢复触发</li>
+</ul>
+<h4 id="【连接关闭与资源清理（Cleanup）】"><a href="#【连接关闭与资源清理（Cleanup）】" class="headerlink" title="【连接关闭与资源清理（Cleanup）】"></a>【连接关闭与资源清理（Cleanup）】</h4><h5 id="1-关闭来源"><a href="#1-关闭来源" class="headerlink" title="1. 关闭来源"></a>1. 关闭来源</h5><ul>
+<li>客户端主动关闭</li>
+<li>服务端踢下线</li>
+<li>心跳失败</li>
+<li>异常断开</li>
+</ul>
+<hr>
+<h5 id="2-必须做的清理工作"><a href="#2-必须做的清理工作" class="headerlink" title="2. 必须做的清理工作"></a>2. 必须做的清理工作</h5><ul>
+<li>从 <code>userId -&gt; ws</code> 映射中移除</li>
+<li>释放内存状态</li>
+<li>停止心跳定时器</li>
+</ul>
+<p><strong>所有资源清理必须放在 <code>close</code> 阶段完成。</strong></p>
+<h4 id="【总结】"><a href="#【总结】" class="headerlink" title="【总结】"></a>【总结】</h4><p>WebSocket 并不是“连上就完事”的协议，而是一套<strong>贯穿整个连接生命周期的状态管理体系</strong>。</p>
+<p>真正决定系统稳定性与安全性的，从来不是 <code>new WebSocket()</code>，而是：</p>
+<blockquote>
+<p><strong>鉴权是否严格、状态是否清晰、心跳是否可靠、关闭是否彻底。</strong></p>
+</blockquote>
+<h3 id="4-WebSocket-鉴权"><a href="#4-WebSocket-鉴权" class="headerlink" title="4. WebSocket 鉴权"></a>4. WebSocket 鉴权</h3><p>可以将 WebSocket 鉴权抽象为三个核心问题：</p>
+<p><strong>1.  身份确认（Authentication）</strong></p>
+<ul>
+<li>连接的“这个人”是谁？</li>
+<li>是否是合法用户？</li>
+<li>是否被伪造？</li>
+</ul>
+<ol start="2">
+<li><strong>权限控制（Authorization）</strong></li>
+</ol>
+<ul>
+<li>这个连接<strong>能做什么</strong>？</li>
+<li>能否加入某个房间 &#x2F; 群聊 &#x2F; 频道？</li>
+<li>是否有发送、接收、管理权限？</li>
+</ul>
+<ol start="3">
+<li><strong>会话可信性（Session Trust）</strong></li>
+</ol>
+<ul>
+<li>连接是否被劫持？</li>
+<li>Token 是否过期？</li>
+<li>是否支持强制下线？</li>
+</ul>
+<p>所有 WebSocket 鉴权方案，本质都遵循：</p>
+<blockquote>
+<p>在连接生命周期内，某个时刻完成一次可信的身份确认。</p>
+</blockquote>
+<p>可用的入口只有三类：</p>
+<ol>
+<li><strong>HTTP 握手阶段</strong></li>
+<li><strong>连接建立后的第一条消息</strong></li>
+<li><strong>连接生命周期内的持续校验</strong></li>
+</ol>
+<h4 id="【HTTP-握手阶段鉴权】"><a href="#【HTTP-握手阶段鉴权】" class="headerlink" title="【HTTP 握手阶段鉴权】"></a>【HTTP 握手阶段鉴权】</h4><h5 id="1-原理"><a href="#1-原理" class="headerlink" title="1. 原理"></a>1. 原理</h5><p>WebSocket 建立时，本质是一次 HTTP 请求：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/ws/chat</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Upgrade</span><span class="hljs-punctuation">: </span>websocket<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>Upgrade<br></code></pre></td></tr></table></figure>
+
+<p>此时：</p>
+<ul>
+<li>浏览器仍然会发送 <strong>Cookie</strong></li>
+<li>可以附加 <strong>URL Query</strong></li>
+<li>可以在 Node &#x2F; Java &#x2F; Go 服务端拦截</li>
+</ul>
+<h5 id="2-常见携带方式"><a href="#2-常见携带方式" class="headerlink" title="2. 常见携带方式"></a>2. 常见携带方式</h5><p>（1）Cookie 鉴权（最自然）</p>
+<ul>
+<li>前提：<ul>
+<li>已通过 HTTP 登录</li>
+<li>Session &#x2F; Token 已写入 Cookie</li>
+</ul>
+</li>
+<li>握手时浏览器自动携带</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>前后端无感</li>
+<li>与传统登录系统完全兼容</li>
+</ul>
+<p>风险点：</p>
+<ul>
+<li>CSRF 风险</li>
+</ul>
+<hr>
+<p>（2）URL Query Token</p>
+<figure class="highlight isbl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs isbl"><span class="hljs-variable">new</span> <span class="hljs-function"><span class="hljs-title">WebSocket</span>(</span><br><span class="hljs-function">  <span class="hljs-string">&#x27;wss://example.com/ws?token=JWT_TOKEN&#x27;</span></span><br><span class="hljs-function">)</span><br></code></pre></td></tr></table></figure>
+
+<p>服务端在 <code>upgrade</code> 阶段解析：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs actionscript"><span class="hljs-keyword">const</span> &#123; token &#125; = <span class="hljs-keyword">new</span> URL(req.url, <span class="hljs-string">&#x27;http://x&#x27;</span>).searchParams<br></code></pre></td></tr></table></figure>
+
+<p>优点：</p>
+<ul>
+<li>实现简单</li>
+<li>适合移动端 &#x2F; 非浏览器客户端</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>Token 可能出现在日志中</li>
+<li>不适合长期敏感凭证</li>
+</ul>
+<hr>
+<p>（3）自定义 Header（非浏览器）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css">new WebSocket(url, &#123;<br>  headers: &#123;<br>    Authorization: <span class="hljs-string">&#x27;Bearer xxx&#x27;</span><br>  &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>限制：</p>
+<ul>
+<li>浏览器 <strong>不允许</strong></li>
+<li>Node &#x2F; 原生客户端可用</li>
+</ul>
+<hr>
+<h5 id="3-服务端典型流程"><a href="#3-服务端典型流程" class="headerlink" title="3. 服务端典型流程"></a>3. 服务端典型流程</h5><ol>
+<li><code>upgrade</code> 事件触发</li>
+<li>提取 Token &#x2F; Session</li>
+<li>校验合法性</li>
+<li>失败 → <code>socket.destroy()</code></li>
+<li>成功 → <code>wss.handleUpgrade()</code></li>
+</ol>
+<h4 id="【连接建立后首条消息鉴权】"><a href="#【连接建立后首条消息鉴权】" class="headerlink" title="【连接建立后首条消息鉴权】"></a>【连接建立后首条消息鉴权】</h4><h5 id="1-原理-1"><a href="#1-原理-1" class="headerlink" title="1. 原理"></a>1. 原理</h5><ul>
+<li>WebSocket 建立成功</li>
+<li><strong>不立即信任</strong></li>
+<li>要求客户端发送一条 <code>AUTH</code> 消息</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;auth&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;token&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;xxx&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="2-服务端逻辑"><a href="#2-服务端逻辑" class="headerlink" title="2. 服务端逻辑"></a>2. 服务端逻辑</h5><ul>
+<li>初始连接状态：<code>unauthenticated</code></li>
+<li>收到第一条消息：<ul>
+<li>校验 token</li>
+<li>标记该 socket 为已登录用户</li>
+</ul>
+</li>
+<li>未通过鉴权：<ul>
+<li>立即 close</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="3-优缺点分析"><a href="#3-优缺点分析" class="headerlink" title="3. 优缺点分析"></a>3. 优缺点分析</h5><p>优点：</p>
+<ul>
+<li>不依赖 HTTP 握手</li>
+<li>适合复杂自定义协议</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li><strong>连接已经建立</strong></li>
+<li>需要额外状态管理</li>
+<li>容易被滥连攻击（DoS）</li>
+</ul>
+<blockquote>
+<p>工程建议：<strong>仅在无法控制握手阶段时使用</strong></p>
+</blockquote>
+<h4 id="【Token（JWT-Session）】"><a href="#【Token（JWT-Session）】" class="headerlink" title="【Token（JWT &#x2F; Session）】"></a>【Token（JWT &#x2F; Session）】</h4><p>在 WebSocket 系统中，<strong>Token 鉴权</strong>是最主流、也是最成熟的方案。根据 Token 是否“自包含状态”，工程上通常分为 <strong>JWT（无状态）模式</strong> 与 <strong>Session &#x2F; Redis（有状态）模式</strong>。两者在设计理念、适用场景与系统代价上存在本质差异。</p>
+<h5 id="1-JWT-模式（无状态鉴权）"><a href="#1-JWT-模式（无状态鉴权）" class="headerlink" title="1 JWT 模式（无状态鉴权）"></a>1 JWT 模式（无状态鉴权）</h5><ol>
+<li>核心设计思想</li>
+</ol>
+<p>JWT（JSON Web Token）是一种<strong>自包含 Token</strong>，其载荷中直接包含身份与有效性信息，服务端不需要保存会话状态。</p>
+<p>一个典型 JWT 中包含：</p>
+<ul>
+<li><code>userId</code>：用户唯一标识</li>
+<li><code>exp</code>：过期时间</li>
+<li><code>iat</code>：签发时间</li>
+<li><code>iss / aud</code>：签发方 &#x2F; 受众</li>
+<li><code>signature</code>：签名，用于防篡改</li>
+</ul>
+<p>服务端只需：</p>
+<ul>
+<li>校验签名</li>
+<li>校验时间有效性</li>
+<li>解析用户信息</li>
+</ul>
+<p>即可完成身份认证。</p>
+<hr>
+<ol start="2">
+<li>工程特性</li>
+</ol>
+<ul>
+<li><strong>服务端无状态</strong></li>
+<li>不依赖数据库 &#x2F; Redis</li>
+<li>任意节点均可校验</li>
+<li>非常适合横向扩展</li>
+</ul>
+<p>这使得 JWT 成为 WebSocket 场景中<strong>最常见的鉴权方案之一</strong>。</p>
+<hr>
+<ol start="3">
+<li>适用场景</li>
+</ol>
+<p>JWT 模式尤其适合：</p>
+<ul>
+<li>分布式 WebSocket 服务</li>
+<li>多实例 &#x2F; 多节点部署</li>
+<li>WebSocket Gateway 架构</li>
+<li>云原生、容器化部署</li>
+<li>Serverless &#x2F; 边缘节点</li>
+</ul>
+<p>在这些场景下：</p>
+<blockquote>
+<p>“连接落在哪个节点”是不确定的，JWT 的无状态特性可显著降低系统复杂度</p>
+</blockquote>
+<hr>
+<ol start="4">
+<li>WebSocket 中的关键问题：Token 过期</li>
+</ol>
+<p>与 HTTP 不同，WebSocket 是<strong>长连接</strong>，这引出一个必须面对的问题：</p>
+<blockquote>
+<p><strong>连接存续期间，JWT 可能会过期</strong></p>
+</blockquote>
+<p>工程上必须提前明确策略：</p>
+<h5 id="策略一：Token-过期后允许连接继续"><a href="#策略一：Token-过期后允许连接继续" class="headerlink" title="策略一：Token 过期后允许连接继续"></a>策略一：Token 过期后允许连接继续</h5><ul>
+<li>优点：实现简单、连接稳定</li>
+<li>风险：安全窗口扩大</li>
+<li>适合：低风险业务、短连接周期</li>
+</ul>
+<h5 id="策略二：Token-过期后强制断连"><a href="#策略二：Token-过期后强制断连" class="headerlink" title="策略二：Token 过期后强制断连"></a>策略二：Token 过期后强制断连</h5><ul>
+<li>优点：安全性高</li>
+<li>代价：用户体验下降</li>
+<li>实现方式：定时检查 &#x2F; 心跳时校验</li>
+</ul>
+<h5 id="策略三：Token-刷新机制（推荐）"><a href="#策略三：Token-刷新机制（推荐）" class="headerlink" title="策略三：Token 刷新机制（推荐）"></a>策略三：Token 刷新机制（推荐）</h5><ul>
+<li>使用短期 Access Token</li>
+<li>配合 Refresh Token</li>
+<li>在连接内完成刷新</li>
+<li>刷新失败则断连</li>
+</ul>
+<p><strong>关键结论</strong>：</p>
+<blockquote>
+<p>JWT 模式在 WebSocket 中，必须显式设计“过期处理策略”，不能沿用 HTTP 的隐式假设。</p>
+</blockquote>
+<hr>
+<ol start="5">
+<li>JWT 模式的优缺点总结</li>
+</ol>
+<p><strong>优势：</strong></p>
+<ul>
+<li>无状态，扩展性极佳</li>
+<li>实现简单</li>
+<li>适合高并发、大规模连接</li>
+</ul>
+<p><strong>劣势：</strong></p>
+<ul>
+<li>无法主动失效</li>
+<li>过期控制复杂</li>
+<li>权限变更不即时生效（可以手动添加处理）</li>
+</ul>
+<hr>
+<h5 id="2-Session-Redis-模式（有状态鉴权）"><a href="#2-Session-Redis-模式（有状态鉴权）" class="headerlink" title="2. Session &#x2F; Redis 模式（有状态鉴权）"></a>2. Session &#x2F; Redis 模式（有状态鉴权）</h5><ol>
+<li>核心设计思想</li>
+</ol>
+<p>Session 模式的本质是：</p>
+<blockquote>
+<p><strong>Token 只是一个索引，真正的身份状态保存在服务端</strong></p>
+</blockquote>
+<p>流程如下：</p>
+<ol>
+<li>客户端携带 Token</li>
+<li>服务端通过 Token 查询 Redis &#x2F; 内存</li>
+<li>获取 Session 数据（userId &#x2F; roles &#x2F; permissions）</li>
+<li>判定身份与权限</li>
+</ol>
+<hr>
+<ol start="2">
+<li>工程特性</li>
+</ol>
+<ul>
+<li>服务端<strong>有状态</strong></li>
+<li>依赖 Redis &#x2F; 内存存储</li>
+<li>每次鉴权都需要一次存储访问</li>
+<li>可以随时修改 &#x2F; 删除 Session</li>
+</ul>
+<hr>
+<ol start="3">
+<li>适用场景</li>
+</ol>
+<p>Session 模式非常适合以下场景：</p>
+<ul>
+<li>强权限控制系统</li>
+<li>管理后台 &#x2F; 运维平台</li>
+<li>需要“强制下线”的系统</li>
+<li>金融、风控、后台管理类业务</li>
+</ul>
+<p>在这些系统中：</p>
+<blockquote>
+<p><strong>“能否立刻失效” 比 “是否无状态” 更重要</strong></p>
+</blockquote>
+<hr>
+<ol start="4">
+<li>WebSocket 中的优势</li>
+</ol>
+<p>在 WebSocket 场景下，Session 模式具备显著优势：</p>
+<ul>
+<li>可实时踢下线</li>
+<li>权限变更立即生效</li>
+<li>可绑定设备 &#x2F; IP &#x2F; 登录来源</li>
+<li>可限制同时在线数量</li>
+</ul>
+<p>例如：</p>
+<ul>
+<li>管理员修改权限后，连接可立刻失效</li>
+<li>发现异常行为，立即断开连接</li>
+</ul>
+<h3 id="5-WebSocket-心跳机制"><a href="#5-WebSocket-心跳机制" class="headerlink" title="5.WebSocket 心跳机制"></a>5.WebSocket 心跳机制</h3><h4 id="【心跳机制】"><a href="#【心跳机制】" class="headerlink" title="【心跳机制】"></a>【心跳机制】</h4><p>WebSocket 是长连接，以下情况<strong>不会立即触发 <code>close</code> 事件</strong>：</p>
+<ul>
+<li>客户端突然断网</li>
+<li>手机锁屏 &#x2F; 切后台</li>
+<li>NAT &#x2F; 代理回收空闲连接</li>
+<li>路由器重启</li>
+</ul>
+<p>结果是：</p>
+<ul>
+<li>服务端以为连接还在</li>
+<li>客户端也可能以为连接还在</li>
+<li>出现大量“假在线”连接</li>
+</ul>
+<p>没有心跳的后果</p>
+<ul>
+<li>在线人数统计不准确</li>
+<li>消息发送失败但无感知</li>
+<li>连接池被“僵尸连接”占满</li>
+<li>无法及时踢下线、重连</li>
+</ul>
+<p><strong>结论：</strong></p>
+<blockquote>
+<p>在任何生产环境中，WebSocket 必须实现心跳机制。</p>
+</blockquote>
+<p>心跳机制的核心目标</p>
+<ol>
+<li><strong>检测连接是否仍然可达</strong></li>
+<li><strong>尽早发现断线</strong></li>
+<li><strong>触发重连或资源清理</strong></li>
+<li><strong>保证在线状态的真实性</strong></li>
+</ol>
+<h4 id="【两种主流方式】"><a href="#【两种主流方式】" class="headerlink" title="【两种主流方式】"></a>【两种主流方式】</h4><h5 id="协议级-Ping-Pong（WebSocket-原生）"><a href="#协议级-Ping-Pong（WebSocket-原生）" class="headerlink" title="协议级 Ping &#x2F; Pong（WebSocket 原生）"></a>协议级 Ping &#x2F; Pong（WebSocket 原生）</h5><p>这是 WebSocket 协议（RFC 6455）自带的能力。</p>
+<p>特点</p>
+<ul>
+<li>不进入业务层</li>
+<li>不暴露给前端 API（浏览器端无法直接发送 ping）</li>
+<li>Node.js（如 <code>ws</code>）支持</li>
+</ul>
+<p>工作方式</p>
+<ul>
+<li>服务端定期发送 <code>ping</code> 帧</li>
+<li>客户端自动回复 <code>pong</code></li>
+<li>若长时间未收到 <code>pong</code>，判定连接失效</li>
+</ul>
+<p>优点</p>
+<ul>
+<li>轻量</li>
+<li>不干扰业务协议</li>
+<li>标准化</li>
+</ul>
+<p>缺点</p>
+<ul>
+<li>浏览器端无法主动发送 ping</li>
+<li>不适合承载业务级状态（如 token 校验）</li>
+</ul>
+<p><code>server.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> &#123; <span class="hljs-title class_">WebSocketServer</span> &#125; = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;ws&quot;</span>);<br><br><span class="hljs-keyword">const</span> wss = <span class="hljs-keyword">new</span> <span class="hljs-title class_">WebSocketServer</span>(&#123; <span class="hljs-attr">port</span>: <span class="hljs-number">8080</span> &#125;);<br><br><span class="hljs-comment">// 定期心跳间隔（30s）</span><br><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">HEARTBEAT_INTERVAL</span> = <span class="hljs-number">30000</span>;<br><br>wss.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;connection&quot;</span>, <span class="hljs-function">(<span class="hljs-params">ws, req</span>) =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;client connected&quot;</span>);<br><br>  <span class="hljs-comment">// 标记连接存活</span><br>  ws.<span class="hljs-property">isAlive</span> = <span class="hljs-literal">true</span>;<br><br>  <span class="hljs-comment">// 收到 pong，说明连接还活着</span><br>  ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;pong&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>    ws.<span class="hljs-property">isAlive</span> = <span class="hljs-literal">true</span>;<br>  &#125;);<br><br>  ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;close&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;client closed&quot;</span>);<br>  &#125;);<br><br>  ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;error&quot;</span>, <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;ws error:&quot;</span>, err.<span class="hljs-property">message</span>);<br>  &#125;);<br>&#125;);<br><br><span class="hljs-comment">// 服务端统一心跳扫描</span><br><span class="hljs-keyword">const</span> interval = <span class="hljs-built_in">setInterval</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>  wss.<span class="hljs-property">clients</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">ws</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">if</span> (ws.<span class="hljs-property">isAlive</span> === <span class="hljs-literal">false</span>) &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;terminate dead connection&quot;</span>);<br>      <span class="hljs-keyword">return</span> ws.<span class="hljs-title function_">terminate</span>(); <span class="hljs-comment">// 直接断开</span><br>    &#125;<br><br>    <span class="hljs-comment">// 标记为待检测</span><br>    ws.<span class="hljs-property">isAlive</span> = <span class="hljs-literal">false</span>;<br><br>    <span class="hljs-comment">// 发送协议级 ping</span><br>    ws.<span class="hljs-title function_">ping</span>();<br>  &#125;);<br>&#125;, <span class="hljs-variable constant_">HEARTBEAT_INTERVAL</span>);<br><br><span class="hljs-comment">// 进程退出时清理</span><br>wss.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;close&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-built_in">clearInterval</span>(interval);<br>&#125;);<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;ws server listening on ws://localhost:8080&quot;</span>);<br><br></code></pre></td></tr></table></figure>
+
+<p>重要说明</p>
+<ul>
+<li>当<strong>服务端 ping</strong>时：<ul>
+<li>客户端会<strong>自动回复 pong</strong></li>
+<li><strong>不会触发 <code>pong</code> 事件</strong></li>
+</ul>
+</li>
+<li><code>pong</code> 事件只在<strong>你主动 <code>ws.ping()</code> 时</strong>才触发</li>
+</ul>
+<p>浏览器 JS 层：</p>
+<ul>
+<li>❌ 看不到 ping</li>
+<li>❌ 看不到 pong</li>
+<li>❌ 不触发 message</li>
+<li>❌ 不触发任何“心跳相关事件”</li>
+</ul>
+<h4 id="【应用层自定义心跳】"><a href="#【应用层自定义心跳】" class="headerlink" title="【应用层自定义心跳】"></a>【应用层自定义心跳】</h4><p>通过普通 WebSocket 消息实现心跳。更为常用。</p>
+<p>特点</p>
+<ul>
+<li>完全由业务层控制</li>
+<li>浏览器、Node 统一</li>
+<li>可结合鉴权、权限、状态校验</li>
+</ul>
+<p>优点</p>
+<ul>
+<li>灵活</li>
+<li>可扩展</li>
+<li>适合 WebSocket 业务系统</li>
+</ul>
+<p>缺点</p>
+<ul>
+<li>需要自己实现逻辑</li>
+<li>稍有额外流量</li>
+</ul>
+<h5 id="客户端心跳职责"><a href="#客户端心跳职责" class="headerlink" title="客户端心跳职责"></a>客户端心跳职责</h5><ul>
+<li>定时发送 <code>ping</code></li>
+<li>监听 <code>pong</code></li>
+<li>在 close &#x2F; error 时触发重连</li>
+<li>页面不可见时（visibilitychange）可降低频率</li>
+</ul>
+<p>客户端示例逻辑</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> timeoutTimer = <span class="hljs-literal">null</span>;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">sendPing</span>(<span class="hljs-params">ws</span>) &#123;<br>  <span class="hljs-keyword">const</span> id = <span class="hljs-string">&quot;123&quot;</span>; <span class="hljs-comment">// 示例，真实用随机值</span><br><br>  <span class="hljs-comment">// 1. 发 ping</span><br>  ws.<span class="hljs-title function_">send</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(&#123; <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;ping&quot;</span>, id &#125;));<br><br>  <span class="hljs-comment">// 2. 开始等 pong（8 秒）</span><br>  timeoutTimer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;ping 失败：没等到 pong&quot;</span>);<br>    ws.<span class="hljs-title function_">close</span>();<br>  &#125;, <span class="hljs-number">8000</span>);<br>&#125;<br><br><span class="hljs-comment">// 3. 收消息</span><br>ws.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> msg = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(e.<span class="hljs-property">data</span>);<br><br>  <span class="hljs-keyword">if</span> (msg.<span class="hljs-property">type</span> === <span class="hljs-string">&quot;pong&quot;</span> &amp;&amp; msg.<span class="hljs-property">id</span> === <span class="hljs-string">&quot;123&quot;</span>) &#123;<br>    <span class="hljs-built_in">clearTimeout</span>(timeoutTimer);<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;✅ ping 成功&quot;</span>);<br>  &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>发 ping 的同时设一个“闹钟”，收到对应 pong 就关闹钟。</strong></p>
+</blockquote>
+<hr>
+<h5 id="服务端心跳职责"><a href="#服务端心跳职责" class="headerlink" title="服务端心跳职责"></a>服务端心跳职责</h5><ul>
+<li>记录每个连接的 <code>lastHeartbeat</code></li>
+<li>收到 <code>ping</code> 立即回复 <code>pong</code></li>
+</ul>
+<p>服务端示例逻辑</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js">ws.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;message&quot;</span>, <span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">const</span> msg = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(data);<br><br>  <span class="hljs-keyword">if</span> (msg.<span class="hljs-property">type</span> === <span class="hljs-string">&quot;ping&quot;</span>) &#123;<br>    ws.<span class="hljs-title function_">send</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(&#123;<br>      <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;pong&quot;</span>,<br>      <span class="hljs-attr">id</span>: msg.<span class="hljs-property">id</span><br>    &#125;));<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>服务端<strong>什么都不用想</strong>：</p>
+<ul>
+<li>不计时</li>
+<li>不存状态</li>
+<li>原样回 <code>id</code></li>
+</ul>
+<h4 id="【区分正常close和异常close】"><a href="#【区分正常close和异常close】" class="headerlink" title="【区分正常close和异常close】"></a>【区分正常close和异常close】</h4><blockquote>
+<p>根据判断正常close和异常close来决定是否处理或者重传。</p>
+</blockquote>
+<p><strong>看 close code</strong></p>
+<ul>
+<li><code>1000</code>：正常关闭</li>
+<li><code>1006</code>：异常关闭（端口&#x2F;网络断）</li>
+</ul>
+<p><strong>看 error 事件</strong></p>
+<ul>
+<li>异常断开：常伴随 <code>error</code></li>
+</ul>
+<h5 id="1）正常关闭（Graceful-Close）"><a href="#1）正常关闭（Graceful-Close）" class="headerlink" title="1）正常关闭（Graceful Close）"></a>1）正常关闭（Graceful Close）</h5><p><strong>定义</strong>：按照 WebSocket 协议完成 <strong>Close 握手</strong>。</p>
+<p><strong>常见场景</strong></p>
+<ul>
+<li>客户端主动退出</li>
+<li>服务端业务结束</li>
+<li>鉴权失败后主动 <code>close()</code></li>
+<li>被“踢下线”（策略性关闭）</li>
+</ul>
+<p><strong>特征</strong></p>
+<ul>
+<li><code>onclose</code> 一定触发</li>
+<li><code>code</code> 为 <strong>1000</strong> 或明确的策略码</li>
+<li>双方都“知道”这次关闭</li>
+</ul>
+<h5 id="2）异常关闭（Abnormal-Close-端口断）"><a href="#2）异常关闭（Abnormal-Close-端口断）" class="headerlink" title="2）异常关闭（Abnormal Close &#x2F; 端口断）"></a>2）异常关闭（Abnormal Close &#x2F; 端口断）</h5><p><strong>定义</strong>：<strong>没有</strong>完成 Close 握手，连接直接消失。</p>
+<p><strong>常见场景</strong></p>
+<ul>
+<li>客户端断网 &#x2F; 进程被杀</li>
+<li>服务端进程崩溃</li>
+<li>NAT &#x2F; 代理回收端口</li>
+<li>TCP 连接被强制重置</li>
+</ul>
+<p><strong>特征</strong></p>
+<ul>
+<li><code>onclose</code> 触发</li>
+<li><code>code</code> 通常为 <strong>1006</strong></li>
+<li><code>reason</code>通常未空</li>
+<li>往往伴随 <code>error</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th>含义</th>
+<th>是否正常</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000</td>
+<td>Normal Closure</td>
+<td>✅ 正常</td>
+</tr>
+<tr>
+<td>1001</td>
+<td>Going Away</td>
+<td>✅ 正常</td>
+</tr>
+<tr>
+<td>1008</td>
+<td>Policy Violation</td>
+<td>✅ 正常（策略关闭）</td>
+</tr>
+<tr>
+<td>1011</td>
+<td>Internal Error</td>
+<td>⚠️ 服务端异常</td>
+</tr>
+<tr>
+<td><strong>1006</strong></td>
+<td>Abnormal Closure</td>
+<td>❌ 异常（端口&#x2F;网络）</td>
+</tr>
+</tbody></table>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs javascript">ws.<span class="hljs-property">onclose</span> = <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;code:&quot;</span>, e.<span class="hljs-property">code</span>, <span class="hljs-string">&quot;reason:&quot;</span>, e.<span class="hljs-property">reason</span>, <span class="hljs-string">&quot;wasClean:&quot;</span>, e.<span class="hljs-property">wasClean</span>);<br><br>  <span class="hljs-keyword">if</span> (e.<span class="hljs-property">code</span> === <span class="hljs-number">1000</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;正常关闭&quot;</span>);<br>  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (e.<span class="hljs-property">code</span> === <span class="hljs-number">1006</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;异常断开（端口/网络）&quot;</span>);<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;其他关闭类型:&quot;</span>, e.<span class="hljs-property">code</span>);<br>  &#125;<br>&#125;;<br><br>ws.<span class="hljs-property">onerror</span> = <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;发生网络或协议错误&quot;</span>);<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><code>ws.close()</code> <strong>支持传递 <code>code</code> 和 <code>reason</code><strong>，并且这是</strong>工程上强烈推荐</strong>的做法。</p>
+<p>下面把<strong>用法、合法范围、注意事项、与浏览器差异</strong>一次讲清楚。</p>
+<p>最直接的结论</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">ws.close</span>(<span class="hljs-meta">code</span>, reason)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>code</code>：<strong>WebSocket Close Code（必需是合法值）</strong></li>
+<li><code>reason</code>：关闭原因（可选，字符串）</li>
+</ul>
+<ol>
+<li>正常关闭</li>
+</ol>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ws</span>.close(<span class="hljs-number">1000</span>, <span class="hljs-string">&quot;normal close&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>鉴权失败 &#x2F; 被踢下线（常用）</li>
+</ol>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ws</span>.close(<span class="hljs-number">1008</span>, <span class="hljs-string">&quot;unauthorized&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>服务端异常</li>
+</ol>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ws</span>.close(<span class="hljs-number">1011</span>, <span class="hljs-string">&quot;internal error&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>官方<code>close code</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000</td>
+<td>正常关闭</td>
+</tr>
+<tr>
+<td>1001</td>
+<td>端点离开（刷新&#x2F;切页）</td>
+</tr>
+<tr>
+<td>1006</td>
+<td>异常断开（浏览器推断，不能手动设置）</td>
+</tr>
+<tr>
+<td>1008</td>
+<td>策略违规（如权限问题，但不够细）</td>
+</tr>
+<tr>
+<td>1011</td>
+<td>服务端内部错误</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>自定义 <code>close code</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th>业务含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4001</td>
+<td>JWT 过期</td>
+</tr>
+<tr>
+<td>4003</td>
+<td>无实时权限</td>
+</tr>
+<tr>
+<td>4004</td>
+<td>用户被禁用</td>
+</tr>
+<tr>
+<td>4100</td>
+<td>客户端协议错误</td>
+</tr>
+<tr>
+<td>4500</td>
+<td>服务端业务异常</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/" class="category-chain-item">前端学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E9%A2%98/" class="print-no-link">#前端面试题</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Websocket从0到1</div>
+      <div>http://example.com/2025/12/31/前端学习/11-Websocket从0到1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/06/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/12-ECharts%E4%BB%8E0%E5%88%B01/" title="12.ECharts从0到1">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">12.ECharts从0到1</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/29/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/10-Generator/" title="10.Generator">
+                        <span class="hidden-mobile">10.Generator</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
