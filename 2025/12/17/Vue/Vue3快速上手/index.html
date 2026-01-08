@@ -19,32 +19,32 @@
     <meta name="description" content="在尚硅谷Vue3学习笔记基础上整理，核心语法 &#x2F; 路由 &#x2F; pinia &#x2F; 组件通信">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue3快速上手">
-<meta property="og:url" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/index.html">
+<meta property="og:url" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/index.html">
 <meta property="og:site_name" content="相">
 <meta property="og:description" content="在尚硅谷Vue3学习笔记基础上整理，核心语法 &#x2F; 路由 &#x2F; pinia &#x2F; 组件通信">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1695089947298-161c1b47-eb86-42fb-b1f8-d6a4fcab8ee2-1765979249041-3.png">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1683167204081-582dc237-72bc-499e-9589-2cdfd452e62f-1765979249041-4.png">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/volar-1765979249041-6.png">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/image-20231218085906380-1765979249041-8.png">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1696662200734-1bad8249-d7a2-423e-a3c3-ab4c110628be-1765979249041-9.gif">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1696662249851-db6403a1-acb5-481a-88e0-e1e34d2ef53a-1765979249041-10.gif">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%85value-1765979249042-12.png">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/computed-1765979249042-13.gif">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/image-20231018144351536-1765979249042-14.png">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/pinia_example-1765979249042-15.gif">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1684309952481-c67f67f9-d1a3-4d69-8bd6-2b381e003f31.png">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/image-20231119185900990-1765979249042-16.png">
-<meta property="og:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/default_slot.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1695089947298-161c1b47-eb86-42fb-b1f8-d6a4fcab8ee2-1765979249041-3.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1683167204081-582dc237-72bc-499e-9589-2cdfd452e62f-1765979249041-4.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/volar-1765979249041-6.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/image-20231218085906380-1765979249041-8.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1696662200734-1bad8249-d7a2-423e-a3c3-ab4c110628be-1765979249041-9.gif">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1696662249851-db6403a1-acb5-481a-88e0-e1e34d2ef53a-1765979249041-10.gif">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%85value-1765979249042-12.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/computed-1765979249042-13.gif">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/image-20231018144351536-1765979249042-14.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/pinia_example-1765979249042-15.gif">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1684309952481-c67f67f9-d1a3-4d69-8bd6-2b381e003f31.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/image-20231119185900990-1765979249042-16.png">
+<meta property="og:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/default_slot.png">
 <meta property="article:published_time" content="2025-12-17T13:46:46.000Z">
-<meta property="article:modified_time" content="2025-12-17T13:49:40.535Z">
+<meta property="article:modified_time" content="2026-01-08T13:30:16.390Z">
 <meta property="article:author" content="Xiang Chen">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1695089947298-161c1b47-eb86-42fb-b1f8-d6a4fcab8ee2-1765979249041-3.png">
+<meta name="twitter:image" content="http://example.com/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/1695089947298-161c1b47-eb86-42fb-b1f8-d6a4fcab8ee2-1765979249041-3.png">
   
   
   
@@ -308,7 +308,7 @@
 <li><p>官方发版地址：<a target="_blank" rel="noopener" href="https://github.com/vuejs/core/releases/tag/v3.0.0">Release v3.0.0 One Piece · vuejs&#x2F;core</a></p>
 </li>
 <li><p>截止2023年10月，最新的公开版本为：<code>3.3.4</code></p>
-<img src="/2025/12/17/前端学习/Vue3快速上手/1695089947298-161c1b47-eb86-42fb-b1f8-d6a4fcab8ee2-1765979249041-3.png" srcset="/img/loading.gif" lazyload alt="image.png" style="zoom:30%;"></li>
+<img src="/2025/12/17/Vue/Vue3快速上手/1695089947298-161c1b47-eb86-42fb-b1f8-d6a4fcab8ee2-1765979249041-3.png" srcset="/img/loading.gif" lazyload alt="image.png" style="zoom:30%;"></li>
 </ul>
 <h2 id="1-1-【性能的提升】"><a href="#1-1-【性能的提升】" class="headerlink" title="1.1. 【性能的提升】"></a>1.1. 【性能的提升】</h2><ul>
 <li>打包大小减少<code>41%</code>。</li>
@@ -371,7 +371,7 @@
 <li>轻量快速的热重载（<code>HMR</code>），能实现极速的服务启动。</li>
 <li>对 <code>TypeScript</code>、<code>JSX</code>、<code>CSS</code> 等支持开箱即用。</li>
 <li>真正的按需编译，不再等待整个应用编译完成。</li>
-<li><code>webpack</code>构建 与 <code>vite</code>构建对比图如下：<br><img src="/2025/12/17/前端学习/Vue3快速上手/.." srcset="/img/loading.gif" lazyload alt="webpack构建" title="webpack构建" style="zoom:20%;box-shadow:0 0 10px black">	<img src="/2025/12/17/前端学习/Vue3快速上手/1683167204081-582dc237-72bc-499e-9589-2cdfd452e62f-1765979249041-4.png" srcset="/img/loading.gif" lazyload alt="vite构建" title="vite构建" style="zoom: 20%;box-shadow:0 0 10px black"></li>
+<li><code>webpack</code>构建 与 <code>vite</code>构建对比图如下：<br><img src="/2025/12/17/Vue/Vue3快速上手/.." srcset="/img/loading.gif" lazyload alt="webpack构建" title="webpack构建" style="zoom:20%;box-shadow:0 0 10px black">	<img src="/2025/12/17/Vue/Vue3快速上手/1683167204081-582dc237-72bc-499e-9589-2cdfd452e62f-1765979249041-4.png" srcset="/img/loading.gif" lazyload alt="vite构建" title="vite构建" style="zoom: 20%;box-shadow:0 0 10px black"></li>
 </ul>
 <ul>
 <li>具体操作如下（点击查看<a target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/quick-start.html#creating-a-vue-application">官方文档</a>）</li>
@@ -382,9 +382,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div class=&quot;app&quot;&gt;<br>    &lt;h1&gt;你好啊！&lt;/h1&gt;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script lang=&quot;ts&quot;&gt;<br>  export default &#123;<br>    name:&#x27;App&#x27; //组件名<br>  &#125;<br>&lt;/script&gt;<br><br>&lt;style&gt;<br>  .app &#123;<br>    background-color: #ddd;<br>    box-shadow: 0 0 10px;<br>    border-radius: 10px;<br>    padding: 20px;<br>  &#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
 
 <p>安装官方推荐的<code>vscode</code>插件：</p>
-<img src="/2025/12/17/前端学习/Vue3快速上手/volar-1765979249041-6.png" srcset="/img/loading.gif" lazyload alt="Snipaste_2023-10-08_20-46-34" style="zoom:50%;"> 
+<img src="/2025/12/17/Vue/Vue3快速上手/volar-1765979249041-6.png" srcset="/img/loading.gif" lazyload alt="Snipaste_2023-10-08_20-46-34" style="zoom:50%;"> 
 
-<img src="/2025/12/17/前端学习/Vue3快速上手/image-20231218085906380-1765979249041-8.png" srcset="/img/loading.gif" lazyload alt="image-20231218085906380" style="zoom:42%;"> 
+<img src="/2025/12/17/Vue/Vue3快速上手/image-20231218085906380-1765979249041-8.png" srcset="/img/loading.gif" lazyload alt="image-20231218085906380" style="zoom:42%;"> 
 
 <p>总结：</p>
 <ul>
@@ -401,9 +401,9 @@
 <li><code>Vue3</code>的<code>API</code>设计是<code>Composition</code>（组合）风格的。</li>
 </ul>
 <h3 id="Options-API-的弊端"><a href="#Options-API-的弊端" class="headerlink" title="Options API 的弊端"></a>Options API 的弊端</h3><p><code>Options</code>类型的 <code>API</code>，数据、方法、计算属性等，是分散在：<code>data</code>、<code>methods</code>、<code>computed</code>中的，若想新增或者修改一个需求，就需要分别修改：<code>data</code>、<code>methods</code>、<code>computed</code>，不便于维护和复用。</p>
-<p><img src="/2025/12/17/前端学习/Vue3快速上手/.." srcset="/img/loading.gif" lazyload alt="1.gif" style="zoom:70%;border-radius:20px"><img src="/2025/12/17/前端学习/Vue3快速上手/1696662200734-1bad8249-d7a2-423e-a3c3-ab4c110628be-1765979249041-9.gif" srcset="/img/loading.gif" lazyload alt="2.gif" style="zoom:70%;border-radius:20px"></p>
+<p><img src="/2025/12/17/Vue/Vue3快速上手/.." srcset="/img/loading.gif" lazyload alt="1.gif" style="zoom:70%;border-radius:20px"><img src="/2025/12/17/Vue/Vue3快速上手/1696662200734-1bad8249-d7a2-423e-a3c3-ab4c110628be-1765979249041-9.gif" srcset="/img/loading.gif" lazyload alt="2.gif" style="zoom:70%;border-radius:20px"></p>
 <h3 id="Composition-API-的优势"><a href="#Composition-API-的优势" class="headerlink" title="Composition API 的优势"></a>Composition API 的优势</h3><p>可以用函数的方式，更加优雅的组织代码，让相关功能的代码更加有序的组织在一起。</p>
-<p><img src="/2025/12/17/前端学习/Vue3快速上手/1696662249851-db6403a1-acb5-481a-88e0-e1e34d2ef53a-1765979249041-10.gif" srcset="/img/loading.gif" lazyload alt="3.gif" style="height:300px;border-radius:10px"><img src="/2025/12/17/前端学习/Vue3快速上手/.." srcset="/img/loading.gif" lazyload alt="4.gif" style="height:300px;border-radius:10px"></p>
+<p><img src="/2025/12/17/Vue/Vue3快速上手/1696662249851-db6403a1-acb5-481a-88e0-e1e34d2ef53a-1765979249041-10.gif" srcset="/img/loading.gif" lazyload alt="3.gif" style="height:300px;border-radius:10px"><img src="/2025/12/17/Vue/Vue3快速上手/.." srcset="/img/loading.gif" lazyload alt="4.gif" style="height:300px;border-radius:10px"></p>
 <blockquote>
 <p>说明：以上四张动图原创作者：大帅老猿</p>
 </blockquote>
@@ -481,7 +481,7 @@
 <blockquote>
 <ol>
 <li><p><code>ref</code>创建的变量必须使用<code>.value</code>（可以使用<code>volar</code>插件自动添加<code>.value</code>）。</p>
-<img src="/2025/12/17/前端学习/Vue3快速上手/自动补充value-1765979249042-12.png" srcset="/img/loading.gif" lazyload alt="自动补充value" style="zoom:50%;border-radius:20px"> 
+<img src="/2025/12/17/Vue/Vue3快速上手/自动补充value-1765979249042-12.png" srcset="/img/loading.gif" lazyload alt="自动补充value" style="zoom:50%;border-radius:20px"> 
 </li>
 <li><p><code>reactive</code>重新分配一个新对象，会<strong>失去</strong>响应式（可以使用<code>Object.assign</code>去整体替换）。 </p>
 </li>
@@ -507,7 +507,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div class=&quot;person&quot;&gt;<br>    &lt;h2&gt;姓名：&#123;&#123;person.name&#125;&#125;&lt;/h2&gt;<br>    &lt;h2&gt;年龄：&#123;&#123;person.age&#125;&#125;&lt;/h2&gt;<br>    &lt;h2&gt;性别：&#123;&#123;person.gender&#125;&#125;&lt;/h2&gt;<br>    &lt;button @click=&quot;changeName&quot;&gt;修改名字&lt;/button&gt;<br>    &lt;button @click=&quot;changeAge&quot;&gt;修改年龄&lt;/button&gt;<br>    &lt;button @click=&quot;changeGender&quot;&gt;修改性别&lt;/button&gt;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script lang=&quot;ts&quot; setup name=&quot;Person&quot;&gt;<br>  import &#123;ref,reactive,toRefs,toRef&#125; from &#x27;vue&#x27;<br><br>  // 数据<br>  let person = reactive(&#123;name:&#x27;张三&#x27;, age:18, gender:&#x27;男&#x27;&#125;)<br>	<br>  // 通过toRefs将person对象中的n个属性批量取出，且依然保持响应式的能力<br>  let &#123;name,gender&#125; =  toRefs(person)<br>	<br>  // 通过toRef将person对象中的gender属性取出，且依然保持响应式的能力<br>  let age = toRef(person,&#x27;age&#x27;)<br><br>  // 方法<br>  function changeName()&#123;<br>    name.value += &#x27;~&#x27;<br>  &#125;<br>  function changeAge()&#123;<br>    age.value += 1<br>  &#125;<br>  function changeGender()&#123;<br>    gender.value = &#x27;女&#x27;<br>  &#125;<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
 
 <h2 id="3-8-【computed】"><a href="#3-8-【computed】" class="headerlink" title="3.8. 【computed】"></a>3.8. 【computed】</h2><p>作用：根据已有数据计算出新数据（和<code>Vue2</code>中的<code>computed</code>作用一致）。</p>
-<img src="/2025/12/17/前端学习/Vue3快速上手/computed-1765979249042-13.gif" srcset="/img/loading.gif" lazyload style="zoom:20%;">  
+<img src="/2025/12/17/Vue/Vue3快速上手/computed-1765979249042-13.gif" srcset="/img/loading.gif" lazyload style="zoom:20%;">  
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div class=&quot;person&quot;&gt;<br>    姓：&lt;input type=&quot;text&quot; v-model=&quot;firstName&quot;&gt; &lt;br&gt;<br>    名：&lt;input type=&quot;text&quot; v-model=&quot;lastName&quot;&gt; &lt;br&gt;<br>    全名：&lt;span&gt;&#123;&#123;fullName&#125;&#125;&lt;/span&gt; &lt;br&gt;<br>    &lt;button @click=&quot;changeFullName&quot;&gt;全名改为：li-si&lt;/button&gt;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script setup lang=&quot;ts&quot; name=&quot;App&quot;&gt;<br>  import &#123;ref,computed&#125; from &#x27;vue&#x27;<br><br>  let firstName = ref(&#x27;zhang&#x27;)<br>  let lastName = ref(&#x27;san&#x27;)<br><br>  // 计算属性——只读取，不修改<br>  /* let fullName = computed(()=&gt;&#123;<br>    return firstName.value + &#x27;-&#x27; + lastName.value<br>  &#125;) */<br><br><br>  // 计算属性——既读取又修改<br>  let fullName = computed(&#123;<br>    // 读取<br>    get()&#123;<br>      return firstName.value + &#x27;-&#x27; + lastName.value<br>    &#125;,<br>    // 修改<br>    set(val)&#123;<br>      console.log(&#x27;有人修改了fullName&#x27;,val)<br>      firstName.value = val.split(&#x27;-&#x27;)[0]<br>      lastName.value = val.split(&#x27;-&#x27;)[1]<br>    &#125;<br>  &#125;)<br><br>  function changeFullName()&#123;<br>    fullName.value = &#x27;li-si&#x27;<br>  &#125; <br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
 
@@ -645,7 +645,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;h2&gt;当前求和为：&#123;&#123;sum&#125;&#125;&lt;/h2&gt;<br>  &lt;button @click=&quot;increment&quot;&gt;点我+1&lt;/button&gt;<br>  &lt;button @click=&quot;decrement&quot;&gt;点我-1&lt;/button&gt;<br>  &lt;hr&gt;<br>  &lt;img v-for=&quot;(u,index) in dogList.urlList&quot; :key=&quot;index&quot; :src=&quot;(u as string)&quot;&gt; <br>  &lt;span v-show=&quot;dogList.isLoading&quot;&gt;加载中......&lt;/span&gt;&lt;br&gt;<br>  &lt;button @click=&quot;getDog&quot;&gt;再来一只狗&lt;/button&gt;<br>&lt;/template&gt;<br><br>&lt;script lang=&quot;ts&quot;&gt;<br>  import &#123;defineComponent&#125; from &#x27;vue&#x27;<br><br>  export default defineComponent(&#123;<br>    name:&#x27;App&#x27;,<br>  &#125;)<br>&lt;/script&gt;<br><br>&lt;script setup lang=&quot;ts&quot;&gt;<br>  import useSum from &#x27;./hooks/useSum&#x27;<br>  import useDog from &#x27;./hooks/useDog&#x27;<br>	<br>  let &#123;sum,increment,decrement&#125; = useSum()<br>  let &#123;dogList,getDog&#125; = useDog()<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure></li>
 </ul>
 <hr>
-<h1 id="4-路由"><a href="#4-路由" class="headerlink" title="4. 路由"></a>4. 路由</h1><h2 id="4-1-【对路由的理解】"><a href="#4-1-【对路由的理解】" class="headerlink" title="4.1. 【对路由的理解】"></a>4.1. 【对路由的理解】</h2><img src="/2025/12/17/前端学习/Vue3快速上手/image-20231018144351536-1765979249042-14.png" srcset="/img/loading.gif" lazyload alt="image-20231018144351536" style="zoom:20%;border-radius:40px"> 
+<h1 id="4-路由"><a href="#4-路由" class="headerlink" title="4. 路由"></a>4. 路由</h1><h2 id="4-1-【对路由的理解】"><a href="#4-1-【对路由的理解】" class="headerlink" title="4.1. 【对路由的理解】"></a>4.1. 【对路由的理解】</h2><img src="/2025/12/17/Vue/Vue3快速上手/image-20231018144351536-1765979249042-14.png" srcset="/img/loading.gif" lazyload alt="image-20231018144351536" style="zoom:20%;border-radius:40px"> 
 
 <h2 id="4-2-【基本切换效果】"><a href="#4-2-【基本切换效果】" class="headerlink" title="4.2. 【基本切换效果】"></a>4.2. 【基本切换效果】</h2><ul>
 <li><p><code>Vue3</code>中要使用<code>vue-router</code>的最新版本，目前是<code>4</code>版本。</p>
@@ -749,14 +749,14 @@
 <li><p>具体编码：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>    <span class="hljs-attr">path</span>:<span class="hljs-string">&#x27;/&#x27;</span>,<br>    <span class="hljs-attr">redirect</span>:<span class="hljs-string">&#x27;/about&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ol>
-<h1 id="5-pinia"><a href="#5-pinia" class="headerlink" title="5. pinia"></a>5. pinia</h1><h2 id="5-1【准备一个效果】"><a href="#5-1【准备一个效果】" class="headerlink" title="5.1【准备一个效果】"></a>5.1【准备一个效果】</h2><img src="/2025/12/17/前端学习/Vue3快速上手/pinia_example-1765979249042-15.gif" srcset="/img/loading.gif" lazyload alt="pinia_example" style="zoom:30%;border:3px solid"> 
+<h1 id="5-pinia"><a href="#5-pinia" class="headerlink" title="5. pinia"></a>5. pinia</h1><h2 id="5-1【准备一个效果】"><a href="#5-1【准备一个效果】" class="headerlink" title="5.1【准备一个效果】"></a>5.1【准备一个效果】</h2><img src="/2025/12/17/Vue/Vue3快速上手/pinia_example-1765979249042-15.gif" srcset="/img/loading.gif" lazyload alt="pinia_example" style="zoom:30%;border:3px solid"> 
 
 <h2 id="5-2【搭建-pinia-环境】"><a href="#5-2【搭建-pinia-环境】" class="headerlink" title="5.2【搭建 pinia 环境】"></a>5.2【搭建 pinia 环境】</h2><p>第一步：<code>npm install pinia</code></p>
 <p>第二步：操作<code>src/main.ts</code></p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; createApp &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App.vue&#x27;</span><br><br><span class="hljs-comment">/* 引入createPinia，用于创建pinia */</span><br><span class="hljs-keyword">import</span> &#123; createPinia &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;pinia&#x27;</span><br><br><span class="hljs-comment">/* 创建pinia */</span><br><span class="hljs-keyword">const</span> pinia = <span class="hljs-title function_">createPinia</span>()<br><span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>)<br><br><span class="hljs-comment">/* 使用插件 */</span>&#123;&#125;<br>app.<span class="hljs-title function_">use</span>(pinia)<br>app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#app&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
 <p>此时开发者工具中已经有了<code>pinia</code>选项</p>
-<img src="/2025/12/17/前端学习/Vue3快速上手/1684309952481-c67f67f9-d1a3-4d69-8bd6-2b381e003f31.png" srcset="/img/loading.gif" lazyload style="zoom:80%;border:1px solid black;border-radius:10px">
+<img src="/2025/12/17/Vue/Vue3快速上手/1684309952481-c67f67f9-d1a3-4d69-8bd6-2b381e003f31.png" srcset="/img/loading.gif" lazyload style="zoom:80%;border:1px solid black;border-radius:10px">
 
 <h2 id="5-3【存储-读取数据】"><a href="#5-3【存储-读取数据】" class="headerlink" title="5.3【存储+读取数据】"></a>5.3【存储+读取数据】</h2><ol>
 <li><p><code>Store</code>是一个保存：<strong>状态</strong>、<strong>业务逻辑</strong> 的实体，每个组件都可以<strong>读取</strong>、<strong>写入</strong>它。</p>
@@ -822,7 +822,7 @@
 <li><code>$children</code>被砍掉了。</li>
 </ul>
 <p><strong>常见搭配形式：</strong></p>
-<img src="/2025/12/17/前端学习/Vue3快速上手/image-20231119185900990-1765979249042-16.png" srcset="/img/loading.gif" lazyload alt="image-20231119185900990" style="zoom:60%;"> 
+<img src="/2025/12/17/Vue/Vue3快速上手/image-20231119185900990-1765979249042-16.png" srcset="/img/loading.gif" lazyload alt="image-20231119185900990" style="zoom:60%;"> 
 
 <h2 id="6-1-【props】"><a href="#6-1-【props】" class="headerlink" title="6.1. 【props】"></a>6.1. 【props】</h2><p>概述：<code>props</code>是使用频率最高的一种通信方式，常用与 ：<strong>父 ↔ 子</strong>。</p>
 <ul>
@@ -966,7 +966,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div class=&quot;grand-child&quot;&gt;<br>    &lt;h3&gt;我是孙组件&lt;/h3&gt;<br>    &lt;h4&gt;资产：&#123;&#123; money &#125;&#125;&lt;/h4&gt;<br>    &lt;h4&gt;汽车：&#123;&#123; car &#125;&#125;&lt;/h4&gt;<br>    &lt;button @click=&quot;updateMoney(6)&quot;&gt;点我&lt;/button&gt;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script setup lang=&quot;ts&quot; name=&quot;GrandChild&quot;&gt;<br>  import &#123; inject &#125; from &#x27;vue&#x27;;<br>  // 注入数据<br> let &#123;money,updateMoney&#125; = inject(&#x27;moneyContext&#x27;,&#123;money:0,updateMoney:(x:number)=&gt;&#123;&#125;&#125;)<br>  let car = inject(&#x27;car&#x27;)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="6-8-【pinia】"><a href="#6-8-【pinia】" class="headerlink" title="6.8. 【pinia】"></a>6.8. 【pinia】</h2><p>参考之前<code>pinia</code>部分的讲解</p>
-<h2 id="6-9-【slot】"><a href="#6-9-【slot】" class="headerlink" title="6.9. 【slot】"></a>6.9. 【slot】</h2><h3 id="1-默认插槽"><a href="#1-默认插槽" class="headerlink" title="1. 默认插槽"></a>1. 默认插槽</h3><img src="/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/default_slot.png" srcset="/img/loading.gif" lazyload class title="img">
+<h2 id="6-9-【slot】"><a href="#6-9-【slot】" class="headerlink" title="6.9. 【slot】"></a>6.9. 【slot】</h2><h3 id="1-默认插槽"><a href="#1-默认插槽" class="headerlink" title="1. 默认插槽"></a>1. 默认插槽</h3><img src="/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/default_slot.png" srcset="/img/loading.gif" lazyload class title="img">
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs vue">父组件中：<br>        &lt;Category title=&quot;今日热门游戏&quot;&gt;<br>          &lt;ul&gt;<br>            &lt;li v-for=&quot;g in games&quot; :key=&quot;g.id&quot;&gt;&#123;&#123; g.name &#125;&#125;&lt;/li&gt;<br>          &lt;/ul&gt;<br>        &lt;/Category&gt;<br>子组件中：<br>        &lt;template&gt;<br>          &lt;div class=&quot;item&quot;&gt;<br>            &lt;h3&gt;&#123;&#123; title &#125;&#125;&lt;/h3&gt;<br>            &lt;!-- 默认插槽 --&gt;<br>            &lt;slot&gt;&lt;/slot&gt;<br>          &lt;/div&gt;<br>        &lt;/template&gt;<br></code></pre></td></tr></table></figure>
 
@@ -1121,7 +1121,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/" class="category-chain-item">前端学习</a>
+  <a href="/categories/Vue/" class="category-chain-item">Vue</a>
   
   
 
@@ -1149,7 +1149,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>Vue3快速上手</div>
-      <div>http://example.com/2025/12/17/前端学习/Vue3快速上手/</div>
+      <div>http://example.com/2025/12/17/Vue/Vue3快速上手/</div>
     </div>
     <div class="license-meta">
       

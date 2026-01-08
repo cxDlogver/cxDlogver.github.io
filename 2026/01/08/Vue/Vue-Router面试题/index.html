@@ -1,0 +1,915 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1）Vue Router 的核心作用是什么？为什么需要它？ 8.前端页面跳转 - 相  回答模板 Vue Router 用来做单页应用（SPA）的前端路由管理，把“URL 变化”映射到“组件视图切换”。 本质是：监听地址变化（history&#x2F;hash），匹配路由记录，把匹配到的组件渲染到 &lt;router-view&gt;。 要点  SPA 的“页面切换”不是重新加载 HTML，而是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue Router面试题">
+<meta property="og:url" content="http://example.com/2026/01/08/Vue/Vue-Router%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="1）Vue Router 的核心作用是什么？为什么需要它？ 8.前端页面跳转 - 相  回答模板 Vue Router 用来做单页应用（SPA）的前端路由管理，把“URL 变化”映射到“组件视图切换”。 本质是：监听地址变化（history&#x2F;hash），匹配路由记录，把匹配到的组件渲染到 &lt;router-view&gt;。 要点  SPA 的“页面切换”不是重新加载 HTML，而是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-08T08:44:32.000Z">
+<meta property="article:modified_time" content="2026-01-08T13:30:16.347Z">
+<meta property="article:author" content="Xiang Chen">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Vue Router面试题 - 相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Vue Router面试题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-08 16:44" pubdate>
+          2026年1月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Vue Router面试题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="1）Vue-Router-的核心作用是什么？为什么需要它？"><a href="#1）Vue-Router-的核心作用是什么？为什么需要它？" class="headerlink" title="1）Vue Router 的核心作用是什么？为什么需要它？"></a>1）Vue Router 的核心作用是什么？为什么需要它？</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://cxdlogver.github.io/2025/12/28/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/8-%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC/#%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC">8.前端页面跳转 - 相</a></p>
+</blockquote>
+<p><strong>回答模板</strong><br> Vue Router 用来做单页应用（SPA）的前端路由管理，把“URL 变化”映射到“组件视图切换”。<br> 本质是：监听地址变化（history&#x2F;hash），匹配路由记录，把匹配到的组件渲染到 <code>&lt;router-view&gt;</code>。</p>
+<p><strong>要点</strong></p>
+<ul>
+<li>SPA 的“页面切换”不是重新加载 HTML，而是替换视图组件</li>
+<li>URL 与状态同步（可前进后退、刷新不丢路由）</li>
+<li>路由守卫&#x3D;控制流入口（权限&#x2F;重定向&#x2F;埋点&#x2F;取消请求）</li>
+</ul>
+<hr>
+<h2 id="2）hash-模式和-history-模式有什么区别？怎么选？"><a href="#2）hash-模式和-history-模式有什么区别？怎么选？" class="headerlink" title="2）hash 模式和 history 模式有什么区别？怎么选？"></a>2）hash 模式和 history 模式有什么区别？怎么选？</h2><p><strong>回答模板</strong><br> Vue Router 常见两种模式：</p>
+<ul>
+<li>hash：URL 带 <code>#</code>，依赖 <code>hashchange</code>，不需要服务端配合；刷新不会 404。</li>
+<li>history：URL 干净，依赖 <code>history.pushState</code>，需要服务端把所有路由都回退到同一个 <code>index.html</code>，否则刷新会 404。</li>
+</ul>
+<p>选择上：</p>
+<ul>
+<li>内网、静态部署、无法改服务端规则：优先 hash</li>
+<li>正式站点、SEO&#x2F;URL 美观、能配服务端 rewrite：优先 history</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>history 必须配 rewrite（Nginx&#x2F;Apache&#x2F;Node）</li>
+<li>hash 兼容性好但 URL 不够美观</li>
+<li>两者都能做 SPA 路由，只是地址机制不同</li>
+</ul>
+<hr>
+<h2 id="3）路由的完整导航过程是怎样的？"><a href="#3）路由的完整导航过程是怎样的？" class="headerlink" title="3）路由的完整导航过程是怎样的？"></a>3）路由的完整导航过程是怎样的？</h2><p><strong>回答模板</strong><br> 一次导航通常包含：<br> 1）触发导航（<code>router.push</code>、点击 <code>&lt;router-link&gt;</code>、浏览器前进后退）<br> 2）解析目标地址，进行路由匹配（得到 <code>matched route records</code>）<br> 3）执行守卫：<code>beforeRouteLeave</code>（组件内）→ <code>beforeEach</code>（全局）→ <code>beforeEnter</code>（路由独享）→ <code>beforeRouteUpdate</code>（复用组件时）<br> 4）解析异步组件&#x2F;懒加载 chunk<br> 5）确认导航后执行：<code>afterEach</code>，并更新 <code>&lt;router-view&gt;</code> 渲染</p>
+<p><strong>要点</strong></p>
+<ul>
+<li>守卫是“导航生命周期”</li>
+<li><code>matched</code> 是匹配到的路由记录链（用于面包屑&#x2F;菜单）</li>
+<li>复用组件时不会销毁重建，而是走 <code>beforeRouteUpdate</code></li>
+</ul>
+<hr>
+<h2 id="4）router-push-replace-go-有什么区别？"><a href="#4）router-push-replace-go-有什么区别？" class="headerlink" title="4）router.push &#x2F; replace &#x2F; go 有什么区别？"></a>4）router.push &#x2F; replace &#x2F; go 有什么区别？</h2><p><strong>回答模板</strong></p>
+<ul>
+<li><code>push</code>：新增一条历史记录，用户可以回退到上一页</li>
+<li><code>replace</code>：替换当前历史记录，用户回退不会回到替换前</li>
+<li><code>go(n)</code>：在历史栈中前进&#x2F;后退 n 步，等价于 <code>history.go(n)</code></li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>典型场景：登录成功跳转用 <code>replace</code>（避免回到登录页）</li>
+<li>列表到详情用 <code>push</code>（允许回退到列表）</li>
+</ul>
+<hr>
+<h2 id="5）声明式导航-和编程式导航有什么差别？"><a href="#5）声明式导航-和编程式导航有什么差别？" class="headerlink" title="5）声明式导航 &lt;router-link&gt; 和编程式导航有什么差别？"></a>5）声明式导航 <code>&lt;router-link&gt;</code> 和编程式导航有什么差别？</h2><p><strong>回答模板</strong><br> <code>&lt;router-link&gt;</code> 是声明式，适合纯跳转场景，语义清晰且自带 active 状态；编程式（<code>router.push/replace</code>）适合在业务逻辑完成后跳转，比如登录校验通过、提交表单成功后跳转、点击行触发携带参数跳转等。</p>
+<p><strong>要点</strong></p>
+<ul>
+<li>router-link 自动处理 active class</li>
+<li>编程式更适合“先处理业务再跳转”</li>
+</ul>
+<hr>
+<h2 id="6）params-和-query-的区别？什么时候用？"><a href="#6）params-和-query-的区别？什么时候用？" class="headerlink" title="6）params 和 query 的区别？什么时候用？"></a>6）params 和 query 的区别？什么时候用？</h2><p><strong>回答模板</strong></p>
+<ul>
+<li><code>params</code>：通常属于路径的一部分（动态路由参数），例如 <code>/user/:id</code>；更像资源定位，语义更强。</li>
+<li><code>query</code>：URL <code>?a=1&amp;b=2</code>，更像筛选条件、可选参数。</li>
+</ul>
+<p>实践上：</p>
+<ul>
+<li>资源主键&#x2F;必需标识：用 params</li>
+<li>列表筛选、分页、排序：用 query</li>
+<li>params 在刷新&#x2F;直达时更稳定（因为在 path 里），query 本身也稳定但语义不同</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>params 需要 route 配置里有动态段 <code>:id</code>（或通过 name + params）</li>
+<li>query 适合可选项与组合条件</li>
+</ul>
+<hr>
+<h2 id="7）为什么有时-params-丢失？如何避免？"><a href="#7）为什么有时-params-丢失？如何避免？" class="headerlink" title="7）为什么有时 params 丢失？如何避免？"></a>7）为什么有时 params 丢失？如何避免？</h2><p><strong>回答模板</strong><br> 常见原因：用 <code>path</code> + <code>params</code> 组合跳转时，params 会被忽略。Vue Router 推荐：</p>
+<ul>
+<li>要传 params：用 <code>name</code> + <code>params</code></li>
+<li>或直接把 params 写进 path</li>
+</ul>
+<p>举例：</p>
+<ul>
+<li>正确：<code>router.push(&#123; name: &#39;user&#39;, params: &#123; id: 1 &#125; &#125;)</code></li>
+<li>风险：<code>router.push(&#123; path: &#39;/user&#39;, params: &#123; id: 1 &#125; &#125;)</code>（可能丢）</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>params 依赖命名路由或动态 path</li>
+<li>面试官在问你是否理解“路由生成规则”</li>
+</ul>
+<hr>
+<h2 id="8）动态路由-id-如何拿到？路由变化如何监听？"><a href="#8）动态路由-id-如何拿到？路由变化如何监听？" class="headerlink" title="8）动态路由 :id 如何拿到？路由变化如何监听？"></a>8）动态路由 <code>:id</code> 如何拿到？路由变化如何监听？</h2><p><strong>回答模板</strong><br> 动态参数通过 <code>useRoute()</code>：</p>
+<ul>
+<li><code>route.params.id</code> 获取路径参数</li>
+<li><code>route.query.xxx</code> 获取查询参数<br> 路由变化监听两种：<br> 1）监听 route：<code>watch(() =&gt; route.params.id, ...)</code><br> 2）组件复用场景用组件内守卫：<code>beforeRouteUpdate(to, from, next)</code> 来处理同组件不同参数的更新逻辑</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>复用组件不会重新 mounted，需要自己处理参数变化</li>
+<li>数据请求要跟参数变化绑定</li>
+</ul>
+<hr>
+<h2 id="9）嵌套路由是什么？-如何工作？"><a href="#9）嵌套路由是什么？-如何工作？" class="headerlink" title="9）嵌套路由是什么？&lt;router-view&gt; 如何工作？"></a>9）嵌套路由是什么？<code>&lt;router-view&gt;</code> 如何工作？</h2><p><strong>回答模板</strong><br> 嵌套路由就是父子路由结构，父路由组件里放 <code>&lt;router-view&gt;</code> 作为子路由的渲染出口。匹配时会得到一条 <code>matched</code> 链，父组件先渲染，然后把子路由组件渲染到父组件的 <code>&lt;router-view&gt;</code> 中，实现“布局 + 内容区”的结构。</p>
+<p><strong>要点</strong></p>
+<ul>
+<li>常用于 Layout：侧边栏&#x2F;头部固定，内容区变化</li>
+<li><code>matched</code> 的层级关系就是嵌套层级</li>
+</ul>
+<hr>
+<h2 id="10）什么是命名路由（name）？有什么优势？"><a href="#10）什么是命名路由（name）？有什么优势？" class="headerlink" title="10）什么是命名路由（name）？有什么优势？"></a>10）什么是命名路由（name）？有什么优势？</h2><p><strong>回答模板</strong><br> 命名路由给路由一个稳定标识。优势：<br> 1）跳转更稳定（path 改了只改配置，不改业务跳转）<br> 2）与 params 配合更可靠<br> 3）做权限映射、菜单生成更方便（以 name 作为 key）</p>
+<p><strong>要点</strong></p>
+<ul>
+<li>大项目常用 name 做路由权限表、keepAlive include 等</li>
+</ul>
+<hr>
+<h2 id="11）路由懒加载怎么做？有什么收益？"><a href="#11）路由懒加载怎么做？有什么收益？" class="headerlink" title="11）路由懒加载怎么做？有什么收益？"></a>11）路由懒加载怎么做？有什么收益？</h2><p><strong>回答模板</strong><br> 路由懒加载通常用动态 import：只有访问到该路由才加载对应 chunk。收益：</p>
+<ul>
+<li>首屏更快（减少初始 JS 体积）</li>
+<li>按需加载（减少无用代码下载）</li>
+<li>配合分包策略提升缓存命中</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li><code>() =&gt; import(&#39;...&#39;)</code></li>
+<li>关注 chunk 拆分与预加载（prefetch&#x2F;preload）策略</li>
+</ul>
+<hr>
+<h2 id="12）导航守卫有哪些？分别适合做什么？"><a href="#12）导航守卫有哪些？分别适合做什么？" class="headerlink" title="12）导航守卫有哪些？分别适合做什么？"></a>12）导航守卫有哪些？分别适合做什么？</h2><p><strong>回答模板</strong><br> 守卫分三类：<br> 1）全局：<code>beforeEach / beforeResolve / afterEach</code><br> 2）路由独享：<code>beforeEnter</code><br> 3）组件内：<code>beforeRouteEnter / beforeRouteUpdate / beforeRouteLeave</code></p>
+<p>应用：</p>
+<ul>
+<li>鉴权：beforeEach 判断 token&#x2F;权限，不通过则重定向</li>
+<li>埋点：afterEach 上报 PV</li>
+<li>离开确认：beforeRouteLeave 弹窗提示未保存</li>
+<li>复用组件更新：beforeRouteUpdate 处理同组件不同参数</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li><code>beforeRouteEnter</code> 里拿不到 <code>this</code>（组件实例还未创建）</li>
+<li>afterEach 不接收 next（它是确认后的回调）</li>
+</ul>
+<hr>
+<h2 id="13）守卫里如何处理异步？如何避免导航卡死？"><a href="#13）守卫里如何处理异步？如何避免导航卡死？" class="headerlink" title="13）守卫里如何处理异步？如何避免导航卡死？"></a>13）守卫里如何处理异步？如何避免导航卡死？</h2><p><strong>回答模板</strong><br> 守卫里可以做异步，比如拉取用户信息、菜单权限。关键是：</p>
+<ul>
+<li>必须确保每条分支最终都放行或重定向（调用 next 或返回对应值，取决于版本写法）</li>
+<li>异步要加超时&#x2F;错误处理，失败要有降级策略（跳登录&#x2F;提示）</li>
+<li>避免重复重定向导致死循环（例如已在 login 还重定向 login）</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>常见坑：漏掉放行导致页面不跳转</li>
+<li>常见坑：权限不足重定向自己导致无限循环</li>
+</ul>
+<hr>
+<h2 id="14）如何做“登录鉴权-动态路由-菜单权限”？"><a href="#14）如何做“登录鉴权-动态路由-菜单权限”？" class="headerlink" title="14）如何做“登录鉴权 + 动态路由 + 菜单权限”？"></a>14）如何做“登录鉴权 + 动态路由 + 菜单权限”？</h2><p><strong>回答模板</strong><br> 典型方案：<br> 1）登录后拿到 token，存本地（或内存+刷新恢复）<br> 2）路由守卫 beforeEach：</p>
+<ul>
+<li>无 token：只允许白名单（login）</li>
+<li>有 token：如果用户信息&#x2F;权限未加载，则请求权限并生成可访问路由<br> 3）调用 <code>router.addRoute()</code> 动态注入路由（通常注入到 layout 子路由下）<br> 4）生成菜单数据（通常来自同一份权限路由表），渲染侧边栏<br> 5）访问未授权路由：跳 403 或重定向到首页</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>动态路由注入必须在放行前完成，否则会出现“刷新丢路由&#x2F;404”</li>
+<li>菜单与路由建议同源（同一份配置&#x2F;后端返回）避免不一致</li>
+</ul>
+<hr>
+<h2 id="15）router-addRoute-什么时候用？刷新为什么会丢？"><a href="#15）router-addRoute-什么时候用？刷新为什么会丢？" class="headerlink" title="15）router.addRoute 什么时候用？刷新为什么会丢？"></a>15）<code>router.addRoute</code> 什么时候用？刷新为什么会丢？</h2><p><strong>回答模板</strong><br> <code>addRoute</code> 用于运行时动态注入路由，常见于权限系统。刷新丢失是因为：动态注入只存在于内存，刷新后路由表重置，所以需要在应用启动时（或首次进入时）根据 token 恢复权限并重新注入。</p>
+<p><strong>要点</strong></p>
+<ul>
+<li>需要“启动恢复逻辑”：有 token → 拉权限 → addRoute → 再进入目标页</li>
+<li>处理好“首次进入目标路由但路由还未注入”的时序问题</li>
+</ul>
+<hr>
+<h2 id="16）路由-meta-有什么用？常见字段怎么设计？"><a href="#16）路由-meta-有什么用？常见字段怎么设计？" class="headerlink" title="16）路由 meta 有什么用？常见字段怎么设计？"></a>16）路由 meta 有什么用？常见字段怎么设计？</h2><p><strong>回答模板</strong><br> <code>meta</code> 用于放路由的业务元信息，不参与匹配但参与渲染与控制，例如：</p>
+<ul>
+<li><code>title</code>：页面标题</li>
+<li><code>requiresAuth</code>：是否需要登录</li>
+<li><code>roles</code>：允许角色列表</li>
+<li><code>keepAlive</code>：是否缓存</li>
+<li><code>icon</code>：菜单图标</li>
+<li><code>hidden</code>：是否在菜单中隐藏</li>
+<li><code>breadcrumb</code>：面包屑显示规则</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>meta 是权限和菜单系统的核心载体</li>
+<li>建议形成统一的 meta 规范，避免散落判断</li>
+</ul>
+<hr>
+<h2 id="17）route-matched-是什么？有什么典型用法？"><a href="#17）route-matched-是什么？有什么典型用法？" class="headerlink" title="17）route.matched 是什么？有什么典型用法？"></a>17）<code>route.matched</code> 是什么？有什么典型用法？</h2><p><strong>回答模板</strong><br> <code>route.matched</code> 是“当前 URL 匹配到的路由记录数组”，从父到子依次排列。典型用途：</p>
+<ul>
+<li>面包屑：遍历 matched 取 meta.title</li>
+<li>菜单高亮：根据 matched 中的路径&#x2F;name 做激活</li>
+<li>布局判断：判断是否命中某个 layout 路由</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>嵌套路由越深 matched 越长</li>
+<li>matched 是“路由记录”，不是组件实例</li>
+</ul>
+<hr>
+<h2 id="18）如何实现路由级-keep-alive-缓存？常见坑有哪些？"><a href="#18）如何实现路由级-keep-alive-缓存？常见坑有哪些？" class="headerlink" title="18）如何实现路由级 keep-alive 缓存？常见坑有哪些？"></a>18）如何实现路由级 keep-alive 缓存？常见坑有哪些？</h2><p><strong>回答模板</strong><br> 实现思路：</p>
+<ul>
+<li>在 layout 中用 <code>&lt;keep-alive&gt;</code> 包住 <code>&lt;router-view&gt;</code> 渲染的组件</li>
+<li>通过 <code>route.meta.keepAlive</code> 控制是否缓存</li>
+<li>对需要缓存的页面保证组件 <code>name</code> 稳定（用于 include&#x2F;exclude）</li>
+</ul>
+<p>常见坑：</p>
+<ul>
+<li>组件复用但 key 不当导致缓存无效或缓存错乱</li>
+<li>缓存页面返回后数据不更新，需要配合 activated 生命周期或 watch route</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li><code>activated/deactivated</code> 管理缓存页面的进入离开</li>
+<li>key 决定“是否认为是同一个实例”</li>
+</ul>
+<hr>
+<h2 id="19）路由重定向-redirect-和别名-alias-的区别？"><a href="#19）路由重定向-redirect-和别名-alias-的区别？" class="headerlink" title="19）路由重定向 redirect 和别名 alias 的区别？"></a>19）路由重定向 redirect 和别名 alias 的区别？</h2><p><strong>回答模板</strong></p>
+<ul>
+<li>redirect：访问 A 实际跳到 B，地址栏会变成 B</li>
+<li>alias：A 是 B 的别名，访问 A 渲染 B 的组件，但地址栏仍然是 A</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>redirect 用于“统一入口&#x2F;默认页&#x2F;兼容旧地址跳新地址”</li>
+<li>alias 用于“多个入口同一页面但保留不同 URL”</li>
+</ul>
+<hr>
+<h2 id="20）404-403-一般怎么做？"><a href="#20）404-403-一般怎么做？" class="headerlink" title="20）404 &#x2F; 403 一般怎么做？"></a>20）404 &#x2F; 403 一般怎么做？</h2><p><strong>回答模板</strong></p>
+<ul>
+<li>404：配置兜底路由 <code>/:pathMatch(.*)*</code> 指向 NotFound</li>
+<li>403：权限不足时重定向到 Forbidden 页面，或在守卫里拦截后跳转<br> 并且在动态路由场景下，保证：路由未注入前不要直接放行到受控路由，否则容易先 404 再注入。</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>404 兜底路由建议放最后</li>
+<li>动态路由要处理“注入时序”</li>
+</ul>
+<hr>
+<h2 id="21）如何传递状态：路由参数-vs-store？"><a href="#21）如何传递状态：路由参数-vs-store？" class="headerlink" title="21）如何传递状态：路由参数 vs store？"></a>21）如何传递状态：路由参数 vs store？</h2><p><strong>回答模板</strong></p>
+<ul>
+<li>路由参数：适合可分享、可恢复、刷新不丢的状态（筛选条件、页码、资源 id）</li>
+<li>store：适合全局共享、与 URL 无关或敏感信息（用户信息、临时 UI 状态）<br> 一般建议：能进 URL 的尽量进 URL，保证可回放与可分享；敏感或不稳定状态放 store。</li>
+</ul>
+<p><strong>要点</strong></p>
+<ul>
+<li>URL 是“可见的状态机”，利于排查与复现</li>
+<li>敏感信息不要放 query（泄露风险）</li>
+</ul>
+<hr>
+<h2 id="22）你在项目里用-Vue-Router-解决过什么问题？"><a href="#22）你在项目里用-Vue-Router-解决过什么问题？" class="headerlink" title="22）你在项目里用 Vue Router 解决过什么问题？"></a>22）你在项目里用 Vue Router 解决过什么问题？</h2><p><strong>回答模板（项目型）</strong><br> 我主要用 Vue Router 做了三件事：<br> 1）基于 beforeEach 的鉴权拦截，结合 meta.roles 控制路由访问，未授权重定向 403<br> 2）动态路由：登录后拉取权限路由表，<code>addRoute</code> 注入到 layout 下，同步生成侧边菜单，保证路由与菜单一致<br> 3）路由缓存：对高频列表页启用 keepAlive，结合 meta.keepAlive 与组件 activated 做数据刷新策略，解决返回列表重刷和滚动位置丢失的问题</p>
+<p><strong>要点</strong></p>
+<ul>
+<li>面试官更看重：你是否处理过“动态路由时序”“缓存策略”“权限闭环”</li>
+</ul>
+<hr>
+<p>如果你希望更贴近你的面试场景，我还可以把这些模板压缩成“30 秒版本 &#x2F; 2 分钟版本”，以及补一段“手写一个简易路由匹配 + history&#x2F;hash 原理”的加分回答。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Vue/" class="category-chain-item">Vue</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Vue Router面试题</div>
+      <div>http://example.com/2026/01/08/Vue/Vue-Router面试题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/08/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/El-Menu%E5%A6%82%E4%BD%95%E7%BB%91%E5%AE%9AVue-Router/" title="El-Menu如何绑定Vue Router？">
+                        <span class="hidden-mobile">El-Menu如何绑定Vue Router？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

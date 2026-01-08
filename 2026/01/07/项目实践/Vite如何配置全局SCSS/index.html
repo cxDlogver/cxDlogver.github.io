@@ -1,0 +1,892 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Vite如何配置全局SCSS?前端项目一旦进入多人协作阶段，样式如果没有“全局设计体系”，后期会出现：颜色不统一、组件风格割裂、暗色&#x2F;主题难切换、维护成本暴涨。 这篇文章用一个“科技蓝”风格为例，搭建一套可扩展的全局 SCSS 体系，包括：  设计变量（SCSS Tokens） 运行时主题（CSS Variables） Reset 基础重置 Vite 全局注入（组件里无需重复 impor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vite如何配置全局SCSS?">
+<meta property="og:url" content="http://example.com/2026/01/07/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/Vite%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E5%85%A8%E5%B1%80SCSS/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="Vite如何配置全局SCSS?前端项目一旦进入多人协作阶段，样式如果没有“全局设计体系”，后期会出现：颜色不统一、组件风格割裂、暗色&#x2F;主题难切换、维护成本暴涨。 这篇文章用一个“科技蓝”风格为例，搭建一套可扩展的全局 SCSS 体系，包括：  设计变量（SCSS Tokens） 运行时主题（CSS Variables） Reset 基础重置 Vite 全局注入（组件里无需重复 impor">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-07T14:37:14.000Z">
+<meta property="article:modified_time" content="2026-01-08T13:30:16.347Z">
+<meta property="article:author" content="Xiang Chen">
+<meta property="article:tag" content="前端项目实践">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Vite如何配置全局SCSS? - 相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Vite如何配置全局SCSS?"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-07 22:37" pubdate>
+          2026年1月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Vite如何配置全局SCSS?</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Vite如何配置全局SCSS"><a href="#Vite如何配置全局SCSS" class="headerlink" title="Vite如何配置全局SCSS?"></a>Vite如何配置全局SCSS?</h1><p>前端项目一旦进入多人协作阶段，样式如果没有“全局设计体系”，后期会出现：颜色不统一、组件风格割裂、暗色&#x2F;主题难切换、维护成本暴涨。</p>
+<p>这篇文章用一个<strong>“科技蓝”风格</strong>为例，搭建一套可扩展的全局 SCSS 体系，包括：</p>
+<ul>
+<li>设计变量（SCSS Tokens）</li>
+<li>运行时主题（CSS Variables）</li>
+<li>Reset 基础重置</li>
+<li>Vite 全局注入（组件里无需重复 import）</li>
+</ul>
+<hr>
+<h2 id="Step-0：最终目录结构（先定工程边界）"><a href="#Step-0：最终目录结构（先定工程边界）" class="headerlink" title="Step 0：最终目录结构（先定工程边界）"></a>Step 0：最终目录结构（先定工程边界）</h2><p>在 <code>src/styles/</code> 下建立以下文件：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">src<span class="hljs-regexp">/styles/</span><br>├─ index.scss                 <span class="hljs-comment"># 全局样式入口（唯一被 main.ts 引入）</span><br>├─ reset.scss                 <span class="hljs-comment"># 基础重置（只做“清底盘”）</span><br>├─ variables.tokens.scss      <span class="hljs-comment"># 变量文件 1：SCSS 设计 tokens（给编译期用）</span><br>└─ variables.theme.scss       <span class="hljs-comment"># 变量文件 2：CSS 主题变量（给运行时切换用）</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li><code>index.scss</code> 是唯一入口，所有全局样式统一从这里聚合，避免“到处引入导致依赖混乱”。</li>
+<li>两套变量体系是有意义的：<ul>
+<li><strong>tokens（SCSS 变量）</strong>：编译期，给 mixin、计算、生成样式用</li>
+<li><strong>theme（CSS 变量）</strong>：运行时，可实现亮&#x2F;暗切换、动态换肤</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Step-1：安装-sass"><a href="#Step-1：安装-sass" class="headerlink" title="Step 1：安装 sass"></a>Step 1：安装 sass</h2><p>Vite 使用 SCSS 需要 <code>sass</code>：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript"><span class="hljs-built_in">npm</span> i -D sass<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong><br> <code>sass</code> 是预处理器编译依赖，不是运行时依赖，所以安装到 devDependencies。</p>
+<hr>
+<h2 id="Step-2：编写科技蓝-Tokens（variables-tokens-scss）"><a href="#Step-2：编写科技蓝-Tokens（variables-tokens-scss）" class="headerlink" title="Step 2：编写科技蓝 Tokens（variables.tokens.scss）"></a>Step 2：编写科技蓝 Tokens（variables.tokens.scss）</h2><p>文件：<code>src/styles/variables.tokens.scss</code></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-comment">/* 编译期 Tokens：用于生成样式、mixin、计算等（不会直接输出到 CSS 变量） */</span><br><br><span class="hljs-comment">/* 品牌色（科技蓝） */</span><br><span class="hljs-variable">$color-brand-500</span>: <span class="hljs-number">#1677ff</span>;<br><span class="hljs-variable">$color-brand-600</span>: <span class="hljs-number">#125fd6</span>;<br><span class="hljs-variable">$color-brand-700</span>: <span class="hljs-number">#0d47a1</span>;<br><br><span class="hljs-comment">/* 中性色 */</span><br><span class="hljs-variable">$color-gray-0</span>: <span class="hljs-number">#ffffff</span>;<br><span class="hljs-variable">$color-gray-50</span>: <span class="hljs-number">#f7f9fc</span>;<br><span class="hljs-variable">$color-gray-100</span>: <span class="hljs-number">#eef2f7</span>;<br><span class="hljs-variable">$color-gray-200</span>: <span class="hljs-number">#d9e2ef</span>;<br><span class="hljs-variable">$color-gray-700</span>: <span class="hljs-number">#344054</span>;<br><span class="hljs-variable">$color-gray-900</span>: <span class="hljs-number">#101828</span>;<br><br><span class="hljs-comment">/* 语义色 */</span><br><span class="hljs-variable">$color-success</span>: <span class="hljs-number">#2ecc71</span>;<br><span class="hljs-variable">$color-warning</span>: <span class="hljs-number">#f5a623</span>;<br><span class="hljs-variable">$color-danger</span>: <span class="hljs-number">#ff4d4f</span>;<br><br><span class="hljs-comment">/* 尺寸与排版 */</span><br><span class="hljs-variable">$radius-sm</span>: <span class="hljs-number">6px</span>;<br><span class="hljs-variable">$radius-md</span>: <span class="hljs-number">10px</span>;<br><span class="hljs-variable">$radius-lg</span>: <span class="hljs-number">14px</span>;<br><br><span class="hljs-variable">$shadow-soft</span>: <span class="hljs-number">0</span> <span class="hljs-number">10px</span> <span class="hljs-number">30px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">16</span>, <span class="hljs-number">24</span>, <span class="hljs-number">40</span>, <span class="hljs-number">0.08</span>);<br><span class="hljs-variable">$shadow-glow-blue</span>: <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">4px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">22</span>, <span class="hljs-number">119</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.18</span>);<br><br><span class="hljs-variable">$font-family-base</span>: ui-sans-serif, system-ui, -apple-system, <span class="hljs-string">&quot;Segoe UI&quot;</span>, Roboto,<br>  <span class="hljs-string">&quot;Helvetica Neue&quot;</span>, Arial, <span class="hljs-string">&quot;Noto Sans&quot;</span>, <span class="hljs-string">&quot;PingFang SC&quot;</span>, <span class="hljs-string">&quot;Microsoft YaHei&quot;</span>, sans-serif;<br><br><span class="hljs-variable">$font-size-base</span>: <span class="hljs-number">14px</span>;<br><span class="hljs-variable">$line-height-base</span>: <span class="hljs-number">1.6</span>;<br><br><span class="hljs-comment">/* 动画与过渡 */</span><br><span class="hljs-variable">$transition-fast</span>: <span class="hljs-number">120ms</span> ease;<br><span class="hljs-variable">$transition-base</span>: <span class="hljs-number">200ms</span> ease;<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li>Tokens 建议用“语义 + 强度”的命名（如 brand-500），便于扩展与统一。</li>
+<li>不要用 <code>$blue</code> &#x2F; <code>$darkBlue</code> 这种“描述颜色长相”的变量名，后期换色会很痛苦。</li>
+</ul>
+<hr>
+<h2 id="Step-3：编写运行时主题变量（variables-theme-scss）"><a href="#Step-3：编写运行时主题变量（variables-theme-scss）" class="headerlink" title="Step 3：编写运行时主题变量（variables.theme.scss）"></a>Step 3：编写运行时主题变量（variables.theme.scss）</h2><p>文件：<code>src/styles/variables.theme.scss</code></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-comment">/* 运行时主题：用 CSS Variables，便于动态切换亮/暗或多主题 */</span><br><span class="hljs-selector-pseudo">:root</span> &#123;<br>  <span class="hljs-comment">/* 背景与文本 */</span><br>  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#0b1220</span>;              <span class="hljs-comment">/* 深蓝黑背景（科技感） */</span><br>  <span class="hljs-attr">--bg-elevated</span>: <span class="hljs-number">#0f1b2e</span>;     <span class="hljs-comment">/* 卡片/面板背景 */</span><br>  <span class="hljs-attr">--text</span>: <span class="hljs-number">#e6edf7</span>;            <span class="hljs-comment">/* 主文本 */</span><br>  <span class="hljs-attr">--text-muted</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">230</span>, <span class="hljs-number">237</span>, <span class="hljs-number">247</span>, <span class="hljs-number">0.72</span>);<br><br>  <span class="hljs-comment">/* 边框与分割线 */</span><br>  <span class="hljs-attr">--border</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">120</span>, <span class="hljs-number">170</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.18</span>);<br><br>  <span class="hljs-comment">/* 品牌（科技蓝） */</span><br>  <span class="hljs-attr">--primary</span>: <span class="hljs-number">#1677ff</span>;<br>  <span class="hljs-attr">--primary-hover</span>: <span class="hljs-number">#2f88ff</span>;<br>  <span class="hljs-attr">--primary-active</span>: <span class="hljs-number">#125fd6</span>;<br><br>  <span class="hljs-comment">/* 高亮与光晕 */</span><br>  <span class="hljs-attr">--glow</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">22</span>, <span class="hljs-number">119</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.25</span>);<br><br>  <span class="hljs-comment">/* 状态色 */</span><br>  <span class="hljs-attr">--success</span>: <span class="hljs-number">#2ecc71</span>;<br>  <span class="hljs-attr">--warning</span>: <span class="hljs-number">#f5a623</span>;<br>  <span class="hljs-attr">--danger</span>: <span class="hljs-number">#ff4d4f</span>;<br><br>  <span class="hljs-comment">/* 圆角与阴影 */</span><br>  <span class="hljs-attr">--radius</span>: <span class="hljs-number">12px</span>;<br>  <span class="hljs-attr">--shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">10px</span> <span class="hljs-number">30px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.35</span>);<br><br>  <span class="hljs-comment">/* 字体 */</span><br>  <span class="hljs-attr">--font</span>: ui-sans-serif, system-ui, -apple-system, <span class="hljs-string">&quot;Segoe UI&quot;</span>, Roboto,<br>    <span class="hljs-string">&quot;Helvetica Neue&quot;</span>, Arial, <span class="hljs-string">&quot;Noto Sans&quot;</span>, <span class="hljs-string">&quot;PingFang SC&quot;</span>, <span class="hljs-string">&quot;Microsoft YaHei&quot;</span>, sans-serif;<br>&#125;<br><br><span class="hljs-comment">/* 可选：提供亮色主题（如果你未来要支持切换） */</span><br><span class="hljs-selector-attr">[data-theme=<span class="hljs-string">&quot;light&quot;</span>]</span> &#123;<br>  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#f6f9ff</span>;<br>  <span class="hljs-attr">--bg-elevated</span>: <span class="hljs-number">#ffffff</span>;<br>  <span class="hljs-attr">--text</span>: <span class="hljs-number">#0b1220</span>;<br>  <span class="hljs-attr">--text-muted</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">11</span>, <span class="hljs-number">18</span>, <span class="hljs-number">32</span>, <span class="hljs-number">0.65</span>);<br>  <span class="hljs-attr">--border</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">22</span>, <span class="hljs-number">119</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.16</span>);<br>  <span class="hljs-attr">--shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">12px</span> <span class="hljs-number">30px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">16</span>, <span class="hljs-number">24</span>, <span class="hljs-number">40</span>, <span class="hljs-number">0.12</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li>主题变量建议用 <code>--bg / --text / --border / --primary</code> 这种“语义化”命名。</li>
+<li>用 <code>[data-theme=&quot;light&quot;]</code> 这种方式，为未来主题切换留扩展口子。</li>
+</ul>
+<hr>
+<h2 id="Step-4：写-Reset（reset-scss）"><a href="#Step-4：写-Reset（reset-scss）" class="headerlink" title="Step 4：写 Reset（reset.scss）"></a>Step 4：写 Reset（reset.scss）</h2><p>文件：<code>src/styles/reset.scss</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-comment">/* Reset：只做“清底盘”，不做业务样式，不做组件样式 */</span><br><br>*,<br>*<span class="hljs-selector-pseudo">::before</span>,<br>*<span class="hljs-selector-pseudo">::after</span> &#123;<br>  <span class="hljs-attribute">box-sizing</span>: border-box;<br>&#125;<br><br><span class="hljs-selector-tag">html</span>,<br><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;<br>&#125;<br><br><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">font-family</span>: <span class="hljs-built_in">var</span>(--font);<br>  <span class="hljs-attribute">font-size</span>: <span class="hljs-number">14px</span>;<br>  <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.6</span>;<br><br>  <span class="hljs-attribute">background</span>: <span class="hljs-built_in">var</span>(--bg);<br>  <span class="hljs-attribute">color</span>: <span class="hljs-built_in">var</span>(--text);<br><br>  <span class="hljs-comment">/* 字体渲染优化 */</span><br>  -webkit-<span class="hljs-attribute">font-smoothing</span>: antialiased;<br>  -moz-osx-<span class="hljs-attribute">font-smoothing</span>: grayscale;<br>&#125;<br><br><span class="hljs-selector-tag">img</span>,<br><span class="hljs-selector-tag">svg</span>,<br><span class="hljs-selector-tag">video</span>,<br><span class="hljs-selector-tag">canvas</span> &#123;<br>  <span class="hljs-attribute">display</span>: block;<br>  <span class="hljs-attribute">max-width</span>: <span class="hljs-number">100%</span>;<br>&#125;<br><br><span class="hljs-selector-tag">button</span>,<br><span class="hljs-selector-tag">input</span>,<br><span class="hljs-selector-tag">textarea</span>,<br><span class="hljs-selector-tag">select</span> &#123;<br>  <span class="hljs-attribute">font</span>: inherit;<br>  <span class="hljs-attribute">color</span>: inherit;<br>&#125;<br><br><span class="hljs-selector-tag">button</span> &#123;<br>  <span class="hljs-attribute">cursor</span>: pointer;<br>  <span class="hljs-attribute">background</span>: none;<br>  <span class="hljs-attribute">border</span>: none;<br>  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-selector-tag">a</span> &#123;<br>  <span class="hljs-attribute">color</span>: inherit;<br>  <span class="hljs-attribute">text-decoration</span>: none;<br>&#125;<br><br><span class="hljs-selector-tag">ul</span>,<br><span class="hljs-selector-tag">ol</span> &#123;<br>  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;<br>  <span class="hljs-attribute">list-style</span>: none;<br>&#125;<br><br><span class="hljs-selector-pseudo">:focus-visible</span> &#123;<br>  <span class="hljs-attribute">outline</span>: <span class="hljs-number">2px</span> solid <span class="hljs-built_in">var</span>(--primary);<br>  <span class="hljs-attribute">outline-offset</span>: <span class="hljs-number">2px</span>;<br>&#125;<br><br><span class="hljs-comment">/* 可选：滚动条（偏科技感，谨慎使用） */</span><br>::-webkit-scrollbar &#123;<br>  <span class="hljs-attribute">width</span>: <span class="hljs-number">10px</span>;<br>  <span class="hljs-attribute">height</span>: <span class="hljs-number">10px</span>;<br>&#125;<br><br>::-webkit-scrollbar-thumb &#123;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">22</span>, <span class="hljs-number">119</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.22</span>);<br>  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">999px</span>;<br>  <span class="hljs-attribute">border</span>: <span class="hljs-number">2px</span> solid transparent;<br>  <span class="hljs-attribute">background-clip</span>: padding-box;<br>&#125;<br><br>::-webkit-scrollbar-thumb:hover &#123;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">22</span>, <span class="hljs-number">119</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.35</span>);<br>  <span class="hljs-attribute">background-clip</span>: padding-box;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li>Reset 的目标：统一浏览器默认行为，减少样式差异。</li>
+<li>Reset 里不要出现 <code>.page</code>、<code>.header</code> 这类业务 class，否则会污染全局。</li>
+</ul>
+<hr>
+<h2 id="Step-5：全局样式入口（index-scss）"><a href="#Step-5：全局样式入口（index-scss）" class="headerlink" title="Step 5：全局样式入口（index.scss）"></a>Step 5：全局样式入口（index.scss）</h2><p>文件：<code>src/styles/index.scss</code></p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-comment">/* 全局入口：统一组织全局样式层级 */</span><br><br><span class="hljs-comment">/* 1) 主题变量（运行时） */</span><br><span class="hljs-keyword">@use</span> <span class="hljs-string">&quot;./variables.theme.scss&quot;</span>;<br><br><span class="hljs-comment">/* 2) Reset（清底盘） */</span><br><span class="hljs-keyword">@use</span> <span class="hljs-string">&quot;./reset.scss&quot;</span>;<br><br><span class="hljs-comment">/* 3) 可选：全局基础风格（少量、谨慎） */</span><br><span class="hljs-selector-pseudo">:root</span> &#123;<br>  <span class="hljs-attribute">color-scheme</span>: dark;<br>&#125;<br><br><span class="hljs-comment">/* 卡片类基础样式（如果你想要全站统一的“科技蓝卡片感”） */</span><br><span class="hljs-selector-class">.app-surface</span> &#123;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-built_in">linear-gradient</span>(<br>    <span class="hljs-number">180deg</span>,<br>    <span class="hljs-built_in">rgba</span>(<span class="hljs-number">22</span>, <span class="hljs-number">119</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.10</span>),<br>    <span class="hljs-built_in">rgba</span>(<span class="hljs-number">22</span>, <span class="hljs-number">119</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0.02</span>)<br>  );<br>  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-built_in">var</span>(--border);<br>  <span class="hljs-attribute">border-radius</span>: <span class="hljs-built_in">var</span>(--radius);<br>  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-built_in">var</span>(--shadow);<br>  backdrop-<span class="hljs-attribute">filter</span>: <span class="hljs-built_in">blur</span>(<span class="hljs-number">8px</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li><code>index.scss</code> 统一入口，保证全局样式加载顺序可控。</li>
+<li><code>.app-surface</code> 这种属于“通用容器风格”，可保留，但不要扩展为一堆业务类。</li>
+</ul>
+<hr>
+<h2 id="Step-6：在-main-ts-引入一次全局样式"><a href="#Step-6：在-main-ts-引入一次全局样式" class="headerlink" title="Step 6：在 main.ts 引入一次全局样式"></a>Step 6：在 main.ts 引入一次全局样式</h2><p><code>src/main.ts</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; createApp &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./App.vue&quot;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;@/styles/index.scss&quot;</span>;<br><br><span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&quot;#app&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li>全局样式只引入一次，且在应用入口引入，避免组件重复加载造成不可控。</li>
+</ul>
+<hr>
+<h2 id="Step-7：让每个组件自动可用-SCSS-Tokens（Vite-注入）"><a href="#Step-7：让每个组件自动可用-SCSS-Tokens（Vite-注入）" class="headerlink" title="Step 7：让每个组件自动可用 SCSS Tokens（Vite 注入）"></a>Step 7：让每个组件自动可用 SCSS Tokens（Vite 注入）</h2><p>你已经有 <code>variables.tokens.scss</code> 了，但组件里如果每次都写 <code>@use</code> 会很烦。<br> 工程上用 Vite 的 <code>additionalData</code> 统一注入。</p>
+<p><code>vite.config.ts</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; defineConfig &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vite&quot;</span>;<br><span class="hljs-keyword">import</span> vue <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@vitejs/plugin-vue&quot;</span>;<br><span class="hljs-keyword">import</span> path <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;path&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title function_">defineConfig</span>(&#123;<br>  <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">vue</span>()],<br>  <span class="hljs-attr">resolve</span>: &#123;<br>    <span class="hljs-attr">alias</span>: &#123;<br>      <span class="hljs-string">&quot;@&quot;</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&quot;src&quot;</span>),<br>    &#125;,<br>  &#125;,<br>  <span class="hljs-attr">css</span>: &#123;<br>    <span class="hljs-attr">preprocessorOptions</span>: &#123;<br>      <span class="hljs-attr">scss</span>: &#123;<br>        <span class="hljs-attr">additionalData</span>: <span class="hljs-string">`</span><br><span class="hljs-string">          @use &quot;@/styles/variables.tokens.scss&quot; as *;</span><br><span class="hljs-string">        `</span>,<br>      &#125;,<br>    &#125;,<br>  &#125;,<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>现在组件里可以直接写：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scss">&lt;style scoped lang=&quot;scss&quot;&gt;<br><span class="hljs-selector-class">.panel</span> &#123;<br>  <span class="hljs-attribute">border-radius</span>: <span class="hljs-variable">$radius-md</span>;<br>  <span class="hljs-attribute">transition</span>: <span class="hljs-variable">$transition-base</span>;<br>&#125;<br><span class="hljs-selector-class">.panel</span><span class="hljs-selector-pseudo">:focus-within</span> &#123;<br>  <span class="hljs-attribute">box-shadow</span>: <span class="hljs-variable">$shadow-glow-blue</span>;<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li><code>additionalData</code> 是编译期注入，不会在运行时报错。</li>
+<li>只注入 tokens（SCSS 变量），不要注入 reset&#x2F;theme，避免污染组件作用域概念。</li>
+</ul>
+<hr>
+<h2 id="Step-8：验证“科技蓝风格”是否生效（快速自检）"><a href="#Step-8：验证“科技蓝风格”是否生效（快速自检）" class="headerlink" title="Step 8：验证“科技蓝风格”是否生效（快速自检）"></a>Step 8：验证“科技蓝风格”是否生效（快速自检）</h2><p>在 <code>App.vue</code> 写一个简单面板：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div style=&quot;min-height: 100vh; padding: 24px;&quot;&gt;<br>    &lt;div class=&quot;app-surface panel&quot;&gt;<br>      &lt;h2&gt;Tech Blue Dashboard&lt;/h2&gt;<br>      &lt;p&gt;全局主题变量 + Reset + Tokens 注入已生效。&lt;/p&gt;<br>      &lt;button class=&quot;btn&quot;&gt;Primary Action&lt;/button&gt;<br>    &lt;/div&gt;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;style scoped lang=&quot;scss&quot;&gt;<br>.panel &#123;<br>  padding: 18px;<br>  border-radius: $radius-lg;<br>&#125;<br><br>h2 &#123;<br>  margin: 0 0 10px 0;<br>&#125;<br><br>.btn &#123;<br>  margin-top: 14px;<br>  padding: 10px 14px;<br>  border-radius: $radius-sm;<br>  background: var(--primary);<br>  color: #fff;<br>  transition: $transition-fast;<br>&#125;<br>.btn:hover &#123;<br>  background: var(--primary-hover);<br>&#125;<br>.btn:active &#123;<br>  background: var(--primary-active);<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li>按职责：<ul>
+<li><code>var(--primary)</code> 负责主题色（运行时）</li>
+<li><code>$radius-sm</code> 等负责统一设计尺度（编译期）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Step-9：主题切换"><a href="#Step-9：主题切换" class="headerlink" title="Step 9：主题切换"></a>Step 9：主题切换</h2><p>如果未来要支持亮&#x2F;暗，直接改根节点属性即可：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&quot;data-theme&quot;</span>, <span class="hljs-string">&quot;light&quot;</span>);<br><span class="hljs-comment">// 恢复暗色（默认）</span><br><span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-title function_">removeAttribute</span>(<span class="hljs-string">&quot;data-theme&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键点：</strong></p>
+<ul>
+<li>切主题只改 DOM 属性，不需要重编译，不需要重载 CSS。</li>
+</ul>
+<h2 id="SCSS的用法"><a href="#SCSS的用法" class="headerlink" title="SCSS的用法"></a>SCSS的用法</h2><h3 id="【定义变量】"><a href="#【定义变量】" class="headerlink" title="【定义变量】"></a>【定义变量】</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-variable">$radius-md</span>: <span class="hljs-number">10px</span>;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>$radius-md</code> <strong>只在编译时存在</strong></li>
+<li>编译后，浏览器根本不知道这个变量的存在</li>
+</ul>
+<p>编译结果：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-class">.panel</span> &#123;<br>  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">10px</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="【-use-与命名空间】"><a href="#【-use-与命名空间】" class="headerlink" title="【@use 与命名空间】"></a>【<code>@use</code> 与命名空间】</h3><p>你在项目中用的是：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-keyword">@use</span> <span class="hljs-string">&quot;@/styles/variables.tokens.scss&quot;</span> as *;<br></code></pre></td></tr></table></figure>
+
+<p>这意味着：</p>
+<ul>
+<li><code>@use</code> 是 <strong>官方推荐</strong>（替代老的 <code>@import</code>）</li>
+<li><code>as *</code> 表示“展开为全局变量”</li>
+</ul>
+<p>如果不用 <code>as *</code>：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-keyword">@use</span> <span class="hljs-string">&quot;@/styles/variables.tokens.scss&quot;</span> as tokens;<br><br><span class="hljs-selector-class">.panel</span> &#123;<br>  <span class="hljs-attribute">border-radius</span>: tokens.<span class="hljs-variable">$radius-md</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>工程建议：</strong></p>
+<ul>
+<li><strong>全局注入用 <code>as \*</code></strong></li>
+<li>模块内部或库开发用命名空间，避免变量污染</li>
+</ul>
+<h3 id="【SCSS-嵌套】"><a href="#【SCSS-嵌套】" class="headerlink" title="【SCSS 嵌套】"></a>【SCSS 嵌套】</h3><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-class">.panel</span> &#123;<br>  <span class="hljs-attribute">padding</span>: <span class="hljs-number">16px</span>;<br><br>  &amp;<span class="hljs-selector-pseudo">:hover</span> &#123;<br>    <span class="hljs-attribute">box-shadow</span>: <span class="hljs-variable">$shadow-glow-blue</span>;<br>  &#125;<br><br>  <span class="hljs-selector-class">.title</span> &#123;<br>    <span class="hljs-attribute">font-weight</span>: <span class="hljs-number">600</span>;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>工程铁律：</strong></p>
+<ul>
+<li>嵌套不超过 <strong>3 层</strong></li>
+<li>禁止 <code>.a .b .c .d</code></li>
+</ul>
+<h2 id="CSS-Variables"><a href="#CSS-Variables" class="headerlink" title="CSS Variables"></a>CSS Variables</h2><p>在前面的章节中，我们已经在项目中使用了如下代码：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-pseudo">:root</span> &#123;<br>  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#0b1220</span>;<br>  <span class="hljs-attr">--text</span>: <span class="hljs-number">#e6edf7</span>;<br>  <span class="hljs-attr">--primary</span>: <span class="hljs-number">#1677ff</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>并在 reset &#x2F; 组件中这样使用：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-built_in">var</span>(--bg);<br>  <span class="hljs-attribute">color</span>: <span class="hljs-built_in">var</span>(--text);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这一节，我们就来彻底讲清楚：<strong>CSS Variables 到底解决了什么问题，以及它是如何支撑“动态主题系统”的</strong>。</p>
+<h3 id="最直观的定义"><a href="#最直观的定义" class="headerlink" title="最直观的定义"></a>最直观的定义</h3><p><strong>CSS Variables（CSS 自定义属性）</strong> 是：</p>
+<blockquote>
+<p><strong>存在于浏览器运行时的变量，可被 CSS 和 JavaScript 同时读写。</strong></p>
+</blockquote>
+<p>语法形式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-pseudo">:root</span> &#123;<br>  <span class="hljs-attr">--primary</span>: <span class="hljs-number">#1677ff</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-class">.button</span> &#123;<br>  <span class="hljs-attribute">background</span>: <span class="hljs-built_in">var</span>(--primary);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="root"><a href="#root" class="headerlink" title=":root"></a><code>:root</code></h3><p><code>:root</code> 是什么？</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-pseudo">:root</span> &#123; ... &#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>表示 <strong>文档树的根节点</strong></li>
+<li>在 HTML 中等价于 <code>html</code></li>
+<li>但 <code>:root</code> 的 <strong>CSS 变量优先级更高</strong></li>
+</ul>
+<blockquote>
+<p>所以：<strong>全局主题变量，统一定义在 <code>:root</code> 是最佳实践</strong></p>
+</blockquote>
+<hr>
+<p>为什么不用 <code>body</code>？</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-tag">body</span> &#123;<br>  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#0b1220</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这种写法的问题：</p>
+<ul>
+<li>CSS 变量的作用域是“向下继承”</li>
+<li><code>body</code> 的变量在某些场景（如 portal &#x2F; iframe &#x2F; shadow DOM）会出现边界问题</li>
+</ul>
+<p>工程上统一用：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-pseudo">:root</span> &#123;<br>  <span class="hljs-attr">--bg</span>: ...;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="CSS-Variables-的“作用域机制”"><a href="#CSS-Variables-的“作用域机制”" class="headerlink" title="CSS Variables 的“作用域机制”"></a>CSS Variables 的“作用域机制”</h3><p>CSS Variables <strong>遵循 CSS 作用域规则</strong>。</p>
+<h4 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-pseudo">:root</span> &#123;<br>  <span class="hljs-attr">--primary</span>: <span class="hljs-number">#1677ff</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所有子节点都能使用。</p>
+<hr>
+<h4 id="局部覆盖"><a href="#局部覆盖" class="headerlink" title="局部覆盖"></a>局部覆盖</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-attr">[data-theme=<span class="hljs-string">&quot;light&quot;</span>]</span> &#123;<br>  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#f6f9ff</span>;<br>  <span class="hljs-attr">--text</span>: <span class="hljs-number">#0b1220</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这意味着：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;html <span class="hljs-attribute">data-theme</span>=<span class="hljs-string">&quot;light&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>时：</p>
+<ul>
+<li><code>--bg</code> &#x2F; <code>--text</code> 会覆盖 <code>:root</code> 中的定义</li>
+<li>未定义的变量仍然从 <code>:root</code> 继承</li>
+</ul>
+<blockquote>
+<p>这就是“主题切换”的<strong>底层原理</strong></p>
+</blockquote>
+<h3 id="亮-暗主题切换"><a href="#亮-暗主题切换" class="headerlink" title="亮 &#x2F; 暗主题切换"></a>亮 &#x2F; 暗主题切换</h3><h4 id="默认主题（暗色-·-科技蓝）"><a href="#默认主题（暗色-·-科技蓝）" class="headerlink" title="默认主题（暗色 · 科技蓝）"></a>默认主题（暗色 · 科技蓝）</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-pseudo">:root</span> &#123;<br>  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#0b1220</span>;<br>  <span class="hljs-attr">--text</span>: <span class="hljs-number">#e6edf7</span>;<br>  <span class="hljs-attr">--primary</span>: <span class="hljs-number">#1677ff</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="亮色主题覆盖"><a href="#亮色主题覆盖" class="headerlink" title="亮色主题覆盖"></a>亮色主题覆盖</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scss"><span class="hljs-selector-attr">[data-theme=<span class="hljs-string">&quot;light&quot;</span>]</span> &#123;<br>  <span class="hljs-attr">--bg</span>: <span class="hljs-number">#f6f9ff</span>;<br>  <span class="hljs-attr">--text</span>: <span class="hljs-number">#0b1220</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="切换时发生了什么？"><a href="#切换时发生了什么？" class="headerlink" title="切换时发生了什么？"></a>切换时发生了什么？</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">document</span>.<span class="hljs-property">documentElement</span>.<span class="hljs-title function_">setAttribute</span>(<span class="hljs-string">&quot;data-theme&quot;</span>, <span class="hljs-string">&quot;light&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>浏览器执行流程：</p>
+<ol>
+<li>DOM 属性变化</li>
+<li>CSS 选择器 <code>[data-theme=&quot;light&quot;]</code> 生效</li>
+<li>对应的 CSS Variables 被覆盖</li>
+<li>所有使用 <code>var(--bg)</code> 的地方自动更新</li>
+</ol>
+<p><strong>没有 JS 操作样式，没有重绘逻辑，没有额外计算。</strong></p>
+<h3 id="JS-如何操作-CSS-Variables（核心-API）"><a href="#JS-如何操作-CSS-Variables（核心-API）" class="headerlink" title="JS 如何操作 CSS Variables（核心 API）"></a>JS 如何操作 CSS Variables（核心 API）</h3><h4 id="设置变量"><a href="#设置变量" class="headerlink" title="设置变量"></a>设置变量</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-built_in">document</span>.documentElement.style.setProperty(<span class="hljs-string">&quot;--primary&quot;</span>, <span class="hljs-string">&quot;#ff4d4f&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="读取变量（调试或计算）"><a href="#读取变量（调试或计算）" class="headerlink" title="读取变量（调试或计算）"></a>读取变量（调试或计算）</h4><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs abnf">const value <span class="hljs-operator">=</span> getComputedStyle(document.documentElement)<br>  .getPropertyValue(<span class="hljs-string">&quot;--primary&quot;</span>)<br>  .trim()<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="移除变量（回退到-CSS-定义）"><a href="#移除变量（回退到-CSS-定义）" class="headerlink" title="移除变量（回退到 CSS 定义）"></a>移除变量（回退到 CSS 定义）</h4><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">document.documentElement.style.removeProperty(<span class="hljs-string">&quot;--primary&quot;</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/" class="category-chain-item">项目实践</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/" class="print-no-link">#前端项目实践</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Vite如何配置全局SCSS?</div>
+      <div>http://example.com/2026/01/07/项目实践/Vite如何配置全局SCSS/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/08/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/El-Menu%E5%A6%82%E4%BD%95%E7%BB%91%E5%AE%9AVue-Router/" title="El-Menu如何绑定Vue Router？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">El-Menu如何绑定Vue Router？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/06/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/15-%E4%BA%8C%E7%BB%B4%E5%9C%B0%E5%9B%BE%E7%BB%98%E5%88%B6/" title="15.OpenLayers地图绘制">
+                        <span class="hidden-mobile">15.OpenLayers地图绘制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -24,7 +24,7 @@
 <meta property="og:description" content="为什么要引入Promise？ 如何理解Promise？ 什么是微任务与宏任务？ async 和 await 的原理和作用是什么？">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-12-17T09:43:13.000Z">
-<meta property="article:modified_time" content="2025-12-17T09:45:23.448Z">
+<meta property="article:modified_time" content="2026-01-06T11:54:45.680Z">
 <meta property="article:author" content="Xiang Chen">
 <meta property="article:tag" content="前端面试题">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.8k 字
+          5.8k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          41 分钟
+          49 分钟
         
       </span>
     
@@ -288,8 +288,20 @@
 </blockquote>
 <p>推荐B站李立超老师的教学视频和笔记，重点突出且内容精简，已针对老师视频和资料做了详细的总结。</p>
 <hr>
+<p><font color="#409eff">面试模板：</font></p>
+<p><strong>Promise 是 ES6 引入的一个构造函数，用来解决传统异步编程中回调地狱、回调嵌套等问题。</strong>它本质上是一个对象，用来<strong>存储异步操作的结果</strong>，并提供链式调用和统一的错误处理能力。在传统回调方式中，如果多个异步操作相互依赖，我们需要层层嵌套回调，代码结构混乱，可读性差，异常处理也分散，不易维护。而 Promise 的出现就是为了解决这些问题。</p>
+<p>存储数据时，在Promise中维护着两个隐藏的值PromiseResult和PromiseState，PromiseResult是Promise中真正存储值的地方，在Promise中无论是通过resolve、reject还是报错时的异常信息都会存储到PromiseResult中。PromiseState用来表示Promise中值的状态，Promise一共有三种状态：pending、fulfilled、rejected。pending是Promise的初始化状态，此时Promise中没有任何值。fulfilled是Promise的完成状态，此时表示值已经正常存储到了Promise中（通过resolve）。rejected表示拒绝，此时表示值是通过reject存储的或是执行时出现了错误。<font color="#409eff">异步任务完成后，通过调用 <code>resolve</code> 或 <code>reject</code> 将结果“写入” Promise 对象，而不是通过回调函数“传出”。</font></p>
+<p>调用数据时，使用 <code>.then()</code> 可以注册回调函数，用于处理 <code>resolve</code> 或 <code>reject</code> 的结果。每次调用 <code>.then()</code> 都会返回一个<strong>新的 Promise</strong>，并把上一个回调的返回结果继续向下传递，实现<strong>链式调用</strong>，避免了回调嵌套。<code>.catch()</code> 方法用于统一捕获 Promise 中的异常，不再需要在每一步都处理错误。当我们调用Promise的then方法时，相当于为Promise设置了一个回调函数，换句话说，<font color="#409eff">then中的回调函数不会立即执行，而是在Promise的PromiseState发生变化时才会执行</font>。如果PromiseState从pending变成了fulfilled则then的第一个回调函数执行，且PromiseResult的值作为参数传递给回调函数。如果PromiseState从pending变成了rejected则then的第二个回调函数执行，且PromiseResult的值作为参数传递给回调函数。</p>
+<p>最终解决问题：</p>
+<ul>
+<li><strong>回调地狱</strong> → 通过链式调用让逻辑扁平化</li>
+<li><strong>错误分散</strong> → 通过 <code>.catch()</code> 实现集中错误处理</li>
+<li><strong>结果不可直接返回</strong> → 通过 <code>resolve()</code> 封装返回值，延迟处理</li>
+<li><strong>可组合性差</strong> → Promise 提供 <code>Promise.all()</code>、<code>Promise.race()</code> 等组合方法来管理多个异步任务</li>
+</ul>
+<hr>
 <h3 id="1-Promise的引入"><a href="#1-Promise的引入" class="headerlink" title="1.Promise的引入"></a>1.Promise的引入</h3><p><strong>Promise 在 JavaScript 中用于实现异步编程？</strong></p>
-<p>在 JavaScript 中，<strong>异步编程</strong>是为了解决<strong>单线程模型下的耗时操作不阻塞主线程</strong>的问题。</p>
+<p>在 JavaScript 中，<strong>异步编程</strong>是为了解决<strong>单线程模型下的耗时操作阻塞主线程</strong>的问题。</p>
 <p>JavaScript 本身是<strong>单线程执行</strong>的，所有代码默认是同步执行的。如果将网络请求、文件读取、定时器等<strong>耗时操作</strong>都以同步方式执行，会直接阻塞主线程，导致页面卡顿甚至失去响应。</p>
 <p>与JAVA等语言通过多线程的方式不同，为了解决这个问题，JavaScript 采用了<strong>异步机制</strong>：</p>
 <ul>
@@ -566,9 +578,49 @@
 
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> <span class="hljs-title function_">first</span> = (<span class="hljs-params"></span>) =&gt; (<span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">3</span>)<br>    <span class="hljs-keyword">let</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">7</span>)<br>        <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">5</span>)<br>            <span class="hljs-title function_">resolve</span>(<span class="hljs-number">6</span>)<br>        &#125;, <span class="hljs-number">0</span>)<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-number">1</span>)<br>    &#125;)<br>    <span class="hljs-title function_">resolve</span>(<span class="hljs-number">2</span>)<br>    p.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(arg)<br>    &#125;)<br><br>&#125;))<br><span class="hljs-title function_">first</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">arg</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(arg)<br>&#125;)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">4</span>)<br><span class="hljs-comment">// 3,7,4,1,2,5</span><br></code></pre></td></tr></table></figure>
 
+<h3 id="5-Promise-的静态方法"><a href="#5-Promise-的静态方法" class="headerlink" title="5. Promise 的静态方法"></a>5. Promise 的静态方法</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://cxdlogver.github.io/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/NodeJS%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93/#%E3%80%90Promise%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E3%80%91">NodeJS核心总结 - 相</a></p>
+</blockquote>
+<h4 id="手写-Promise-all"><a href="#手写-Promise-all" class="headerlink" title="手写 Promise.all"></a>手写 <code>Promise.all</code></h4><p><strong>规则</strong>：</p>
+<ul>
+<li>全部成功 → resolve 结果数组（保持顺序）</li>
+<li>任意失败 → 立即 reject</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">myPromiseAll</span>(<span class="hljs-params">promises</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">const</span> result = [];<br>    <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">const</span> len = promises.<span class="hljs-property">length</span>;<br><br>    <span class="hljs-keyword">if</span> (len === <span class="hljs-number">0</span>) &#123;<br>      <span class="hljs-title function_">resolve</span>([]);<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    promises.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">p, index</span>) =&gt;</span> &#123;<br>      <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(p).<span class="hljs-title function_">then</span>(<br>        <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> &#123;<br>          result[index] = value;<br>          count++;<br>          <span class="hljs-keyword">if</span> (count === len) &#123;<br>            <span class="hljs-title function_">resolve</span>(result);<br>          &#125;<br>        &#125;,<br>        <span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> &#123;<br>          <span class="hljs-title function_">reject</span>(err);<br>        &#125;<br>      );<br>    &#125;);<br>  &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<hr>
+<h4 id="手写-Promise-race"><a href="#手写-Promise-race" class="headerlink" title="手写 Promise.race"></a>手写 <code>Promise.race</code></h4><p><strong>规则</strong>：</p>
+<ul>
+<li>第一个 settled（resolve 或 reject）的结果直接返回</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">myPromiseRace</span>(<span class="hljs-params">promises</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    promises.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">p</span> =&gt;</span> &#123;<br>      <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(p).<span class="hljs-title function_">then</span>(resolve, reject);<br>    &#125;);<br>  &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id><a href="#" class="headerlink" title></a></h2>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(p).<span class="hljs-title function_">then</span>(resolve, reject);<br></code></pre></td></tr></table></figure>
+
+<p>等价于：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(p).<span class="hljs-title function_">then</span>(<br>  <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> <span class="hljs-title function_">resolve</span>(value),<br>  <span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> <span class="hljs-title function_">reject</span>(error)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>意思是：</p>
+<ul>
+<li><strong>如果 p 成功</strong> → 尝试 <code>resolve(value)</code></li>
+<li><strong>如果 p 失败</strong> → 尝试 <code>reject(error)</code></li>
+</ul>
+<hr>
+<h4 id="手写-Promise-any"><a href="#手写-Promise-any" class="headerlink" title="手写 Promise.any"></a>手写 <code>Promise.any</code></h4><p><strong>规则</strong>：</p>
+<ul>
+<li>任意一个成功 → resolve</li>
+<li>全部失败 → reject（AggregateError）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">myPromiseAny</span>(<span class="hljs-params">promises</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">const</span> errors = [];<br>    <span class="hljs-keyword">let</span> rejectedCount = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">const</span> len = promises.<span class="hljs-property">length</span>;<br><br>    <span class="hljs-keyword">if</span> (len === <span class="hljs-number">0</span>) &#123;<br>      <span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">AggregateError</span>([], <span class="hljs-string">&quot;All promises were rejected&quot;</span>));<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    promises.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">p, index</span>) =&gt;</span> &#123;<br>      <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(p).<span class="hljs-title function_">then</span>(<br>        <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> &#123;<br>          <span class="hljs-title function_">resolve</span>(value);<br>        &#125;,<br>        <span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> &#123;<br>          errors[index] = err;<br>          rejectedCount++;<br>          <span class="hljs-keyword">if</span> (rejectedCount === len) &#123;<br>            <span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">AggregateError</span>(errors, <span class="hljs-string">&quot;All promises were rejected&quot;</span>));<br>          &#125;<br>        &#125;<br>      );<br>    &#125;);<br>  &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="手写-Promise-allSettled"><a href="#手写-Promise-allSettled" class="headerlink" title="手写 Promise.allSettled"></a>手写 <code>Promise.allSettled</code></h4><p><strong>规则</strong>：</p>
+<ul>
+<li>不关心成功或失败</li>
+<li>全部结束后返回状态数组</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">myPromiseAllSettled</span>(<span class="hljs-params">promises</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> &#123;<br>    <span class="hljs-keyword">const</span> result = [];<br>    <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">const</span> len = promises.<span class="hljs-property">length</span>;<br><br>    <span class="hljs-keyword">if</span> (len === <span class="hljs-number">0</span>) &#123;<br>      <span class="hljs-title function_">resolve</span>([]);<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    promises.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">p, index</span>) =&gt;</span> &#123;<br>      <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>(p).<span class="hljs-title function_">then</span>(<br>        <span class="hljs-function"><span class="hljs-params">value</span> =&gt;</span> &#123;<br>          result[index] = &#123;<br>            <span class="hljs-attr">status</span>: <span class="hljs-string">&quot;fulfilled&quot;</span>,<br>            value<br>          &#125;;<br>          count++;<br>          <span class="hljs-keyword">if</span> (count === len) <span class="hljs-title function_">resolve</span>(result);<br>        &#125;,<br>        <span class="hljs-function"><span class="hljs-params">reason</span> =&gt;</span> &#123;<br>          result[index] = &#123;<br>            <span class="hljs-attr">status</span>: <span class="hljs-string">&quot;rejected&quot;</span>,<br>            reason<br>          &#125;;<br>          count++;<br>          <span class="hljs-keyword">if</span> (count === len) <span class="hljs-title function_">resolve</span>(result);<br>        &#125;<br>      );<br>    &#125;);<br>  &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
                 
               </div>
             
@@ -658,7 +710,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/12/17/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" title="Vue3快速上手">
+                      <a href="/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" title="Vue3快速上手">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">Vue3快速上手</span>
                         <span class="visible-mobile">上一篇</span>
