@@ -16,21 +16,22 @@
   <meta name="author" content="Xiang Chen">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1）Vue Router 的核心作用是什么？为什么需要它？ 8.前端页面跳转 - 相  回答模板 Vue Router 用来做单页应用（SPA）的前端路由管理，把“URL 变化”映射到“组件视图切换”。 本质是：监听地址变化（history&#x2F;hash），匹配路由记录，把匹配到的组件渲染到 &lt;router-view&gt;。 要点  SPA 的“页面切换”不是重新加载 HTML，而是">
+    <meta name="description" content="1）Vue Router 的核心作用是什么？为什么需要它？ 8.前端页面跳转 - 相  Vue Router 是 Vue 官方的前端路由管理工具，用于在单页应用（SPA）中实现 URL 与组件视图之间的映射关系。 在 SPA 中，整个应用生命周期内浏览器只会加载一次 HTML，页面切换不再依赖浏览器向服务器请求新的 HTML，而是由前端 JavaScript 接管。 Vue Router 通过监听">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue Router面试题">
-<meta property="og:url" content="http://example.com/2026/01/08/Vue/Vue-Router%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:title" content="【⭐】Vue Router面试题">
+<meta property="og:url" content="http://example.com/2026/01/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue-Router%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
 <meta property="og:site_name" content="相">
-<meta property="og:description" content="1）Vue Router 的核心作用是什么？为什么需要它？ 8.前端页面跳转 - 相  回答模板 Vue Router 用来做单页应用（SPA）的前端路由管理，把“URL 变化”映射到“组件视图切换”。 本质是：监听地址变化（history&#x2F;hash），匹配路由记录，把匹配到的组件渲染到 &lt;router-view&gt;。 要点  SPA 的“页面切换”不是重新加载 HTML，而是">
+<meta property="og:description" content="1）Vue Router 的核心作用是什么？为什么需要它？ 8.前端页面跳转 - 相  Vue Router 是 Vue 官方的前端路由管理工具，用于在单页应用（SPA）中实现 URL 与组件视图之间的映射关系。 在 SPA 中，整个应用生命周期内浏览器只会加载一次 HTML，页面切换不再依赖浏览器向服务器请求新的 HTML，而是由前端 JavaScript 接管。 Vue Router 通过监听">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-01-08T08:44:32.000Z">
-<meta property="article:modified_time" content="2026-01-08T13:30:16.347Z">
+<meta property="article:modified_time" content="2026-01-08T21:08:11.234Z">
 <meta property="article:author" content="Xiang Chen">
+<meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Vue Router面试题 - 相</title>
+  <title>【⭐】Vue Router面试题 - 相</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -196,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Vue Router面试题"></span>
+            <span id="subtitle" data-typed-text="【⭐】Vue Router面试题"></span>
           
         </div>
 
@@ -219,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          4.6k 字
         
       </span>
     
@@ -230,7 +231,7 @@
         
         
         
-          25 分钟
+          39 分钟
         
       </span>
     
@@ -267,26 +268,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Vue Router面试题</h1>
+            <h1 id="seo-header">【⭐】Vue Router面试题</h1>
             
             
               <div class="markdown-body">
                 
                 <h2 id="1）Vue-Router-的核心作用是什么？为什么需要它？"><a href="#1）Vue-Router-的核心作用是什么？为什么需要它？" class="headerlink" title="1）Vue Router 的核心作用是什么？为什么需要它？"></a>1）Vue Router 的核心作用是什么？为什么需要它？</h2><blockquote>
-<p><a target="_blank" rel="noopener" href="https://cxdlogver.github.io/2025/12/28/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/8-%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC/#%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC">8.前端页面跳转 - 相</a></p>
+<p><a target="_blank" rel="noopener" href="https://cxdlogver.github.io/2025/12/28/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/8-%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC/#%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC">8.前端页面跳转 - 相</a></p>
 </blockquote>
-<p><strong>回答模板</strong><br> Vue Router 用来做单页应用（SPA）的前端路由管理，把“URL 变化”映射到“组件视图切换”。<br> 本质是：监听地址变化（history&#x2F;hash），匹配路由记录，把匹配到的组件渲染到 <code>&lt;router-view&gt;</code>。</p>
-<p><strong>要点</strong></p>
-<ul>
-<li>SPA 的“页面切换”不是重新加载 HTML，而是替换视图组件</li>
-<li>URL 与状态同步（可前进后退、刷新不丢路由）</li>
-<li>路由守卫&#x3D;控制流入口（权限&#x2F;重定向&#x2F;埋点&#x2F;取消请求）</li>
-</ul>
+<p><strong>Vue Router 是 Vue 官方的前端路由管理工具，用于在单页应用（SPA）中实现 URL 与组件视图之间的映射关系。</strong></p>
+<p>在 SPA 中，整个应用生命周期内浏览器只会加载一次 HTML，页面切换不再依赖浏览器向服务器请求新的 HTML，而是由前端 JavaScript 接管。</p>
+<p>Vue Router 通过<strong>监听 URL 的变化</strong>（如 <code>history</code> 或 <code>hash</code>），根据配置好的路由规则进行匹配，并将匹配到的组件<strong>渲染到 <code>&lt;router-view&gt;</code> 容器中</strong>，从而完成页面切换，而不刷新整个页面。</p>
+<p>同时，Vue Router 提供了<strong>路由守卫机制</strong>，可以在路由跳转的不同阶段做<strong>权限控制、登录校验和身份认证</strong>，这是大型前端应用中不可或缺的能力。</p>
+<p><strong>总结来说，Vue Router 的核心价值是：让前端在 SPA 架构下具备“像多页应用一样清晰的页面结构和可控的页面流转”。</strong></p>
+<p><strong>一句话版</strong></p>
+<blockquote>
+<p>Vue Router 的作用是：<strong>监听 URL 变化 → 匹配路由规则 → 切换组件视图，从而在 SPA 中实现页面级导航与权限控制。</strong></p>
+</blockquote>
 <hr>
+<h2 id="为什么要使用-SPA（单页应用）？"><a href="#为什么要使用-SPA（单页应用）？" class="headerlink" title="为什么要使用 SPA（单页应用）？"></a>为什么要使用 SPA（单页应用）？</h2><p>使用 SPA 的核心原因是：<strong>提升用户体验、降低页面切换成本、并更好地支撑复杂前端应用。</strong></p>
+<p>在传统多页应用（MPA）中，每一次页面跳转都会重新向服务器请求新的 HTML，原有页面会被销毁，浏览器需要重新解析 HTML、CSS 和 JS，切换成本高、体验不连贯。</p>
+<p>SPA 的特点是<strong>整个应用生命周期只加载一次 HTML</strong>，之后的页面切换由前端 JavaScript 控制，通常只是组件的卸载与挂载或局部视图更新，不会刷新整页，因此切换更快、更流畅。</p>
+<p>同时，SPA 天然适合复杂交互场景，例如后台管理系统、即时通信、数据可视化等，前后端可以彻底解耦，通过 API 进行数据通信。</p>
+<p><strong>总结来说，SPA 用一次加载换取后续的高效切换和更好的交互体验，是现代复杂 Web 应用的主流形态。</strong>SPA 也有代价，比如首屏加载体积大、SEO 不友好，因此实际工程中通常会结合 <strong>代码分割、懒加载</strong></p>
+<blockquote>
+<p>SPA 的本质是用前端 JS 接管页面切换，用更少的网络请求换取更流畅、更可控的用户体验。</p>
+</blockquote>
 <h2 id="2）hash-模式和-history-模式有什么区别？怎么选？"><a href="#2）hash-模式和-history-模式有什么区别？怎么选？" class="headerlink" title="2）hash 模式和 history 模式有什么区别？怎么选？"></a>2）hash 模式和 history 模式有什么区别？怎么选？</h2><p><strong>回答模板</strong><br> Vue Router 常见两种模式：</p>
 <ul>
 <li>hash：URL 带 <code>#</code>，依赖 <code>hashchange</code>，不需要服务端配合；刷新不会 404。</li>
-<li>history：URL 干净，依赖 <code>history.pushState</code>，需要服务端把所有路由都回退到同一个 <code>index.html</code>，否则刷新会 404。</li>
+<li>history：URL 干净，依赖 <code>popstate</code>，需要服务端把所有路由都回退到同一个 <code>index.html</code>，否则刷新会 404。</li>
 </ul>
 <p>选择上：</p>
 <ul>
@@ -300,13 +311,16 @@
 <li>两者都能做 SPA 路由，只是地址机制不同</li>
 </ul>
 <hr>
-<h2 id="3）路由的完整导航过程是怎样的？"><a href="#3）路由的完整导航过程是怎样的？" class="headerlink" title="3）路由的完整导航过程是怎样的？"></a>3）路由的完整导航过程是怎样的？</h2><p><strong>回答模板</strong><br> 一次导航通常包含：<br> 1）触发导航（<code>router.push</code>、点击 <code>&lt;router-link&gt;</code>、浏览器前进后退）<br> 2）解析目标地址，进行路由匹配（得到 <code>matched route records</code>）<br> 3）执行守卫：<code>beforeRouteLeave</code>（组件内）→ <code>beforeEach</code>（全局）→ <code>beforeEnter</code>（路由独享）→ <code>beforeRouteUpdate</code>（复用组件时）<br> 4）解析异步组件&#x2F;懒加载 chunk<br> 5）确认导航后执行：<code>afterEach</code>，并更新 <code>&lt;router-view&gt;</code> 渲染</p>
-<p><strong>要点</strong></p>
-<ul>
-<li>守卫是“导航生命周期”</li>
-<li><code>matched</code> 是匹配到的路由记录链（用于面包屑&#x2F;菜单）</li>
-<li>复用组件时不会销毁重建，而是走 <code>beforeRouteUpdate</code></li>
-</ul>
+<h2 id="3）路由的完整导航过程是怎样的？"><a href="#3）路由的完整导航过程是怎样的？" class="headerlink" title="3）路由的完整导航过程是怎样的？"></a>3）路由的完整导航过程是怎样的？</h2><p>Vue Router 的一次完整导航过程可以概括为：<br> <strong>触发导航 → 路由匹配 → 执行守卫 → 确认导航 → 组件渲染与更新。</strong></p>
+<p>当调用 <code>router.push</code>、点击 <code>&lt;router-link&gt;</code> 或浏览器前进后退时，会触发一次导航。<br> Router 会根据目标 URL 进行路由匹配，生成 <code>to.matched</code> 路由记录。</p>
+<p>接着按顺序执行 **全局前置守卫 → 路由独享守卫 → 组件内 <code>beforeRouteEnter</code>**，<br> 所有守卫通过后确认导航，更新地址栏。</p>
+<p>最后销毁旧组件、创建新组件并渲染到 <code>&lt;router-view&gt;</code> 中，<br> 组件挂载完成后触发 <code>beforeRouteEnter</code> 中的 <code>next(vm =&gt; &#123;&#125;)</code> 以及 <code>afterEach</code> 钩子。</p>
+<blockquote>
+<p>Vue Router 的导航流程本质是：<br> <strong>先根据 URL 生成 matched 路由记录，再按顺序执行守卫确认导航，最后根据 matched 结果复用或重建组件并完成视图渲染。</strong></p>
+</blockquote>
+<h3 id="导航在哪一步真正改变-URL？"><a href="#导航在哪一步真正改变-URL？" class="headerlink" title="导航在哪一步真正改变 URL？"></a>导航在哪一步真正改变 URL？</h3><blockquote>
+<p>在所有守卫通过后的 <strong>导航确认阶段</strong>。</p>
+</blockquote>
 <hr>
 <h2 id="4）router-push-replace-go-有什么区别？"><a href="#4）router-push-replace-go-有什么区别？" class="headerlink" title="4）router.push &#x2F; replace &#x2F; go 有什么区别？"></a>4）router.push &#x2F; replace &#x2F; go 有什么区别？</h2><p><strong>回答模板</strong></p>
 <ul>
@@ -321,6 +335,7 @@
 </ul>
 <hr>
 <h2 id="5）声明式导航-和编程式导航有什么差别？"><a href="#5）声明式导航-和编程式导航有什么差别？" class="headerlink" title="5）声明式导航 &lt;router-link&gt; 和编程式导航有什么差别？"></a>5）声明式导航 <code>&lt;router-link&gt;</code> 和编程式导航有什么差别？</h2><p><strong>回答模板</strong><br> <code>&lt;router-link&gt;</code> 是声明式，适合纯跳转场景，语义清晰且自带 active 状态；编程式（<code>router.push/replace</code>）适合在业务逻辑完成后跳转，比如登录校验通过、提交表单成功后跳转、点击行触发携带参数跳转等。</p>
+<p><code>active-class</code> 用于自定义 router-link 在路由匹配时自动添加的激活类名，默认是 <code>router-link-active</code>，采用包含式匹配；如果需要严格匹配才高亮，则使用 <code>exact-active-class</code> 或全局的 <code>linkExactActiveClass</code>。</p>
 <p><strong>要点</strong></p>
 <ul>
 <li>router-link 自动处理 active class</li>
@@ -329,9 +344,56 @@
 <hr>
 <h2 id="6）params-和-query-的区别？什么时候用？"><a href="#6）params-和-query-的区别？什么时候用？" class="headerlink" title="6）params 和 query 的区别？什么时候用？"></a>6）params 和 query 的区别？什么时候用？</h2><p><strong>回答模板</strong></p>
 <ul>
-<li><code>params</code>：通常属于路径的一部分（动态路由参数），例如 <code>/user/:id</code>；更像资源定位，语义更强。</li>
-<li><code>query</code>：URL <code>?a=1&amp;b=2</code>，更像筛选条件、可选参数。</li>
+<li><p><strong>params 是路径参数</strong>，属于路由的一部分，通常通过动态路由声明，例如 <code>/user/:id</code>，参数缺失会导致路由无法匹配，更偏向“资源唯一标识”。</p>
+</li>
+<li><p><strong>query 是查询参数</strong>，表现为 URL 后的 <code>?key=value</code>，不影响路由匹配，可选性强，常用于筛选条件、分页、状态控制等。</p>
+<p>简单来说：</p>
+</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>对比点</th>
+<th>params</th>
+<th>query</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>URL 位置</td>
+<td>路径中 <code>/user/123</code></td>
+<td>查询串 <code>?page=1</code></td>
+</tr>
+<tr>
+<td>是否影响路由匹配</td>
+<td>✅ 是</td>
+<td>❌ 否</td>
+</tr>
+<tr>
+<td>是否必填</td>
+<td>通常必填</td>
+<td>可选</td>
+</tr>
+<tr>
+<td>路由声明</td>
+<td>需在 <code>path</code> 中声明</td>
+<td>无需声明</td>
+</tr>
+<tr>
+<td>语义</td>
+<td>资源 &#x2F; 身份标识</td>
+<td>条件 &#x2F; 状态</td>
+</tr>
+<tr>
+<td>SEO 友好</td>
+<td>更好</td>
+<td>一般</td>
+</tr>
+<tr>
+<td>刷新是否丢失</td>
+<td>不丢</td>
+<td>不丢</td>
+</tr>
+</tbody></table>
 <p>实践上：</p>
 <ul>
 <li>资源主键&#x2F;必需标识：用 params</li>
@@ -370,6 +432,34 @@
 <li>复用组件不会重新 mounted，需要自己处理参数变化</li>
 <li>数据请求要跟参数变化绑定</li>
 </ul>
+<h2 id="当只有参数发生改变时，会有新的路由记录写入历史栈吗？"><a href="#当只有参数发生改变时，会有新的路由记录写入历史栈吗？" class="headerlink" title="当只有参数发生改变时，会有新的路由记录写入历史栈吗？"></a>当只有参数发生改变时，会有新的路由记录写入历史栈吗？</h2><p>结论先行（一句话版）</p>
+<blockquote>
+<p><strong>是否写入历史栈，取决于导航方式（push &#x2F; replace）以及参数是否导致 URL 发生变化，而不是取决于参数类型本身（params &#x2F; query）。</strong></p>
+</blockquote>
+<p>在 Vue Router 中，<strong>只要触发了一次导航，并且 URL 发生变化，默认就会向浏览器历史栈写入一条新的记录</strong>。</p>
+<p>无论是 <code>params</code> 变化还是 <code>query</code> 变化，只要使用的是 <code>router.push</code>，并且生成的 URL 与当前不同，就会新增一条历史记录。</p>
+<p>如果使用的是 <code>router.replace</code>，即使参数变化，也只会<strong>替换当前历史记录</strong>，不会新增。</p>
+<p>因此，<strong>是否写入历史栈的关键不是“参数变没变”，而是“用了 push 还是 replace，以及 URL 是否真的变了”。</strong></p>
+<blockquote>
+<p><strong>Vue Router 的 match 是“每次导航都会做的事”</strong><br> 不管是 path &#x2F; params &#x2F; query<br> <strong>只要 URL 变化 → 就是一次新的导航 → 就会重新 match</strong></p>
+</blockquote>
+<hr>
+<p>✅ 重新 match</p>
+<p>✅ 全局守卫执行</p>
+<p>❌ 组件不销毁</p>
+<p>✅ 触发 <code>beforeRouteUpdate / watch</code></p>
+<p>那为什么组件没重建？</p>
+<p>因为 Vue Router 会在 <strong>match 完成后做 diff</strong>：</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs oxygene"><span class="hljs-keyword">new</span> matched vs <span class="hljs-keyword">old</span> matched<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如果是<strong>同一个 RouteRecord</strong><ul>
+<li>组件复用</li>
+<li>不走创建生命周期</li>
+</ul>
+</li>
+<li>但路由级流程已经完整走了一遍</li>
+</ul>
 <hr>
 <h2 id="9）嵌套路由是什么？-如何工作？"><a href="#9）嵌套路由是什么？-如何工作？" class="headerlink" title="9）嵌套路由是什么？&lt;router-view&gt; 如何工作？"></a>9）嵌套路由是什么？<code>&lt;router-view&gt;</code> 如何工作？</h2><p><strong>回答模板</strong><br> 嵌套路由就是父子路由结构，父路由组件里放 <code>&lt;router-view&gt;</code> 作为子路由的渲染出口。匹配时会得到一条 <code>matched</code> 链，父组件先渲染，然后把子路由组件渲染到父组件的 <code>&lt;router-view&gt;</code> 中，实现“布局 + 内容区”的结构。</p>
 <p><strong>要点</strong></p>
@@ -385,6 +475,7 @@
 </ul>
 <hr>
 <h2 id="11）路由懒加载怎么做？有什么收益？"><a href="#11）路由懒加载怎么做？有什么收益？" class="headerlink" title="11）路由懒加载怎么做？有什么收益？"></a>11）路由懒加载怎么做？有什么收益？</h2><p><strong>回答模板</strong><br> 路由懒加载通常用动态 import：只有访问到该路由才加载对应 chunk。收益：</p>
+<p>本质：<strong>代码分割（Code Splitting）+ 按需加载（On-Demand Loading）</strong>。</p>
 <ul>
 <li>首屏更快（减少初始 JS 体积）</li>
 <li>按需加载（减少无用代码下载）</li>
@@ -395,7 +486,75 @@
 <li><code>() =&gt; import(&#39;...&#39;)</code></li>
 <li>关注 chunk 拆分与预加载（prefetch&#x2F;preload）策略</li>
 </ul>
+<blockquote>
+<p>路由懒加载是指将路由对应的页面组件通过 <code>import()</code> 动态加载，只有在路由被访问时才下载对应代码。<br> 这样可以显著减少首屏 JS 体积，提升首屏渲染和可交互时间，同时更利于大型项目的模块拆分和长期维护。<br> 实际项目中通常对页面级组件启用懒加载，并根据业务模块合理合并 chunk。</p>
+</blockquote>
 <hr>
+<h2 id="什么是-Code-Splitting-Code-Splitting-和懒加载有什么区别"><a href="#什么是-Code-Splitting-Code-Splitting-和懒加载有什么区别" class="headerlink" title="什么是 Code Splitting Code Splitting 和懒加载有什么区别"></a>什么是 Code Splitting Code Splitting 和懒加载有什么区别</h2><p><strong>Code Splitting（代码分割）是一种前端性能优化手段，指的是把原本打包在一起的 JavaScript 拆分成多个按需加载的代码块，而不是一次性全部加载。</strong></p>
+<p>它的核心目的，是<strong>降低首屏加载体积、提升首屏渲染速度</strong>。</p>
+<p>在实际运行时，只有当用户访问某个页面或触发某个功能时，对应的代码才会被下载和执行。</p>
+<p>在 Vue 项目中，最常见的应用场景是<strong>路由级懒加载和组件级懒加载</strong>，这是 SPA 项目中非常重要的性能优化手段。</p>
+<blockquote>
+<p>Code Splitting 是<strong>打包阶段的代码拆分策略</strong>，懒加载是<strong>运行时按需加载代码的行为</strong>，两者通常配合使用。</p>
+<p>Code Splitting 是在构建阶段把代码拆成多个 chunk，懒加载是在运行时按需加载这些 chunk</p>
+</blockquote>
+<p>1️⃣ 路由级代码分割（最常见、最重要）</p>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>多页面 SPA</li>
+<li>后台管理系统</li>
+<li>页面之间功能差异大</li>
+</ul>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">const UserPage = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;@/views/User.vue&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><strong>效果：</strong></p>
+<ul>
+<li>不访问的页面，不下载对应 JS</li>
+<li>首屏性能显著提升</li>
+</ul>
+<hr>
+<p>2️⃣ 组件级代码分割（按功能加载）</p>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>弹窗、抽屉、复杂表单</li>
+<li>低频组件</li>
+<li>重型组件（编辑器、图表）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Comp</span> = <span class="hljs-title function_">defineAsyncComponent</span>(&#123;<br>  <span class="hljs-attr">loader</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./Comp.vue&#x27;</span>),<br>  <span class="hljs-attr">loadingComponent</span>: <span class="hljs-title class_">Loading</span>,<br>  <span class="hljs-attr">errorComponent</span>: <span class="hljs-title class_">ErrorComp</span>,<br>  <span class="hljs-attr">delay</span>: <span class="hljs-number">200</span>,<br>  <span class="hljs-attr">timeout</span>: <span class="hljs-number">3000</span><br>&#125;)<br><br></code></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p><strong><code>defineAsyncComponent</code> 是 Vue 3 官方内置的异步组件 API，用于实现组件级懒加载和代码分割。</strong></p>
+</blockquote>
+<p>3️⃣ 第三方库拆分（减少首包体积）</p>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>echarts、monaco-editor、three.js</li>
+<li>只在部分页面使用的大型库</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">loadChart</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> echarts = <span class="hljs-keyword">await</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;echarts&#x27;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>4️⃣ 按业务模块拆分（大型项目）</p>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>管理端 &#x2F; 用户端</li>
+<li>不同角色功能完全不同</li>
+<li>多系统集成</li>
+</ul>
+<p><strong>Code Splitting 在 Vue 项目中的典型落地方式</strong></p>
+<p>路由懒加载（最常考）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>  <span class="hljs-attr">path</span>: <span class="hljs-string">&#x27;/user&#x27;</span>,<br>  <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;@/views/User.vue&#x27;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>组件懒加载</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; defineAsyncComponent &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><br><span class="hljs-keyword">const</span> <span class="hljs-title class_">AsyncComp</span> = <span class="hljs-title function_">defineAsyncComponent</span>(<span class="hljs-function">() =&gt;</span><br>  <span class="hljs-keyword">import</span>(<span class="hljs-string">&#x27;./AsyncComp.vue&#x27;</span>)<br>)<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="配合构建工具（Webpack-Vite）"><a href="#配合构建工具（Webpack-Vite）" class="headerlink" title="配合构建工具（Webpack &#x2F; Vite）"></a>配合构建工具（Webpack &#x2F; Vite）</h3><ul>
+<li>Webpack：<code>import()</code> → 自动生成 chunk</li>
+<li>Vite：ESM + 动态 import → 原生支持</li>
+</ul>
 <h2 id="12）导航守卫有哪些？分别适合做什么？"><a href="#12）导航守卫有哪些？分别适合做什么？" class="headerlink" title="12）导航守卫有哪些？分别适合做什么？"></a>12）导航守卫有哪些？分别适合做什么？</h2><p><strong>回答模板</strong><br> 守卫分三类：<br> 1）全局：<code>beforeEach / beforeResolve / afterEach</code><br> 2）路由独享：<code>beforeEnter</code><br> 3）组件内：<code>beforeRouteEnter / beforeRouteUpdate / beforeRouteLeave</code></p>
 <p>应用：</p>
 <ul>
@@ -523,8 +682,6 @@
 <ul>
 <li>面试官更看重：你是否处理过“动态路由时序”“缓存策略”“权限闭环”</li>
 </ul>
-<hr>
-<p>如果你希望更贴近你的面试场景，我还可以把这些模板压缩成“30 秒版本 &#x2F; 2 分钟版本”，以及补一段“手写一个简易路由匹配 + history&#x2F;hash 原理”的加分回答。</p>
 
                 
               </div>
@@ -543,7 +700,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Vue/" class="category-chain-item">Vue</a>
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/" class="category-chain-item">前端面试</a>
   
   
 
@@ -555,6 +712,13 @@
     </div>
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Vue/" class="print-no-link">#Vue</a>
+      
+    </div>
+  
 </div>
 
 
@@ -563,8 +727,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Vue Router面试题</div>
-      <div>http://example.com/2026/01/08/Vue/Vue-Router面试题/</div>
+      <div>【⭐】Vue Router面试题</div>
+      <div>http://example.com/2026/01/08/前端面试/Vue-Router面试题/</div>
     </div>
     <div class="license-meta">
       
@@ -618,8 +782,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/08/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/El-Menu%E5%A6%82%E4%BD%95%E7%BB%91%E5%AE%9AVue-Router/" title="El-Menu如何绑定Vue Router？">
-                        <span class="hidden-mobile">El-Menu如何绑定Vue Router？</span>
+                      <a href="/2026/01/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E9%A2%98/" title="【⭐】浏览器/网络相关面试题">
+                        <span class="hidden-mobile">【⭐】浏览器/网络相关面试题</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

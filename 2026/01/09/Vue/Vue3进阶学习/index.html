@@ -18,25 +18,24 @@
   
     <meta name="description" content="本文记录了Vue组件生命周期流程，Vue中的异步问题，以及this.$nextTick的使用。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="前端学习-Vue 组件生命周期">
-<meta property="og:url" content="http://example.com/2024/07/31/%E5%85%B6%E4%BB%96/2024-07-31/index.html">
+<meta property="og:title" content="Vue3进阶学习">
+<meta property="og:url" content="http://example.com/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="相">
 <meta property="og:description" content="本文记录了Vue组件生命周期流程，Vue中的异步问题，以及this.$nextTick的使用。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/07/31/%E5%85%B6%E4%BB%96/2024-07-31/%E5%9B%BE1.png">
-<meta property="og:image" content="http://example.com/2024/07/31/%E5%85%B6%E4%BB%96/2024-07-31/%E5%9B%BE2.png">
-<meta property="og:image" content="http://example.com/2024/07/31/%E5%85%B6%E4%BB%96/2024-07-31/%E5%9B%BE3.png">
-<meta property="article:published_time" content="2024-07-31T07:31:24.000Z">
-<meta property="article:modified_time" content="2026-01-08T13:41:03.618Z">
+<meta property="og:image" content="http://example.com/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE1.png">
+<meta property="og:image" content="http://example.com/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE2.png">
+<meta property="og:image" content="http://example.com/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE3.png">
+<meta property="article:published_time" content="2026-01-09T07:42:36.000Z">
+<meta property="article:modified_time" content="2026-01-09T08:02:42.534Z">
 <meta property="article:author" content="Xiang Chen">
-<meta property="article:tag" content="每日总结">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2024/07/31/%E5%85%B6%E4%BB%96/2024-07-31/%E5%9B%BE1.png">
+<meta name="twitter:image" content="http://example.com/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE1.png">
   
   
   
-  <title>前端学习-Vue 组件生命周期 - 相</title>
+  <title>Vue3进阶学习 - 相</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="前端学习-Vue 组件生命周期"></span>
+            <span id="subtitle" data-typed-text="Vue3进阶学习"></span>
           
         </div>
 
@@ -213,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-31 15:31" pubdate>
-          2024年7月31日 下午
+        <time datetime="2026-01-09 15:42" pubdate>
+          2026年1月9日 下午
         </time>
       </span>
     
@@ -225,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.5k 字
+          2.7k 字
         
       </span>
     
@@ -236,7 +235,7 @@
         
         
         
-          29 分钟
+          23 分钟
         
       </span>
     
@@ -273,7 +272,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">前端学习-Vue 组件生命周期</h1>
+            <h1 id="seo-header">Vue3进阶学习</h1>
             
             
               <div class="markdown-body">
@@ -281,12 +280,8 @@
                 <p>本文记录了Vue组件生命周期流程，Vue中的异步问题，以及this.$nextTick的使用。</p>
 <span id="more"></span>
 
-<h1 id="前端学习-Vue-组件生命周期"><a href="#前端学习-Vue-组件生命周期" class="headerlink" title="前端学习-Vue 组件生命周期"></a>前端学习-Vue 组件生命周期</h1><blockquote>
-<p>个人学习总结，可能存在错误。</p>
-</blockquote>
-<hr>
-<h2 id="组件生命周期流程"><a href="#组件生命周期流程" class="headerlink" title="组件生命周期流程"></a>组件生命周期流程</h2><p>Vue 组件的生命周期包括一系列的钩子函数，这些函数在组件的不同阶段被调用。了解这些生命周期钩子可以帮助你在合适的时机执行特定的操作。</p>
-<img src="/2024/07/31/%E5%85%B6%E4%BB%96/2024-07-31/%E5%9B%BE1.png" srcset="/img/loading.gif" lazyload class title="图1">
+<h1 id="1-Vue-组件生命周期"><a href="#1-Vue-组件生命周期" class="headerlink" title="1.Vue 组件生命周期"></a>1.Vue 组件生命周期</h1><h2 id="Vue-组件生命周期流程"><a href="#Vue-组件生命周期流程" class="headerlink" title="Vue 组件生命周期流程"></a>Vue 组件生命周期流程</h2><p>Vue 组件的生命周期包括一系列的钩子函数，这些函数在组件的不同阶段被调用。了解这些生命周期钩子可以帮助你在合适的时机执行特定的操作。</p>
+<img src="/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE1.png" srcset="/img/loading.gif" lazyload class title="图1">
 
 <h3 id="创建阶段"><a href="#创建阶段" class="headerlink" title="创建阶段"></a>创建阶段</h3><ol>
 <li>**<code>beforeCreate()</code>**：当组件实例被创建之后，此时数据观测和事件配置都还未进行，例如<code>watch</code>事件此时也还未开始监听数据。此时 <code>data</code> 和 <code>methods</code> 尚不可用。</li>
@@ -304,71 +299,38 @@
 <li><strong><code>beforeDestroy</code></strong>: 组件销毁之前调用。可以在这里进行清理操作，如取消定时器、解绑事件监听等。</li>
 <li><strong><code>destroyed</code></strong>: 组件销毁完成后调用。此时组件的所有子组件都已销毁，DOM 也被删除。</li>
 </ol>
-<p><font color="yellow">注意点：</font></p>
+<p><strong>注意点：</strong></p>
 <ul>
 <li>创建阶段和销毁阶段是对应的。挂载和更新是类似的，挂载是在组件在创建的时候执行，因为需要将DOM插入到页面中，更新阶段只有新的DOM节点会插入的页面中，已有的DOM节点不会动。</li>
-<li>渲染包括是指将组件的模板转化为实际的 DOM 元素。这个过程包括生成虚拟 DOM 和最终将其转换为真实的 DOM。因此渲染既存在挂载也存在更新阶段。<font color="yellow">渲染并不直接对应钩子函数。</font></li>
+<li>渲染包括是指将组件的模板转化为实际的 DOM 元素。这个过程包括生成虚拟 DOM 和最终将其转换为真实的 DOM。因此渲染既存在挂载也存在更新阶段。<strong>渲染并不直接对应钩子函数</strong>。</li>
 </ul>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_65335111/article/details/125610342">https://blog.csdn.net/m0_65335111/article/details/125610342</a></p>
 </blockquote>
 <h2 id="父组件与子组件的生命周期流程"><a href="#父组件与子组件的生命周期流程" class="headerlink" title="父组件与子组件的生命周期流程"></a>父组件与子组件的生命周期流程</h2><p>首先以下面代码为例。</p>
-<p><font color="yellow">父组件：</font></p>
+<p><font color="#0077b4">父组件：</font></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div class=&quot;container&quot;&gt;<br>    &lt;ChildComponent v-if=&quot;showComponent&quot; :newArr=&quot;arr&quot;&gt;&lt;/ChildComponent&gt;<br>    &lt;el-button @click=&quot;addData&quot;&gt;增加父组件数据&lt;/el-button&gt;<br>    &lt;el-button @click=&quot;()=&gt;&#123;showComponent=!showComponent&#125;&quot;&gt;控制组件&lt;/el-button&gt;<br>    &lt;el-button @click=&quot;()=&gt;&#123;arr.push(&#x27;newdata&#x27;)&#125;&quot;&gt;更改数组&lt;/el-button&gt;<br>    &#123;&#123; data &#125;&#125;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script&gt;<br>import ChildComponent from &#x27;./ChildComponent.vue&#x27;;<br>export default &#123;<br>  components:&#123;ChildComponent&#125;,<br>  data() &#123;<br>    return &#123;<br>      arr : [&quot;父组件初始数据&quot;],<br>      data : 0,<br>      showComponent : true,<br>    &#125;<br>  &#125;,<br>  methods:&#123;<br>    addData()&#123;<br>      this.data++;<br>    &#125;<br>  &#125;,<br>  beforeCreate()&#123;<br>    console.log(&quot;父组件beforeCreate方法调用&quot;);<br>  &#125;,<br>  created()&#123;<br>    console.log(&quot;父组件created方法调用&quot;);<br>  &#125;,<br>  beforeMount()&#123;<br>    console.log(&quot;父组件beforeMount方法调用&quot;);<br>  &#125;,<br>  mounted()&#123;<br>    console.log(&quot;父组件mounted方法调用&quot;);<br>  &#125;,<br>  beforeDestroy()&#123;<br>    console.log(&quot;父组件beforeDestroy方法调用&quot;);<br>  &#125;,<br>  destroyed()&#123;<br>    console.log(&quot;父组件destroyed方法调用&quot;);<br>  &#125;,<br>  beforeUpdate()&#123;<br>    console.log(&quot;父组件beforeUpdate方法调用&quot;);<br>  &#125;,<br>  updated()&#123;<br>    console.log(&quot;父组件updated方法调用&quot;);<br>  &#125;,<br>  deactivated()&#123;<br>    console.log(&quot;父组件deactivated方法调用&quot;);<br>  &#125;,<br>  activated()&#123;<br>    console.log(&quot;父组件activated方法调用&quot;);<br>  &#125;,<br>&#125;<br>&lt;/script&gt;<br><br>&lt;style lang=&quot;scss&quot; scoped&gt;<br>.container &#123;<br>  height: 100vh;<br>  width: 100vw;<br>  background: #080E19;<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
 
-<p><font color="yellow">子组件：</font></p>
+<p><font color="#1677ff">子组件：</font></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div class=&quot;child-container&quot;&gt;<br>    &lt;el-button @click=&quot;addData&quot;&gt;增加数据&lt;/el-button&gt;<br>    &#123;&#123; data &#125;&#125;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script&gt;<br>export default &#123;<br>  props:&#123;<br>    newArr:&#123;<br>      type: Array,<br>      default: ()=&gt;[&quot;初始参数&quot;]<br>    &#125;<br>  &#125;,<br>  data()&#123;<br>    return&#123;<br>      arr:[&quot;子组件初始数据&quot;],<br>      data:0,<br>    &#125;<br>  &#125;,<br>  methods:&#123;<br>    addData()&#123;<br>      console.log(&quot;addData方法&quot;)<br>      this.data++;<br>    &#125;<br>  &#125;,<br>  watch:&#123;<br>    newArr()&#123;<br>      console.log(&quot;监听事件调用&quot;)<br>    &#125;<br>  &#125;,<br>  beforeCreate()&#123;<br>    console.log(&quot;子组件beforeCreate方法调用&quot;);<br>  &#125;,<br>  created()&#123;<br>    console.log(&quot;子组件created方法调用&quot;);<br>    console.log(this.arr)<br>    console.log(this.newArr)<br>    console.log(this.data)<br>  &#125;,<br>  beforeMount()&#123;<br>    console.log(&quot;子组件beforeMount方法调用&quot;);<br>  &#125;,<br>  mounted()&#123;<br>    console.log(&quot;子组件mounted方法调用&quot;);<br>  &#125;,<br>  beforeDestroy()&#123;<br>    console.log(&quot;子组件beforeDestroy方法调用&quot;);<br>  &#125;,<br>  destroyed()&#123;<br>    console.log(&quot;子组件destroyed方法调用&quot;);<br>  &#125;,<br>  beforeUpdate()&#123;<br>    console.log(&quot;子组件beforeUpdate方法调用&quot;);<br>  &#125;,<br>  updated()&#123;<br>    console.log(&quot;子组件updated方法调用&quot;);<br>  &#125;,<br>  deactivated()&#123;<br>    console.log(&quot;子组件deactivated方法调用&quot;);<br>  &#125;,<br>  activated()&#123;<br>    console.log(&quot;子组件activated方法调用&quot;);<br>  &#125;,<br>&#125;<br>&lt;/script&gt;<br><br>&lt;style land=&quot;scss&quot; scoped&gt;<br>.child-container &#123;<br>  height: 30%;<br>  width: 30%;<br>  background: #00b8b8;<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
 
-<img src="/2024/07/31/%E5%85%B6%E4%BB%96/2024-07-31/%E5%9B%BE2.png" srcset="/img/loading.gif" lazyload class title="图2">
+<img src="/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE2.png" srcset="/img/loading.gif" lazyload class title="图2">
 
 <p><strong>组件创建的生命周期如下：</strong></p>
 <p>父组件<code>beforeCreate</code>——&gt;（父组件数据和事件开始初始化）——&gt; 父组件<code>created</code>——&gt;（此时父组件数据和事件都初始化完成，data数据已经准备好，虚拟DOM开始创建）——&gt; 父组件<code>beforeMount</code>——&gt;（虚拟DOM已经创建，页面渲染开始，真实DOM创建并开始挂载到页面，直到渲染到子组件DOM）——&gt; 子组件<code>beforeCreate</code>——&gt;（子组件数据和事件开始初始化，包括传递的参数props，初始化的数据watch还没有开始监听）——&gt; 子组件<code>created</code>——&gt;（此时子组件数据初始化完成，watch已经开始监听，虚拟DOM开始创建）——&gt; 子组件<code>beforeMount</code>——&gt;（虚拟DOM已经创建，页面渲染开始，真实DOM创建并开始挂载到页面）——&gt; 子组件<code>mounted</code>——&gt; （子组件挂载完成，返回到父组件继续渲染）——&gt; 父组件<code>mounted</code>——&gt;（父组件挂载完成）</p>
-<p><font color="yellow">注意点：</font></p>
+<p><font color="#1677ff">注意点：</font></p>
 <ul>
 <li>销毁周期和创建周期是相同的。组件的创建生命周期是深度优先遍历的顺序，如果子组件还有子组件，会先创建最深层的子组件。</li>
 </ul>
-<img src="/2024/07/31/%E5%85%B6%E4%BB%96/2024-07-31/%E5%9B%BE3.png" srcset="/img/loading.gif" lazyload class title="图3">
+<img src="/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE3.png" srcset="/img/loading.gif" lazyload class title="图3">
 
-<p><font color="yellow">注意点：</font></p>
+<p><font color="#1677ff">注意点：</font></p>
 <ul>
 <li><code>beforeUpdate</code>和<code>updated</code>生命周期钩子的执行时间和<code>beforeMounte</code>和<code>mounted</code>是类似的。因此上述流程很好理解了。 </li>
-<li><code>beforeUpdate</code>和<code>updated</code>生命周期钩子<font color="yellow">只在页面需要重写渲染的时候才会执行，而与数据变化无关</font>，如果数据改变但不影响页面，页面无需更新，则不会重写渲染。</li>
+<li><code>beforeUpdate</code>和<code>updated</code>生命周期钩子<font color="#1677ff">只在页面需要重写渲染的时候才会执行，而与数据变化无关</font>，如果数据改变但不影响页面，页面无需更新，则不会重写渲染。</li>
 </ul>
-<h2 id="Vue中的异步问题"><a href="#Vue中的异步问题" class="headerlink" title="Vue中的异步问题"></a>Vue中的异步问题</h2><p>Vue.js是一款渐进式JavaScript框架，专注于构建用户界面。在Vue中，常见的异步操作包括数据请求、路由导航、生命周期钩子函数等。Vue提供了一些方法来处理这些异步操作，最常见的是使用<code>Promise</code>对象。</p>
-<ul>
-<li><p><strong>同步</strong>指的是代码按顺序执行，前一个任务完成后才会执行下一个任务。在同步操作中，代码的执行是阻塞的，即一个操作完成后，才会继续执行下一个操作。</p>
-</li>
-<li><p><strong>异步</strong>指的是代码的执行不一定按顺序进行，任务可以在后台执行，允许主线程继续处理其他任务。异步操作是非阻塞的，即代码可以在后台执行而不阻塞主线程。</p>
-</li>
-</ul>
-<h3 id="Promise对象"><a href="#Promise对象" class="headerlink" title="Promise对象"></a><code>Promise</code>对象</h3><p><code>Promise</code> 是 JavaScript 中用于处理异步操作的对象。<font color="yellow">它代表了一个尚未完成但计划中的操作，并允许你在操作完成时处理结果或错误。</font><code>Promise</code> 是异步编程中的一个重要概念，使得异步操作的处理更加清晰和可维护。</p>
-<p>先不谈<code>Promise</code>对象的创建和属性方法，先明白以下几点。</p>
-<ul>
-<li><code>promise</code>是一个对象，用于处理异步操作。</li>
-<li>JS中所有的异步操作都是在<code>Promise</code>对象中执行的，而函数最终会返回这个<code>Promise</code>对象。</li>
-<li><code>Promise</code> 提供了 <code>.then()</code>、<code>.catch()</code> 和 <code>.finally()</code> 方法来处理操作结果和错误。</li>
-</ul>
-<p><strong>以下是一个简单的 <code>Promise</code> 示例，模拟异步操作（例如数据请求）：</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">fetchData</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>      <span class="hljs-keyword">const</span> success = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 模拟操作成功或失败</span><br>      <span class="hljs-keyword">if</span> (success) &#123;<br>        <span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;Data fetched successfully&#x27;</span>);<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-title function_">reject</span>(<span class="hljs-string">&#x27;Data fetch failed&#x27;</span>);<br>      &#125;<br>    &#125;, <span class="hljs-number">2000</span>); <span class="hljs-comment">// 模拟延迟2秒</span><br>  &#125;);<br>&#125;<br><br><span class="hljs-title function_">fetchData</span>()<br>  .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result); <span class="hljs-comment">// &#x27;Data fetched successfully&#x27;</span><br>  &#125;)<br>  .<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(error); <span class="hljs-comment">// &#x27;Data fetch failed&#x27;</span><br>  &#125;)<br>  .<span class="hljs-title function_">finally</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Fetch attempt completed&#x27;</span>);<br>  &#125;);<br></code></pre></td></tr></table></figure>
-
-<p><strong>真实的一个数据请求操作实例：</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js">axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">&quot;./api/data&quot;</span>) <span class="hljs-comment">//返回一个Promise对象。</span><br>.<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">result</span>)=&gt;</span>&#123;<br>    <span class="hljs-comment">// 处理数据</span><br>&#125;)<br>.<span class="hljs-title function_">catch</span>(<span class="hljs-function">(<span class="hljs-params">error</span>)=&gt;</span>&#123;<br>    <span class="hljs-comment">// 处理错误</span><br>&#125;)<br></code></pre></td></tr></table></figure>
-
-<h3 id="async和await"><a href="#async和await" class="headerlink" title="async和await"></a><code>async</code>和<code>await</code></h3><p><code>async</code> 和 <code>await</code> 是 JavaScript 中用于处理异步操作的关键字，提供了更简洁和易读的异步代码写法。它们是基于 <code>Promise</code> 的，允许你以同步的方式编写异步代码。</p>
-<p>在数据请求中，我们需要获取数据以后才能进行数据处理，通过在<code>.then()</code>方法中操作。但是如果数据操作比较复杂，例如需要将得到的数据作为下一个数据请求的参数，这样会导致过多的重叠。而<font color="yellow"><code>async</code>和<code>await</code>允许你以同步的方式编写异步代码就是解决这个问题</font>。</p>
-<ul>
-<li><code>async</code> 函数是一个返回 <code>Promise</code> 对象的函数。在 <code>async</code> 函数中，你可以使用 <code>await</code> 关键字来暂停函数的执行，直到 <code>Promise</code> 对象的异步操作完成。</li>
-<li><code>await</code> 用于等待一个 <code>Promise</code> 对象解析完成。在 <code>await</code> 之前的代码会暂停执行，直到 <code>Promise</code> 被解析，返回的是<code>promise</code>解析结果，而不是<code>promise</code>对象，然后继续执行。</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">getDayWeather</span>: <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<span class="hljs-comment">//注意：这里有 async 用来完成异步操作</span><br>    <span class="hljs-comment">// 获取逐小时预报</span><br>    <span class="hljs-comment">// 根据城市名或者经纬度获取城市id</span><br>    <span class="hljs-keyword">let</span> httpUrl = <span class="hljs-string">`https://geoapi.qweather.com/v2/city/lookup?location=<span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.city&#125;</span>&amp;key=<span class="hljs-subst">$&#123;key&#125;</span>`</span><br>    <span class="hljs-keyword">let</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(httpUrl)<br>    <span class="hljs-keyword">let</span> result = res.<span class="hljs-title function_">json</span>()<br>    <span class="hljs-keyword">let</span> id = result.<span class="hljs-property">location</span>[<span class="hljs-number">0</span>].<span class="hljs-property">id</span><br>    <span class="hljs-comment">// 根据城市id获取具体的天气</span><br>    <span class="hljs-keyword">let</span> httpUrl1 = <span class="hljs-string">`https://devapi.qweather.com/v7/grid-weather/24h?location=<span class="hljs-subst">$&#123;id&#125;</span>&amp;key=<span class="hljs-subst">$&#123;key&#125;</span>`</span><br>    <span class="hljs-keyword">let</span> res1 = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(httpUrl1)<br>    <span class="hljs-keyword">let</span> result1 = res1.<span class="hljs-title function_">json</span>()<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">dayClimate</span> = result1.<span class="hljs-property">hourly</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;小时天气&quot;</span>,<span class="hljs-variable language_">this</span>.<span class="hljs-property">dayClimate</span>)<br>&#125;,<br></code></pre></td></tr></table></figure>
-
-<p>上述使用和风天气API获取未来24小时的数据请求，包括两个请求，首先是通过根据城市名或者经纬度获取城市id，然后根据城市id获取具体的天气。在这里，<code>await</code>用于等待异步处理返回，也就是数据请求完成并返回，只有数据返回后，才能进行数据处理。<font color="yellow">而<code>await</code>只能在<code>async</code>函数中使用</font></p>
-<p>类似于下述代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-keyword">let</span> httpUrl = <span class="hljs-string">`https://geoapi.qweather.com/v2/city/lookup?location=<span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.city&#125;</span>&amp;key=<span class="hljs-subst">$&#123;key&#125;</span>`</span><br>    <span class="hljs-title function_">fetch</span>(httpUrl)<br>    .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>)=&gt;</span>&#123;<br>        <span class="hljs-keyword">let</span> result = res.<span class="hljs-title function_">json</span>()<br>        <span class="hljs-keyword">let</span> id = result.<span class="hljs-property">location</span>[<span class="hljs-number">0</span>].<span class="hljs-property">id</span><br>    	<span class="hljs-keyword">let</span> httpUrl1 = <span class="hljs-string">`https://devapi.qweather.com/v7/grid-weather/24h?location=<span class="hljs-subst">$&#123;id&#125;</span>&amp;key=<span class="hljs-subst">$&#123;key&#125;</span>`</span><br>        <span class="hljs-title function_">fetch</span>(httpUrl1)<br>        .<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res1</span>)=&gt;</span>&#123;<br>            <span class="hljs-keyword">let</span> result1 = res1.<span class="hljs-title function_">json</span>()<br>    		<span class="hljs-variable language_">this</span>.<span class="hljs-property">dayClimate</span> = result1.<span class="hljs-property">hourly</span><br>    		<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;小时天气&quot;</span>,<span class="hljs-variable language_">this</span>.<span class="hljs-property">dayClimate</span>)<br>        &#125;)<br>    &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p><font color="yellow">但需要注意的是，并且async函数本身也返回一个Promise对象，也就是说整个函数本身也是一个异步处理函数。</font></p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qqq1994_0810/article/details/135133857">https://blog.csdn.net/qqq1994_0810/article/details/135133857</a></p>
+<p>与路由相关的两个是 <code>activeted</code> 和 <code>deactivated</code> 配合 <code>keep-alive</code>，用于组件缓存不销毁时候使用。</p>
 </blockquote>
 <h2 id="异步问题对生命周期的影响"><a href="#异步问题对生命周期的影响" class="headerlink" title="异步问题对生命周期的影响"></a>异步问题对生命周期的影响</h2><p>在 Vue.js 中，生命周期钩子函数本身是<strong>同步的</strong>，即它们按照特定的顺序执行，并在生命周期的特定阶段被调用。然而，生命周期钩子函数中可以包含异步操作，如数据请求、定时器等。以下是有关生命周期钩子函数的详细信息：</p>
 <p>生命周期钩子的同步行为:</p>
@@ -376,13 +338,153 @@
 <li><strong>同步执行</strong>：生命周期钩子函数（如 <code>created</code>、<code>mounted</code>、<code>updated</code> 等）是同步执行的，即它们会按照定义的顺序被调用，并在生命周期的特定阶段完成执行。</li>
 <li><strong>顺序调用</strong>：Vue.js 会在组件生命周期的不同阶段调用这些钩子函数，从组件实例的创建、挂载到更新和销毁，每个钩子函数都有特定的调用时机。</li>
 </ul>
-<p><font color="yellow">尽管生命周期钩子函数本身是同步的，但可以在这些钩子函数中执行异步操作。这些异步操作不会影响钩子函数的同步执行，但可能会影响组件的状态和视图更新。</font></p>
-<h3 id="this-nextTick"><a href="#this-nextTick" class="headerlink" title="this.$nextTick()"></a><code>this.$nextTick()</code></h3><p>当你更新一个响应式数据，Vue 不会立即同步更新 DOM。相反，Vue 会等到事件循环的下一个 “tick” 才执行这些更新，以进行批量处理和优化。<code>this.$nextTick()</code> 的作用就是在这个更新完成之后，执行你指定的回调函数。<font color="yellow">使用 <code>this.$nextTick()</code> 的关键是确保在需要等待 Vue 更新 DOM 后再执行的场景下使用</font></p>
+<p><font color="#1677ff">尽管生命周期钩子函数本身是同步的，但可以在这些钩子函数中执行异步操作。这些异步操作不会影响钩子函数的同步执行，但可能会影响组件的状态和视图更新。</font></p>
+<h3 id="this-nextTick"><a href="#this-nextTick" class="headerlink" title="this.$nextTick()"></a><code>this.$nextTick()</code></h3><p>当你更新一个响应式数据，Vue 不会立即同步更新 DOM。相反，Vue 会等到事件循环的下一个 “tick” 才执行这些更新，以进行批量处理和优化。<code>this.$nextTick()</code> 的作用就是在这个更新完成之后，执行你指定的回调函数。<font color="#1677ff">使用 <code>this.$nextTick()</code> 的关键是确保在需要等待 Vue 更新 DOM 后再执行的场景下使用</font></p>
 <p><strong>异步执行</strong>：<code>this.$nextTick()</code> 的回调函数是异步执行的，因此它不会阻塞主线程。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;template&gt;<br>  &lt;div&gt;<br>    &lt;p ref=&quot;paragraph&quot;&gt;&#123;&#123; message &#125;&#125;&lt;/p&gt;<br>    &lt;button @click=&quot;updateMessage&quot;&gt;Update Message&lt;/button&gt;<br>  &lt;/div&gt;<br>&lt;/template&gt;<br><br>&lt;script&gt;<br>export default &#123;<br>  data() &#123;<br>    return &#123;<br>      message: &quot;Hello, Vue!&quot;<br>    &#125;;<br>  &#125;,<br>  methods: &#123;<br>    updateMessage() &#123;<br>      this.message = &quot;Hello, World!&quot;;<br>      this.$nextTick(() =&gt; &#123;<br>        console.log(this.$refs.paragraph.offsetHeight); // 获取的是更新后的 DOM 高度<br>      &#125;);<br>    &#125;<br>  &#125;<br>&#125;;<br>&lt;/script&gt;<br><br>&lt;style&gt;<br>/* 样式 */<br>&lt;/style&gt;<br><br></code></pre></td></tr></table></figure>
 
 <p>上述例子如果没有<code>this.$nextTick()</code>，当点击按钮后，<code>this.message</code> 更新为 “Hello, World!”，但是 <code>console.log(this.$refs.paragraph.offsetHeight);</code> 可能获取的是更新前的 <code>p</code> 元素的高度，因为此时 DOM 还未更新。</p>
 <p>虽然没有使用 <code>this.$nextTick()</code>，Vue 仍会更新 DOM，但是在数据更新后立即访问 DOM 时，可能会获取到更新前的状态。使用 <code>this.$nextTick()</code> 能够确保你的操作在 DOM 更新后执行，获取到最新的 DOM 状态，从而保证操作的准确性和一致性。</p>
+<h2 id="Vue2-3-生命周期钩子对照表"><a href="#Vue2-3-生命周期钩子对照表" class="headerlink" title="Vue2&#x2F;3 生命周期钩子对照表"></a>Vue2&#x2F;3 生命周期钩子对照表</h2><h3 id="1️⃣-创建阶段（Creation）"><a href="#1️⃣-创建阶段（Creation）" class="headerlink" title="1️⃣ 创建阶段（Creation）"></a>1️⃣ 创建阶段（Creation）</h3><table>
+<thead>
+<tr>
+<th>阶段含义</th>
+<th>Vue2</th>
+<th>Vue3（Options API）</th>
+<th>Vue3（Composition API）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实例创建前</td>
+<td><code>beforeCreate</code></td>
+<td><code>beforeCreate</code></td>
+<td>❌ 无</td>
+</tr>
+<tr>
+<td>实例创建完成</td>
+<td><code>created</code></td>
+<td><code>created</code></td>
+<td>❌ 无</td>
+</tr>
+</tbody></table>
+<p><strong>关键点</strong></p>
+<ul>
+<li><code>beforeCreate / created</code> <strong>在 Composition API 中被“setup 取代”</strong></li>
+<li><code>setup()</code> ≈ <code>beforeCreate + created</code></li>
+<li>在 <code>setup()</code> 中：<ul>
+<li><strong>能访问 props</strong></li>
+<li><strong>不能访问 this</strong></li>
+<li><strong>响应式系统已建立</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2️⃣-挂载阶段（Mount）"><a href="#2️⃣-挂载阶段（Mount）" class="headerlink" title="2️⃣ 挂载阶段（Mount）"></a>2️⃣ 挂载阶段（Mount）</h3><table>
+<thead>
+<tr>
+<th>阶段含义</th>
+<th>Vue2</th>
+<th>Vue3（Options API）</th>
+<th>Vue3（Composition API）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>挂载前</td>
+<td><code>beforeMount</code></td>
+<td><code>beforeMount</code></td>
+<td><code>onBeforeMount</code></td>
+</tr>
+<tr>
+<td>挂载完成</td>
+<td><code>mounted</code></td>
+<td><code>mounted</code></td>
+<td><code>onMounted</code></td>
+</tr>
+</tbody></table>
+<p><strong>关键点</strong></p>
+<ul>
+<li><code>mounted / onMounted</code> 是：<ul>
+<li><strong>DOM 已经真实存在</strong></li>
+<li>第三方库初始化（ECharts &#x2F; Map &#x2F; DOM 操作）的<strong>唯一安全位置</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3️⃣-更新阶段（Update）"><a href="#3️⃣-更新阶段（Update）" class="headerlink" title="3️⃣ 更新阶段（Update）"></a>3️⃣ 更新阶段（Update）</h3><table>
+<thead>
+<tr>
+<th>阶段含义</th>
+<th>Vue2</th>
+<th>Vue3（Options API）</th>
+<th>Vue3（Composition API）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DOM 更新前</td>
+<td><code>beforeUpdate</code></td>
+<td><code>beforeUpdate</code></td>
+<td><code>onBeforeUpdate</code></td>
+</tr>
+<tr>
+<td>DOM 更新后</td>
+<td><code>updated</code></td>
+<td><code>updated</code></td>
+<td><code>onUpdated</code></td>
+</tr>
+</tbody></table>
+<p><strong>关键点</strong></p>
+<ul>
+<li>更新阶段可能触发 <strong>多次</strong></li>
+<li><code>updated</code> <strong>不要修改会再次触发更新的状态</strong>（否则死循环）</li>
+</ul>
+<hr>
+<h3 id="4️⃣-销毁-卸载阶段（Unmount）"><a href="#4️⃣-销毁-卸载阶段（Unmount）" class="headerlink" title="4️⃣ 销毁 &#x2F; 卸载阶段（Unmount）"></a>4️⃣ 销毁 &#x2F; 卸载阶段（Unmount）</h3><table>
+<thead>
+<tr>
+<th>阶段含义</th>
+<th>Vue2</th>
+<th>Vue3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>卸载前</td>
+<td><code>beforeDestroy</code></td>
+<td><code>beforeUnmount</code> &#x2F; <code>onBeforeUnmount</code></td>
+</tr>
+<tr>
+<td>卸载完成</td>
+<td><code>destroyed</code></td>
+<td><code>unmounted</code> &#x2F; <code>onUnmounted</code></td>
+</tr>
+</tbody></table>
+<p><strong>关键点</strong></p>
+<ul>
+<li>Vue3 用 <strong>Unmount</strong> 代替 Destroy（语义更贴近真实 DOM）</li>
+<li>清理逻辑：<ul>
+<li>定时器</li>
+<li>事件监听</li>
+<li>WebSocket</li>
+<li>地图 &#x2F; 图表实例</li>
+</ul>
+</li>
+</ul>
+<h3 id="Vue3-中-setup-与生命周期的关系："><a href="#Vue3-中-setup-与生命周期的关系：" class="headerlink" title="Vue3 中 setup() 与生命周期的关系："></a>Vue3 中 <code>setup()</code> 与生命周期的关系：</h3><blockquote>
+<p><strong><code>setup()</code> 本身就是 Vue3 的“创建阶段”</strong></p>
+</blockquote>
+<p>对应关系：</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xl">Vue2:<br><span class="hljs-function"><span class="hljs-title">beforeCreate</span> -&gt;</span> <span class="hljs-function"><span class="hljs-title">created</span> -&gt;</span> <span class="hljs-function"><span class="hljs-title">beforeMount</span> -&gt;</span> mounted<br><br>Vue3:<br><span class="hljs-function"><span class="hljs-title">setup</span>() -&gt;</span> <span class="hljs-function"><span class="hljs-title">onBeforeMount</span> -&gt;</span> onMounted<br></code></pre></td></tr></table></figure>
+
+<p>示例（Vue3）：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; onMounted, onUnmounted &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;<br>  <span class="hljs-title function_">setup</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-comment">// 相当于 beforeCreate + created</span><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;setup&#x27;</span>)<br><br>    <span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;DOM ready&#x27;</span>)<br>    &#125;)<br><br>    <span class="hljs-title function_">onUnmounted</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;cleanup&#x27;</span>)<br>    &#125;)<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>生命周期的<strong>阶段和语义保持一致</strong>，但 Vue3：</p>
+<ol>
+<li>用 <code>setup()</code> 替代了 <code>beforeCreate / created</code></li>
+<li>用 <code>onXxx</code> 组合式 API 替代选项式钩子</li>
+<li>将 <code>destroy</code> 改为 <code>unmount</code>，语义更清晰</li>
+</ol>
+</blockquote>
 
                 
               </div>
@@ -401,7 +503,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%85%B6%E4%BB%96/" class="category-chain-item">其他</a>
+  <a href="/categories/Vue/" class="category-chain-item">Vue</a>
   
   
 
@@ -416,8 +518,6 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%AF%8F%E6%97%A5%E6%80%BB%E7%BB%93/" class="print-no-link">#每日总结</a>
-      
         <a href="/tags/Vue/" class="print-no-link">#Vue</a>
       
     </div>
@@ -430,8 +530,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>前端学习-Vue 组件生命周期</div>
-      <div>http://example.com/2024/07/31/其他/2024-07-31/</div>
+      <div>Vue3进阶学习</div>
+      <div>http://example.com/2026/01/09/Vue/Vue3进阶学习/</div>
     </div>
     <div class="license-meta">
       
@@ -443,7 +543,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年7月31日</div>
+          <div>2026年1月9日</div>
         </div>
       
       
@@ -475,9 +575,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/02/%E5%85%B6%E4%BB%96/2024-08-02/" title="2024-08-02学习总结">
+                      <a href="/2026/01/09/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue%E6%A0%B8%E5%BF%83%E9%9D%A2%E8%AF%95%E9%A2%98/" title="Vue核心面试题">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">2024-08-02学习总结</span>
+                        <span class="hidden-mobile">Vue核心面试题</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -485,8 +585,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/24/%E5%85%B6%E4%BB%96/2024-07-24/" title="数学建模-数学建模入门指南">
-                        <span class="hidden-mobile">数学建模-数学建模入门指南</span>
+                      <a href="/2026/01/08/Vue/Vue-Router%E7%9F%A5%E8%AF%86%E8%BF%9B%E9%98%B6/" title="Vue-Router知识进阶">
+                        <span class="hidden-mobile">Vue-Router知识进阶</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

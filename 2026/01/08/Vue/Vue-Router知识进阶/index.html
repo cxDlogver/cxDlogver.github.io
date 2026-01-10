@@ -1,0 +1,1285 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1. Vue Router 快速上手Vue Router快速上手 - 相 2. 路由守卫1）全局：beforeEach &#x2F; beforeResolve &#x2F; afterEach 2）路由独享：beforeEnter 3）组件内：beforeRouteEnter &#x2F; beforeRouteUpdate(onBeforeRouteUpdate) &#x2F; beforeRouteLeave(onBeforeRo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue-Router知识进阶">
+<meta property="og:url" content="http://example.com/2026/01/08/Vue/Vue-Router%E7%9F%A5%E8%AF%86%E8%BF%9B%E9%98%B6/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="1. Vue Router 快速上手Vue Router快速上手 - 相 2. 路由守卫1）全局：beforeEach &#x2F; beforeResolve &#x2F; afterEach 2）路由独享：beforeEnter 3）组件内：beforeRouteEnter &#x2F; beforeRouteUpdate(onBeforeRouteUpdate) &#x2F; beforeRouteLeave(onBeforeRo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-08T14:11:55.000Z">
+<meta property="article:modified_time" content="2026-01-08T20:37:45.111Z">
+<meta property="article:author" content="Xiang Chen">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Vue-Router知识进阶 - 相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Vue-Router知识进阶"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-08 22:11" pubdate>
+          2026年1月8日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Vue-Router知识进阶</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="1-Vue-Router-快速上手"><a href="#1-Vue-Router-快速上手" class="headerlink" title="1. Vue Router 快速上手"></a>1. <code>Vue Router</code> 快速上手</h2><p><a target="_blank" rel="noopener" href="https://cxdlogver.github.io/2025/12/17/Vue/Vue3%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/#4-%E8%B7%AF%E7%94%B1">Vue Router快速上手 - 相</a></p>
+<h2 id="2-路由守卫"><a href="#2-路由守卫" class="headerlink" title="2. 路由守卫"></a>2. 路由守卫</h2><p>1）全局：<code>beforeEach / beforeResolve / afterEach</code></p>
+<p>2）路由独享：<code>beforeEnter</code></p>
+<p>3）组件内：<code>beforeRouteEnter / beforeRouteUpdate(onBeforeRouteUpdate) / beforeRouteLeave(onBeforeRouteLeave)</code></p>
+<h3 id="【beforeEach】"><a href="#【beforeEach】" class="headerlink" title="【beforeEach】"></a>【<code>beforeEach</code>】</h3><p>作用：全局前置守卫。每次路由跳转前触发，适合做“进入前拦截”。</p>
+<p>触发时机：导航被确认前，组件解析&#x2F;渲染之前。任何路由变化（push&#x2F;replace&#x2F;回退前进）都会触发。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// router.ts</span><br><span class="hljs-keyword">import</span> &#123; createRouter, createWebHistory &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue-router&quot;</span>;<br><span class="hljs-keyword">import</span> routes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./routes&quot;</span>;<br><br><span class="hljs-keyword">const</span> router = <span class="hljs-title function_">createRouter</span>(&#123;<br>  <span class="hljs-attr">history</span>: <span class="hljs-title function_">createWebHistory</span>(),<br>  routes,<br>&#125;);<br><br>router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-title function_">async</span> (to, <span class="hljs-keyword">from</span>) =&gt; &#123;<br>  <span class="hljs-comment">// 1) 鉴权：未登录 -&gt; 跳登录页</span><br>  <span class="hljs-keyword">const</span> token = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;token&quot;</span>);<br>  <span class="hljs-keyword">if</span> (to.<span class="hljs-property">meta</span>.<span class="hljs-property">requiresAuth</span> &amp;&amp; !token) &#123;<br>    <span class="hljs-keyword">return</span> &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Login&quot;</span>, <span class="hljs-attr">query</span>: &#123; <span class="hljs-attr">redirect</span>: to.<span class="hljs-property">fullPath</span> &#125; &#125;;<br>  &#125;<br><br>  <span class="hljs-comment">// 2) 已登录访问登录页 -&gt; 跳首页</span><br>  <span class="hljs-keyword">if</span> (to.<span class="hljs-property">name</span> === <span class="hljs-string">&quot;Login&quot;</span> &amp;&amp; token) &#123;<br>    <span class="hljs-keyword">return</span> &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Home&quot;</span> &#125;;<br>  &#125;<br><br>  <span class="hljs-comment">// 3) 权限：无角色/无权限 -&gt; 403</span><br>  <span class="hljs-keyword">const</span> role = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;role&quot;</span>);<br>  <span class="hljs-keyword">if</span> (to.<span class="hljs-property">meta</span>.<span class="hljs-property">roles</span> &amp;&amp; !to.<span class="hljs-property">meta</span>.<span class="hljs-property">roles</span>.<span class="hljs-title function_">includes</span>(role)) &#123;<br>    <span class="hljs-keyword">return</span> &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Forbidden&quot;</span> &#125;;<br>  &#125;<br><br>  <span class="hljs-comment">// 4) 异步：拉取用户信息后再放行</span><br>  <span class="hljs-comment">// if (!store.userLoaded) await store.fetchMe()</span><br><br>  <span class="hljs-comment">// 放行：return true 或不写 return</span><br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;);<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> router;<br></code></pre></td></tr></table></figure>
+
+<p>关键点</p>
+<ul>
+<li>返回值控制导航：<ul>
+<li><code>return false</code> 取消导航</li>
+<li><code>return &#123; path/name/query &#125;</code> 重定向</li>
+<li><code>return true</code> 或不返回 放行</li>
+</ul>
+</li>
+<li>必须避免死循环：重定向目标不要再触发同一条拦截逻辑导致反复跳转</li>
+<li>复杂条件建议用 <code>to.meta</code> 驱动（如 <code>requiresAuth</code>、<code>roles</code>）</li>
+<li>做全局 Loading&#x2F;NProgress 更合适（跳转开始就开启）</li>
+</ul>
+<p><strong>典型使用场景</strong></p>
+<ul>
+<li>登录态校验、登录页重定向</li>
+<li>RBAC&#x2F;ABAC 权限控制（角色、权限点、资源范围）</li>
+<li>白名单路由、灰度路由、维护模式拦截</li>
+<li>动态路由注入前置检查（首次进入系统拉取菜单并 addRoute）</li>
+<li>路由级数据预取的兜底（不建议把大量业务请求都塞进这里，容易拖慢首屏）</li>
+</ul>
+<blockquote>
+<p>Vue Router3 需要用<code>next()</code>放行</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Vue Router 3</th>
+<th>Vue Router 4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>next()</code></td>
+<td><code>return true</code> 或 <code>return</code></td>
+</tr>
+<tr>
+<td><code>next(false)</code></td>
+<td><code>return false</code></td>
+</tr>
+<tr>
+<td><code>next(&#39;/login&#39;)</code></td>
+<td><code>return &#39;/login&#39;</code></td>
+</tr>
+<tr>
+<td><code>next(&#123; name: &#39;Login&#39; &#125;)</code></td>
+<td><code>return &#123; name: &#39;Login&#39; &#125;</code></td>
+</tr>
+<tr>
+<td><code>next(error)</code></td>
+<td><code>throw error</code></td>
+</tr>
+</tbody></table>
+<h3 id="【afterEach】"><a href="#【afterEach】" class="headerlink" title="【afterEach】"></a>【<code>afterEach</code>】</h3><p>作用：全局后置守卫。路由跳转完成后触发，不可拦截导航，适合做“事后收尾”。</p>
+<p>触发时机：导航确认完成、URL 已变更后触发。无返回值控制能力。</p>
+<p>使用方法（Vue Router 4）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js">router.<span class="hljs-title function_">afterEach</span>(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, failure</span>) =&gt;</span> &#123;<br>  <span class="hljs-comment">// 1) 设置页面标题</span><br>  <span class="hljs-keyword">if</span> (to.<span class="hljs-property">meta</span>.<span class="hljs-property">title</span>) <span class="hljs-variable language_">document</span>.<span class="hljs-property">title</span> = <span class="hljs-title class_">String</span>(to.<span class="hljs-property">meta</span>.<span class="hljs-property">title</span>);<br><br>  <span class="hljs-comment">// 2) 关闭全局 Loading/NProgress</span><br>  <span class="hljs-comment">// NProgress.done()</span><br><br>  <span class="hljs-comment">// 3) 埋点统计（PV、路由来源）</span><br>  <span class="hljs-comment">// trackPageView(&#123; to: to.fullPath, from: from.fullPath, failure: !!failure &#125;)</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>关键点</p>
+<ul>
+<li>不能阻止跳转；如果要拦截必须用 <code>beforeEach</code>&#x2F;路由独享守卫</li>
+<li><code>failure</code> 可用于判断是否发生导航失败（例如重复导航、取消等），做日志更稳</li>
+<li>不要在这里做重定向或写会引发再次导航的逻辑，容易造成不可控链路</li>
+</ul>
+<p><strong>典型使用场景</strong></p>
+<ul>
+<li>统一设置 <code>document.title</code>、面包屑同步、滚动行为补充</li>
+<li>关闭全局 Loading、结束进度条</li>
+<li>路由埋点、性能统计、导航日志记录</li>
+<li>清理临时状态（如关闭全局弹窗、收起侧边栏等“跳转后收尾”）</li>
+</ul>
+<h3 id="【beforeResolve】"><a href="#【beforeResolve】" class="headerlink" title="【beforeResolve】"></a>【<code>beforeResolve</code>】</h3><p>作用：全局解析守卫。与 <code>beforeEach</code> 类似，但触发更靠后，适合做“依赖组件已解析后的最后一道拦截”。</p>
+<p>触发时机：在所有组件内守卫、路由独享守卫都通过后，组件也已解析完成，但导航还没最终确认之前触发。</p>
+<p>使用方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js">router.<span class="hljs-title function_">beforeResolve</span>(<span class="hljs-title function_">async</span> (to, <span class="hljs-keyword">from</span>) =&gt; &#123;<br>  <span class="hljs-comment">// 适合做：进入页面前必须完成的“最后预取”</span><br>  <span class="hljs-keyword">if</span> (to.<span class="hljs-property">meta</span>.<span class="hljs-property">prefetch</span>) &#123;<br>    <span class="hljs-keyword">await</span> to.<span class="hljs-property">meta</span>.<span class="hljs-title function_">prefetch</span>(); <span class="hljs-comment">// 例如拉取页面关键数据</span><br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>使用场景</p>
+<ul>
+<li>页面进入前的“最终数据预取&#x2F;兜底加载”（确保组件可用后再请求关键数据）</li>
+<li>配合进度条：在这里更精确地做“即将完成导航”的阶段控制</li>
+<li>复杂跳转链路的最后一次统一校验（例如依赖动态路由已注入完成）</li>
+</ul>
+<h3 id="【onBeforeRouteLeave】"><a href="#【onBeforeRouteLeave】" class="headerlink" title="【onBeforeRouteLeave】"></a>【<code>onBeforeRouteLeave</code>】</h3><p>作用：离开当前组件对应路由时触发，常用于“未保存内容拦截离开”。</p>
+<p>触发时机：从当前路由离开前，组件仍在。</p>
+<p>使用方法（Composition API）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; onBeforeRouteLeave &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue-router&quot;</span>;<br><br><span class="hljs-title function_">onBeforeRouteLeave</span>(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span></span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">if</span> (hasUnsaved.<span class="hljs-property">value</span>) &#123;<br>    <span class="hljs-comment">// 可配合弹窗：确认后再放行（通过状态控制二次跳转）</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>使用场景</p>
+<ul>
+<li>表单未保存提示</li>
+<li>离开页面前清理资源（WS&#x2F;定时器&#x2F;地图实例），其中“拦截”用守卫，“释放”也可在 unmount 做兜底</li>
+</ul>
+<h3 id="【onBeforeRouteUpdate】"><a href="#【onBeforeRouteUpdate】" class="headerlink" title="【onBeforeRouteUpdate】"></a>【<code>onBeforeRouteUpdate</code>】</h3><p>作用:同一组件复用时（路由参数变了但仍复用组件）触发，用于处理 params&#x2F;query 变化带来的数据刷新。</p>
+<p>触发时机:当前组件未卸载，路由更新（如 <code>/user/1</code> -&gt; <code>/user/2</code>）。</p>
+<p>使用方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; onBeforeRouteUpdate &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue-router&quot;</span>;<br><br><span class="hljs-title function_">onBeforeRouteUpdate</span>(<span class="hljs-title function_">async</span> (to, <span class="hljs-keyword">from</span>) =&gt; &#123;<br>  <span class="hljs-comment">// 例如：to.params.id 变化后重新拉数据</span><br>  <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetchDetail</span>(<span class="hljs-title class_">String</span>(to.<span class="hljs-property">params</span>.<span class="hljs-property">id</span>));<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>使用场景</p>
+<ul>
+<li>详情页复用组件：根据 id 刷新数据</li>
+<li>列表页 query 变更：分页、筛选条件变化触发重新请求</li>
+<li>避免 watch(route) 写得过散，把“路由驱动更新”集中到守卫里</li>
+</ul>
+<h3 id="【beforeEnter】"><a href="#【beforeEnter】" class="headerlink" title="【beforeEnter】"></a>【<code>beforeEnter</code>】</h3><p>作用:写在某条路由配置上，只对该路由及其进入行为生效，比全局守卫更“精确”。</p>
+<p>触发时机:进入该路由记录前触发（通常在全局 beforeEach 之后、组件内守卫之前的链路中）。</p>
+<p>使用方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>  <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/admin&quot;</span>,<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Admin&quot;</span>,<br>  <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;./Admin.vue&quot;</span>),<br>  <span class="hljs-attr">meta</span>: &#123; <span class="hljs-attr">requiresAuth</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">roles</span>: [<span class="hljs-string">&quot;admin&quot;</span>] &#125;,<br>  <span class="hljs-attr">beforeEnter</span>: <span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span></span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">const</span> role = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;role&quot;</span>);<br>    <span class="hljs-keyword">if</span> (role !== <span class="hljs-string">&quot;admin&quot;</span>) <span class="hljs-keyword">return</span> &#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Forbidden&quot;</span> &#125;;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>  &#125;,<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>使用场景</p>
+<ul>
+<li>某一组路由的权限控制（后台区、运营区）</li>
+<li>进入某页面前必须满足条件（必须带 query、必须来自特定来源页）</li>
+<li>“仅对部分路由生效”的拦截：比全局守卫写 if 更清晰</li>
+<li>首次进入子路由也会触发。</li>
+</ul>
+<blockquote>
+<p>beforeEnter对路由的子路由也拦截吗?</p>
+</blockquote>
+<p><code>beforeEnter</code> 只在“该路由记录是新进入的”时触发</p>
+<h3 id="【matched】"><a href="#【matched】" class="headerlink" title="【matched】"></a>【<code>matched</code>】</h3><p><code>route.matched</code> 表示：<br> <strong>从根路由开始，到当前路由为止，逐级命中的所有路由记录（父 → 子）</strong></p>
+<p><strong>每次导航都会生成一个新的 matched 结果</strong></p>
+<p>示例路由：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>  <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/demo&quot;</span>,<br>  <span class="hljs-attr">component</span>: <span class="hljs-title class_">DemoLayout</span>,<br>  <span class="hljs-attr">children</span>: [<br>    &#123; <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;a&quot;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">DemoA</span> &#125;,<br>    &#123; <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;b&quot;</span>, <span class="hljs-attr">component</span>: <span class="hljs-title class_">DemoB</span> &#125;,<br>  ],<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>访问 <code>/demo/a</code> 时：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">useRoute</span>().<span class="hljs-property">matched</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> r.<span class="hljs-property">path</span>);<br><span class="hljs-comment">// [&quot;/demo&quot;, &quot;/demo/a&quot;]</span><br></code></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li>父路由 <code>/demo</code> <strong>一定在 matched 中</strong></li>
+<li>子路由 <code>/demo/a</code> 紧随其后</li>
+</ul>
+<blockquote>
+<p>但——<strong>进入 <code>matched</code> ≠ 触发父路由的 <code>beforeEnter</code></strong></p>
+</blockquote>
+<p>场景 1：首次进入子路由（会触发）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">/login  →  /demo/a<br></code></pre></td></tr></table></figure>
+
+<p>matched 变化：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">from:</span> []<br><span class="hljs-symbol">to:</span>   [ /demo, <span class="hljs-keyword">/demo/</span>a ]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>/demo</code> 是新进入的</li>
+<li><code>/demo.beforeEnter</code> 触发一次</li>
+<li><code>/demo/a.beforeEnter</code> 触发（如果有）</li>
+</ul>
+<hr>
+<p>场景 2：子路由之间切换（不会触发）</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/demo/</span>a  →  <span class="hljs-regexp">/demo/</span>b<br></code></pre></td></tr></table></figure>
+
+<p>matched 变化：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">from</span>: [ <span class="hljs-regexp">/demo, /</span>demo/a ]<br><span class="hljs-attr">to</span>:   [ <span class="hljs-regexp">/demo, /</span>demo/b ] <span class="hljs-comment">// 每次导航都会生成一个新的 matched 结果</span><br></code></pre></td></tr></table></figure>
+
+<p>对比：</p>
+<ul>
+<li><code>/demo</code> 之前就在 matched 中</li>
+<li>不是“新进入”</li>
+<li><strong>父路由的 <code>beforeEnter</code> 不会再触发</strong></li>
+</ul>
+<h3 id="【没有onBeforeRouteEnter】"><a href="#【没有onBeforeRouteEnter】" class="headerlink" title="【没有onBeforeRouteEnter】"></a>【没有<code>onBeforeRouteEnter</code>】</h3><ul>
+<li><strong>Vue Router 4 仍然有 <code>beforeRouteEnter</code></strong></li>
+<li><strong>但没有 <code>onBeforeRouteEnter</code></strong></li>
+<li>它是<strong>唯一一个拿不到组件实例的组件内守卫</strong></li>
+<li>只能通过 <code>next(vm =&gt; &#123;&#125;)</code> 的“回调形式”访问组件实例</li>
+</ul>
+<p>这是一个<strong>历史兼容 + 语义上无法用 Composition API 封装</strong>的特例。</p>
+<p>先对比一下：</p>
+<table>
+<thead>
+<tr>
+<th>守卫</th>
+<th>是否存在 <code>onXxx</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>beforeRouteLeave</td>
+<td><code>onBeforeRouteLeave</code></td>
+</tr>
+<tr>
+<td>beforeRouteUpdate</td>
+<td><code>onBeforeRouteUpdate</code></td>
+</tr>
+<tr>
+<td>beforeRouteEnter</td>
+<td><strong>没有 <code>onBeforeRouteEnter</code></strong></td>
+</tr>
+</tbody></table>
+<p><strong>根本原因：</strong></p>
+<blockquote>
+<p><code>beforeRouteEnter</code> 触发时，组件实例还不存在，Composition API 的 <code>setup()</code> 尚未执行，所以无法提供 <code>onBeforeRouteEnter</code></p>
+</blockquote>
+<hr>
+<p>beforeRouteEnter&#96; 的真实定位</p>
+<p>作用</p>
+<p>在<strong>进入组件之前</strong>执行逻辑，并且<strong>可以在组件创建完成后访问组件实例</strong></p>
+<p>触发时机</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js">路由确认前<br>↓<br>beforeRouteEnter<br>↓<br>创建组件实例<br>↓<br>执行 <span class="hljs-title function_">next</span>(<span class="hljs-function"><span class="hljs-params">vm</span> =&gt;</span> &#123;&#125;)<br>↓<br>mounted<br></code></pre></td></tr></table></figure>
+
+<p>只能写在组件中（选项式 API）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;<br>  <span class="hljs-title function_">beforeRouteEnter</span>(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, next</span>) &#123;<br>    <span class="hljs-title function_">next</span>(<span class="hljs-function">(<span class="hljs-params">vm</span>) =&gt;</span> &#123;<br>      <span class="hljs-comment">// vm 是组件实例</span><br>      vm.<span class="hljs-title function_">loadData</span>();<br>    &#125;);<br>  &#125;,<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li><strong>这里仍然使用 <code>next</code></strong></li>
+<li>这是 Vue Router 4 中 <strong>唯一保留 <code>next</code> 的地方</strong></li>
+<li><code>return</code> 在这里<strong>不适用</strong></li>
+</ul>
+<p>为什么这里不能用 <code>return</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">beforeRouteEnter</span>(<span class="hljs-params">to, <span class="hljs-keyword">from</span></span>) &#123;<br>  <span class="hljs-comment">// 错误：此时没有组件实例</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>原因：</p>
+<ul>
+<li>守卫执行时组件还没创建</li>
+<li><code>this === undefined</code></li>
+<li><code>setup()</code> 也还没执行</li>
+<li>所以只能通过 <code>next(vm =&gt; &#123;&#125;)</code> 延迟访问实例</li>
+</ul>
+<h3 id="【生命周期】"><a href="#【生命周期】" class="headerlink" title="【生命周期】"></a>【生命周期】</h3><h4 id="一、导航开始阶段（Router-层）"><a href="#一、导航开始阶段（Router-层）" class="headerlink" title="一、导航开始阶段（Router 层）"></a>一、导航开始阶段（Router 层）</h4><h5 id="1-触发导航"><a href="#1-触发导航" class="headerlink" title="1. 触发导航"></a>1. 触发导航</h5><p>触发方式包括：</p>
+<ul>
+<li><code>router.push / replace</code></li>
+<li><code>&lt;router-link&gt;</code></li>
+<li>浏览器前进 &#x2F; 后退</li>
+<li>地址栏直接输入</li>
+</ul>
+<p>此时：</p>
+<ul>
+<li>仅是“意图导航”</li>
+<li>页面尚未发生任何变化</li>
+</ul>
+<hr>
+<h5 id="2-路由匹配（resolve）"><a href="#2-路由匹配（resolve）" class="headerlink" title="2. 路由匹配（resolve）"></a>2. 路由匹配（resolve）</h5><p>Router 根据目标 URL：</p>
+<ul>
+<li>解析 path &#x2F; params &#x2F; query</li>
+<li>生成目标路由对象 <code>to</code></li>
+<li>计算 <code>to.matched</code>（父 → 子的路由记录链）</li>
+</ul>
+<hr>
+<h4 id="二、导航守卫阶段（核心）"><a href="#二、导航守卫阶段（核心）" class="headerlink" title="二、导航守卫阶段（核心）"></a>二、导航守卫阶段（核心）</h4><h5 id="3-执行组件离开守卫（leaving）"><a href="#3-执行组件离开守卫（leaving）" class="headerlink" title="3. 执行组件离开守卫（leaving）"></a>3. 执行组件离开守卫（leaving）</h5><p>对 <strong>即将被卸载的组件</strong> 执行：</p>
+<ul>
+<li><code>onBeforeRouteLeave</code></li>
+<li><code>beforeRouteLeave</code>（选项式）</li>
+</ul>
+<p>用途：</p>
+<ul>
+<li>未保存内容拦截</li>
+<li>资源释放确认</li>
+</ul>
+<p>若返回 <code>false</code>：</p>
+<ul>
+<li>导航直接中断</li>
+</ul>
+<hr>
+<h5 id="4-执行全局前置守卫"><a href="#4-执行全局前置守卫" class="headerlink" title="4. 执行全局前置守卫"></a>4. 执行全局前置守卫</h5><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">router.beforeEach(<span class="hljs-keyword">to</span>, <span class="hljs-keyword">from</span>)<br></code></pre></td></tr></table></figure>
+
+<p>特点：</p>
+<ul>
+<li>每次导航必走</li>
+<li>适合鉴权、白名单、动态路由注入</li>
+<li>可 return 控制导航</li>
+</ul>
+<hr>
+<h5 id="5-执行路由独享守卫（beforeEnter）"><a href="#5-执行路由独享守卫（beforeEnter）" class="headerlink" title="5. 执行路由独享守卫（beforeEnter）"></a>5. 执行路由独享守卫（beforeEnter）</h5><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs css">&#123;<br>  <span class="hljs-selector-tag">path</span>: <span class="hljs-string">&#x27;/demo&#x27;</span>,<br>  beforeEnter: ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>触发规则：</p>
+<ul>
+<li>仅对 <strong>新进入 matched 的路由记录</strong> 触发</li>
+<li>父路由已在 matched 中时不会重复触发</li>
+</ul>
+<hr>
+<h5 id="6-执行组件进入守卫（beforeRouteEnter）"><a href="#6-执行组件进入守卫（beforeRouteEnter）" class="headerlink" title="6. 执行组件进入守卫（beforeRouteEnter）"></a>6. 执行组件进入守卫（beforeRouteEnter）</h5><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">beforeRouteEnter</span><span class="hljs-params">(to, from, next)</span></span><br></code></pre></td></tr></table></figure>
+
+<p>关键特性：</p>
+<ul>
+<li><strong>此时组件实例尚未创建</strong></li>
+<li>拿不到 <code>this</code></li>
+<li>可通过 <code>next(vm =&gt; &#123;&#125;)</code> 延迟访问实例</li>
+</ul>
+<p>这是唯一仍使用 <code>next</code> 的守卫。</p>
+<hr>
+<h5 id="7-执行组件更新守卫（复用组件）"><a href="#7-执行组件更新守卫（复用组件）" class="headerlink" title="7. 执行组件更新守卫（复用组件）"></a>7. 执行组件更新守卫（复用组件）</h5><p>当组件被复用（如 <code>/user/1 → /user/2</code>）：</p>
+<ul>
+<li><code>onBeforeRouteUpdate</code></li>
+<li><code>beforeRouteUpdate</code></li>
+</ul>
+<p>用途：</p>
+<ul>
+<li>响应 params &#x2F; query 变化</li>
+<li>刷新数据而不重建组件</li>
+</ul>
+<hr>
+<h5 id="8-执行全局解析守卫"><a href="#8-执行全局解析守卫" class="headerlink" title="8. 执行全局解析守卫"></a>8. 执行全局解析守卫</h5><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">router.beforeResolve(<span class="hljs-keyword">to</span>, <span class="hljs-keyword">from</span>)<br></code></pre></td></tr></table></figure>
+
+<p>特点：</p>
+<ul>
+<li>所有守卫中 <strong>最靠后</strong></li>
+<li>组件已解析但未挂载</li>
+<li>适合做“最后一道校验 &#x2F; 关键数据兜底预取”</li>
+</ul>
+<hr>
+<h4 id="三、组件创建与渲染阶段（Vue-层）"><a href="#三、组件创建与渲染阶段（Vue-层）" class="headerlink" title="三、组件创建与渲染阶段（Vue 层）"></a>三、组件创建与渲染阶段（Vue 层）</h4><h5 id="9-创建组件实例（vm）"><a href="#9-创建组件实例（vm）" class="headerlink" title="9. 创建组件实例（vm）"></a>9. 创建组件实例（vm）</h5><p>Vue 开始创建新组件实例：</p>
+<ul>
+<li>初始化 props、inject、生命周期容器</li>
+<li>实例存在，但逻辑尚未运行</li>
+</ul>
+<hr>
+<h5 id="10-执行-setup"><a href="#10-执行-setup" class="headerlink" title="10. 执行 setup()"></a>10. 执行 <code>setup()</code></h5><ul>
+<li>建立响应式状态</li>
+<li>注册 <code>onMounted</code> &#x2F; <code>onUnmounted</code></li>
+<li>返回 render &#x2F; bindings</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li><code>setup</code> <strong>发生在 beforeRouteEnter 之后</strong></li>
+<li><code>setup</code> <strong>早于 data（Vue 3 中）</strong></li>
+</ul>
+<hr>
+<h5 id="11-初始化-data（选项式）"><a href="#11-初始化-data（选项式）" class="headerlink" title="11. 初始化 data（选项式）"></a>11. 初始化 data（选项式）</h5><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-class"><span class="hljs-keyword">data</span>() &#123;</span><br><span class="hljs-class">  <span class="hljs-title">return</span> &#123; ... &#125;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时：</p>
+<ul>
+<li>响应式数据已就绪</li>
+<li>methods &#x2F; computed 可用</li>
+</ul>
+<hr>
+<h5 id="12-执行-created"><a href="#12-执行-created" class="headerlink" title="12. 执行 created"></a>12. 执行 created</h5><p>组件逻辑层已准备完成，但 DOM 未生成。</p>
+<hr>
+<h5 id="13-渲染并挂载"><a href="#13-渲染并挂载" class="headerlink" title="13. 渲染并挂载"></a>13. 渲染并挂载</h5><ul>
+<li>执行 render</li>
+<li>patch 到真实 DOM</li>
+<li>触发 <code>mounted</code></li>
+</ul>
+<p>页面此时已显示。</p>
+<hr>
+<h5 id="14-执行-beforeRouteEnter-的-next-回调"><a href="#14-执行-beforeRouteEnter-的-next-回调" class="headerlink" title="14. 执行 beforeRouteEnter 的 next 回调"></a>14. 执行 <code>beforeRouteEnter</code> 的 next 回调</h5><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs abnf">next(vm <span class="hljs-operator">=</span>&gt; &#123;<br>  vm.loadData()<span class="hljs-comment">;</span><br>&#125;)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>此时：</p>
+<ul>
+<li><code>vm</code> 完整可用</li>
+<li>data &#x2F; methods &#x2F; refs 基本可访问</li>
+<li>若依赖 DOM，建议再 <code>nextTick</code></li>
+</ul>
+<hr>
+<h4 id="四、导航完成阶段"><a href="#四、导航完成阶段" class="headerlink" title="四、导航完成阶段"></a>四、导航完成阶段</h4><h5 id="15-执行全局后置守卫"><a href="#15-执行全局后置守卫" class="headerlink" title="15. 执行全局后置守卫"></a>15. 执行全局后置守卫</h5><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">router.afterEach(<span class="hljs-keyword">to</span>, <span class="hljs-keyword">from</span>)<br></code></pre></td></tr></table></figure>
+
+<p>特点：</p>
+<ul>
+<li>不可拦截</li>
+<li>只做收尾</li>
+</ul>
+<p>常见用途：</p>
+<ul>
+<li>设置 document.title</li>
+<li>关闭 Loading &#x2F; NProgress</li>
+<li>埋点统计</li>
+</ul>
+<hr>
+<h4 id="五、完整顺序速查（面试版）"><a href="#五、完整顺序速查（面试版）" class="headerlink" title="五、完整顺序速查（面试版）"></a>五、完整顺序速查（面试版）</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs vim">触发导航<br>↓<br>解析 <span class="hljs-keyword">to</span>.matched<br>↓<br>beforeRouteLeave<br>↓<br>beforeEach<br>↓<br>beforeEnter<br>↓<br>beforeRouteEnter（无 <span class="hljs-keyword">vm</span>）<br>↓<br>beforeRouteUpdate（若复用）<br>↓<br>beforeResolve<br>↓<br>创建组件实例<br>↓<br>setup<br>↓<br>data<br>↓<br>created<br>↓<br>render / mounted<br>↓<br>beforeRouteEnter <span class="hljs-keyword">next</span>(<span class="hljs-keyword">vm</span>)<br>↓<br>afterEach<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="六、关键结论总结"><a href="#六、关键结论总结" class="headerlink" title="六、关键结论总结"></a>六、关键结论总结</h4><ul>
+<li><code>beforeRouteEnter</code> <strong>早于组件创建</strong></li>
+<li><code>data / setup</code> <strong>都发生在它之后</strong></li>
+<li>父路由一定在 <code>matched</code> 中，但不一定触发 <code>beforeEnter</code></li>
+<li>组件复用不会走 <code>beforeRouteEnter</code>，而是 <code>beforeRouteUpdate</code></li>
+<li>Vue Router 4 基本不用 <code>next</code>，<strong>只有 <code>beforeRouteEnter</code> 是特例</strong></li>
+</ul>
+<h2 id="3"><a href="#3" class="headerlink" title="3. &lt;router-link&gt;"></a>3. <code>&lt;router-link&gt;</code></h2><p><code>&lt;router-link&gt;</code> 渲染后本质是一个 <code>&lt;a&gt;</code> 标签。 当它所指向的路由 <strong>处于激活状态</strong> 时，Vue Router 会自动给它加上一个类名，用于样式高亮。</p>
+<p>默认行为（Vue Router 4）：</p>
+<ul>
+<li>激活时自动加：<code>router-link-active</code></li>
+<li>精确匹配时再加：<code>router-link-exact-active</code></li>
+</ul>
+<p><code>router-link</code> 的 <strong><code>active-class</code></strong> 用来控制：</p>
+<blockquote>
+<p><strong>当前路由与该链接匹配时，自动添加到链接元素上的 CSS 类名</strong>。 </p>
+</blockquote>
+<h3 id="【active-class】"><a href="#【active-class】" class="headerlink" title="【active-class】"></a>【active-class】</h3><p><code>active-class</code> 用来<strong>覆盖默认的 <code>router-link-active</code> 类名</strong>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span></span><br><span class="hljs-tag">  <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/demo&quot;</span></span><br><span class="hljs-tag">  <span class="hljs-attr">active-class</span>=<span class="hljs-string">&quot;menu-active&quot;</span></span><br><span class="hljs-tag">&gt;</span><br>  Demo<br><span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>当 <code>/demo</code> 被认为是“激活路由”时，DOM 会变成：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;menu-active&quot;</span>&gt;</span>Demo<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>非精确匹配（默认）</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">router-link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;/demo&quot;</span>&gt;</span>Demo<span class="hljs-tag">&lt;/<span class="hljs-name">router-link</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>以下路径都会命中激活态：</p>
+<ul>
+<li><code>/demo</code></li>
+<li><code>/demo/a</code></li>
+<li><code>/demo/b</code></li>
+</ul>
+<p>原因：</p>
+<ul>
+<li><code>/demo</code> 是 <code>/demo/a</code> 的父路径</li>
+<li>属于“包含式匹配”</li>
+</ul>
+<h3 id="【exact-active-class】"><a href="#【exact-active-class】" class="headerlink" title="【exact-active-class】"></a>【exact-active-class】</h3><p>如果你只希望 <strong>完全匹配时才高亮</strong>，使用：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs abnf">&lt;router-link<br>  to<span class="hljs-operator">=</span><span class="hljs-string">&quot;/demo&quot;</span><br>  exact-active-class<span class="hljs-operator">=</span><span class="hljs-string">&quot;menu-exact-active&quot;</span><br>&gt;<br>  Demo<br>&lt;/router-link&gt;<br></code></pre></td></tr></table></figure>
+
+<p>触发条件：</p>
+<ul>
+<li>只有当前路径 <strong>严格等于</strong> <code>/demo</code> 才会生效</li>
+<li><code>/demo/a</code> 不会触发</li>
+</ul>
+<hr>
+<h3 id="active-class-vs-exact-active-class"><a href="#active-class-vs-exact-active-class" class="headerlink" title="active-class vs exact-active-class"></a>active-class vs exact-active-class</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>触发条件</th>
+<th>常见用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>active-class</td>
+<td>包含式匹配</td>
+<td>侧边栏父菜单高亮</td>
+</tr>
+<tr>
+<td>exact-active-class</td>
+<td>完全匹配</td>
+<td>顶部 Tab、单页按钮</td>
+</tr>
+</tbody></table>
+<h3 id="【全局配置】"><a href="#【全局配置】" class="headerlink" title="【全局配置】"></a>【全局配置】</h3><p>可以在创建 router 时统一配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> router = <span class="hljs-title function_">createRouter</span>(&#123;<br>  <span class="hljs-attr">history</span>: <span class="hljs-title function_">createWebHistory</span>(),<br>  routes,<br>  <span class="hljs-attr">linkActiveClass</span>: <span class="hljs-string">&quot;menu-active&quot;</span>,<br>  <span class="hljs-attr">linkExactActiveClass</span>: <span class="hljs-string">&quot;menu-exact-active&quot;</span>,<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-路由懒加载"><a href="#4-路由懒加载" class="headerlink" title="4.路由懒加载"></a>4.路由懒加载</h2><p><strong>路由懒加载</strong>： 把“路由对应页面组件”的代码拆分成独立的 chunk，<strong>只有当路由被访问时才加载该组件</strong>，而不是在首屏一次性下载全部页面代码。</p>
+<p>本质：<strong>代码分割（Code Splitting）+ 按需加载（On-Demand Loading）</strong>。</p>
+<p>1）最常用方式：<code>import()</code> 动态加载</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs coffeescript">const routes = [<br>  &#123;<br>    path: <span class="hljs-string">&quot;/demo&quot;</span>,<br>    component: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;@/views/demo/index.vue&quot;</span>),<br>  &#125;,<br>];<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>import()</code> 会被构建工具（Vite &#x2F; Webpack）拆成独立 chunk</li>
+<li>只有访问 <code>/demo</code> 时才请求该 JS 文件</li>
+</ul>
+<p>2）对比：非懒加载（不推荐）</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">import</span> Demo <span class="hljs-keyword">from</span> &quot;@/views/demo/index.vue&quot;;<br><br>&#123;<br>  <span class="hljs-type">path</span>: &quot;/demo&quot;,<br>  component: Demo,<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>所有页面代码都会进首包</li>
+<li>首屏 JS 体积膨胀</li>
+</ul>
+<p>1）显著降低首屏体积</p>
+<ul>
+<li>首次加载只包含：首页 + 公共依赖</li>
+<li>非首屏页面不参与首包下载</li>
+<li><strong>TTI &#x2F; FCP 明显改善</strong></li>
+</ul>
+<hr>
+<p>2）提升用户真实体验</p>
+<ul>
+<li>用户通常不会一次访问所有页面</li>
+<li>懒加载让“没访问的页面不付费”</li>
+<li>首次进入更快，交互更早可用</li>
+</ul>
+<h2 id="5-router-addRoute"><a href="#5-router-addRoute" class="headerlink" title="5. router.addRoute"></a>5. <code>router.addRoute</code></h2><p><code>router.addRoute</code> 用于在运行时把路由记录动态注入到 Router 中，常见于“登录后按权限加载菜单&#x2F;路由”“微前端子应用挂载”“插件化模块路由”等场景。以下按概念、API、实现流程、关键坑点紧凑整理（Vue Router 4）。</p>
+<hr>
+<p>动态注入的核心概念</p>
+<ul>
+<li>静态路由：打包时写死在 routes 里，初始化 router 时一次性注册</li>
+<li>动态路由：运行时通过 <code>router.addRoute</code> 添加，适合权限变化、模块按需加载</li>
+<li>路由记录（RouteRecordRaw）：<code>path/name/component/children/meta</code> 等配置项</li>
+<li>注入时机：通常在登录成功后、首次进入受保护页面前，或刷新后恢复会话时</li>
+</ul>
+<hr>
+<h3 id="addRoute-基本-API"><a href="#addRoute-基本-API" class="headerlink" title="addRoute 基本 API"></a><code>addRoute</code> 基本 API</h3><ul>
+<li><code>router.addRoute(record)</code>：添加顶层路由</li>
+<li><code>router.addRoute(parentName, record)</code>：添加到某个父路由（按 name 挂 children）</li>
+<li><code>router.hasRoute(name)</code>：判断是否已存在同名路由</li>
+<li><code>router.removeRoute(name)</code>：移除路由（常用于退出登录&#x2F;切换角色）</li>
+<li><code>router.getRoutes()</code>：查看当前所有路由（调试用）</li>
+</ul>
+<h3 id="登录后注入菜单路由"><a href="#登录后注入菜单路由" class="headerlink" title="登录后注入菜单路由"></a>登录后注入菜单路由</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// asyncRoutes.ts</span><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> asyncRoutes = [<br>  &#123;<br>    <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/admin&quot;</span>,<br>    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Admin&quot;</span>,<br>    <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;@/layouts/AdminLayout.vue&quot;</span>),<br>    <span class="hljs-attr">meta</span>: &#123; <span class="hljs-attr">requiresAuth</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">roles</span>: [<span class="hljs-string">&quot;admin&quot;</span>] &#125;,<br>    <span class="hljs-attr">children</span>: [<br>      &#123;<br>        <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;users&quot;</span>,<br>        <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;AdminUsers&quot;</span>,<br>        <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;@/views/admin/users.vue&quot;</span>),<br>        <span class="hljs-attr">meta</span>: &#123; <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;用户管理&quot;</span> &#125;,<br>      &#125;,<br>    ],<br>  &#125;,<br>];<br><span class="hljs-comment">// inject.ts</span><br><span class="hljs-keyword">import</span> <span class="hljs-keyword">type</span> &#123; <span class="hljs-title class_">Router</span>, <span class="hljs-title class_">RouteRecordRaw</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue-router&quot;</span>;<br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">injectRoutes</span>(<span class="hljs-params"><span class="hljs-attr">router</span>: <span class="hljs-title class_">Router</span>, <span class="hljs-attr">routes</span>: <span class="hljs-title class_">RouteRecordRaw</span>[]</span>) &#123;<br>  routes.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> &#123;<br>    <span class="hljs-keyword">if</span> (r.<span class="hljs-property">name</span> &amp;&amp; router.<span class="hljs-title function_">hasRoute</span>(r.<span class="hljs-property">name</span>)) <span class="hljs-keyword">return</span>;<br>    router.<span class="hljs-title function_">addRoute</span>(r);<br>  &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>推荐落地流程（权限路由）<br> 1）初始化 router：只注册“公共路由”</p>
+<ul>
+<li><code>/login</code>、<code>/404</code>、基础布局路由（如 <code>/</code> 入口）<br> 2）登录成功：拉取后端菜单&#x2F;权限树<br> 3）把权限树转换为 RouteRecordRaw（组件映射、path 拼接、meta 填充）<br> 4）<code>router.addRoute</code> 注入<br> 5）“重试”当前导航：确保刚注入的路由能命中（关键）</li>
+</ul>
+<p>示例（重试导航的写法）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs js">router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-title function_">async</span> (to) =&gt; &#123;<br>  <span class="hljs-keyword">const</span> token = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;token&quot;</span>);<br>  <span class="hljs-keyword">if</span> (!token &amp;&amp; to.<span class="hljs-property">meta</span>.<span class="hljs-property">requiresAuth</span>) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;/login&quot;</span>;<br><br>  <span class="hljs-comment">// 仅首次注入</span><br>  <span class="hljs-keyword">if</span> (token &amp;&amp; !store.<span class="hljs-property">routesInited</span>) &#123;<br>    <span class="hljs-keyword">const</span> menu = <span class="hljs-keyword">await</span> api.<span class="hljs-title function_">getMenu</span>();                 <span class="hljs-comment">// 后端返回</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">async</span> = <span class="hljs-title function_">buildRoutesFromMenu</span>(menu);          <span class="hljs-comment">// 转换为路由</span><br>    <span class="hljs-keyword">async</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">r</span> =&gt;</span> r.<span class="hljs-property">name</span> &amp;&amp; !router.<span class="hljs-title function_">hasRoute</span>(r.<span class="hljs-property">name</span>) &amp;&amp; router.<span class="hljs-title function_">addRoute</span>(r));<br>    store.<span class="hljs-property">routesInited</span> = <span class="hljs-literal">true</span>;<br><br>    <span class="hljs-comment">// 关键：重试当前导航，否则这次匹配时还没有这些路由</span><br>    <span class="hljs-keyword">return</span> to.<span class="hljs-property">fullPath</span>;<br>  &#125;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>要点</p>
+<ul>
+<li>“重试导航”用 <code>return to.fullPath</code>（或 <code>replace: true</code> 形式）让路由重新匹配</li>
+<li>注入完成后不要反复注入，设置 <code>routesInited</code> 标记</li>
+<li>刷新页面会丢失运行时注入的路由，必须在刷新后重新拉取并注入（靠 token + store 恢复）</li>
+</ul>
+<hr>
+<h3 id="父路由挂载-children"><a href="#父路由挂载-children" class="headerlink" title="父路由挂载 children"></a>父路由挂载 children</h3><p> 适合：先有 Layout 父路由，子页面按权限动态加进去</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 先确保父路由（Layout）是静态存在的，并且有 name</span><br>&#123;<br>  <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/&quot;</span>,<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;RootLayout&quot;</span>,<br>  <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;@/layouts/RootLayout.vue&quot;</span>),<br>  <span class="hljs-attr">children</span>: [],<br>&#125;<br><span class="hljs-comment">// 动态把子路由加到 RootLayout 下</span><br>router.<span class="hljs-title function_">addRoute</span>(<span class="hljs-string">&quot;RootLayout&quot;</span>, &#123;<br>  <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;demo&quot;</span>,<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Demo&quot;</span>,<br>  <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;@/views/demo/index.vue&quot;</span>),<br>  <span class="hljs-attr">meta</span>: &#123; <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;演示&quot;</span> &#125;,<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>要点</p>
+<ul>
+<li><code>parentName</code> 必须是已存在路由记录的 <code>name</code></li>
+<li>子路由的 path 写相对路径（不以 <code>/</code> 开头）更符合嵌套语义</li>
+</ul>
+<hr>
+<h3 id="动态路由与-404-的配合"><a href="#动态路由与-404-的配合" class="headerlink" title="动态路由与 404 的配合"></a>动态路由与 404 的配合</h3><p> 建议在注入完成后再注册兜底 404（避免误判）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js">router.<span class="hljs-title function_">addRoute</span>(&#123;<br>  <span class="hljs-attr">path</span>: <span class="hljs-string">&quot;/:pathMatch(.*)*&quot;</span>,<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;NotFound&quot;</span>,<br>  <span class="hljs-attr">component</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">&quot;@/views/404.vue&quot;</span>),<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>退出登录&#x2F;切换角色：移除动态路由</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> names = [<span class="hljs-string">&quot;Admin&quot;</span>, <span class="hljs-string">&quot;AdminUsers&quot;</span>];<br>names.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> router.<span class="hljs-title function_">hasRoute</span>(n) &amp;&amp; router.<span class="hljs-title function_">removeRoute</span>(n));<br>store.<span class="hljs-property">routesInited</span> = <span class="hljs-literal">false</span>;<br></code></pre></td></tr></table></figure>
+
+<p>要点</p>
+<ul>
+<li>路由 name 需要唯一且稳定，否则无法 remove</li>
+<li>也可在 store 里维护“已注入路由 name 列表”用于批量清理</li>
+</ul>
+<hr>
+<p>高频坑点清单</p>
+<ul>
+<li>刷新后路由消失：动态路由只存在于内存，刷新必须重新注入</li>
+<li>name 冲突：同名路由会覆盖&#x2F;导致行为异常，注入前用 <code>hasRoute</code></li>
+<li>父子 path 拼接：children 用相对 path；绝对 path 会变成新的顶层路径语义</li>
+</ul>
+<h2 id="6"><a href="#6" class="headerlink" title="6. &lt;keep-alive&gt;"></a>6. <code>&lt;keep-alive&gt;</code></h2><h3 id="keep-alive-的本质"><a href="#keep-alive-的本质" class="headerlink" title="keep-alive 的本质"></a><code>keep-alive</code> 的本质</h3><ul>
+<li>Vue 内置组件，用于<strong>缓存组件实例</strong>，避免卸载重建</li>
+<li>只对<strong>组件实例</strong>生效，不缓存路由、不缓存数据请求</li>
+<li>缓存命中条件：<strong>组件 name 匹配 + 未被主动排除</strong></li>
+</ul>
+<hr>
+<p><code>keep-alive</code> 缓存的是什么</p>
+<ul>
+<li>组件实例（data &#x2F; setup state &#x2F; computed &#x2F; methods）</li>
+<li>生命周期变化：<ul>
+<li>首次进入：<code>mounted</code></li>
+<li>再次进入：<code>activated</code></li>
+<li>离开但被缓存：<code>deactivated</code></li>
+<li>不缓存才会：<code>unmounted</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>与路由的关系（关键）</p>
+<ul>
+<li><code>keep-alive</code> <strong>不认识路由</strong></li>
+<li>实际缓存的是：<code>&lt;router-view&gt;</code> 渲染出来的<strong>组件</strong></li>
+<li>所以：<strong>router-view 放哪，决定缓存边界</strong></li>
+</ul>
+<hr>
+<h3 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">keep-alive</span> <span class="hljs-attr">:include</span>=<span class="hljs-string">&quot;[componentName]&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">router-view</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">keep-alive</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>含义</p>
+<ul>
+<li>当前 router-view 渲染的<strong>所有路由页面</strong>都会被缓存</li>
+</ul>
+<p>适用场景</p>
+<ul>
+<li>Tab 页面切换</li>
+<li>多个“平级页面”来回切换（列表 ↔ 详情 ↔ 编辑）</li>
+<li>页面状态需要完整保留（滚动、筛选、表单）</li>
+</ul>
+<p>注意点</p>
+<ul>
+<li>必须配合 <code>include / exclude</code> 或 <code>route.meta.keepAlive</code></li>
+<li>否则缓存会无限增长</li>
+<li>组件不定义默认没有组件名，文件名并不是默认的zu’jian</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;script setup&gt;<br><span class="hljs-title function_">defineOptions</span>(&#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;DemoPage&quot;</span>,<br>&#125;);<br>&lt;/script&gt;<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="常见写法（推荐）"><a href="#常见写法（推荐）" class="headerlink" title="常见写法（推荐）"></a>常见写法（推荐）</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">router-view</span> <span class="hljs-attr">v-slot</span>=<span class="hljs-string">&quot;&#123; Component, route &#125;&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">keep-alive</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">component</span></span><br><span class="hljs-tag">      <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;Component&quot;</span></span><br><span class="hljs-tag">      <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;route.meta.keepAlive&quot;</span></span><br><span class="hljs-tag">      <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;route.fullPath&quot;</span></span><br><span class="hljs-tag">    /&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">keep-alive</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">component</span></span><br><span class="hljs-tag">    <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;Component&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">v-else</span></span><br><span class="hljs-tag">    <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;route.fullPath&quot;</span></span><br><span class="hljs-tag">  /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">router-view</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>含义</p>
+<ul>
+<li>Layout 不缓存</li>
+<li>Layout 下的页面按需缓存</li>
+<li>缓存边界清晰，最推荐</li>
+</ul>
+<h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><hr>
+<p>include &#x2F; exclude 的规则（必会）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">keep-alive</span> <span class="hljs-attr">:include</span>=<span class="hljs-string">&quot;[ListPage,DetailPage]&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>匹配的是<strong>组件 name</strong>，不是路由 name</li>
+<li>组件必须显式声明：</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;ListPage&quot;</span>,<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>key 的作用（高频误区）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">component</span> <span class="hljs-attr">:is</span>=<span class="hljs-string">&quot;Component&quot;</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;route.fullPath&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>key</code> 变化 → 强制新实例</li>
+<li>想“同一路由参数变化仍复用”：<ul>
+<li>用 <code>route.name</code></li>
+</ul>
+</li>
+<li>想“参数变化就新实例”：<ul>
+<li>用 <code>route.fullPath</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>常见错误清单</p>
+<ul>
+<li>忘记给组件写 <code>name</code>，导致 include 无效</li>
+<li>动态路由 + keep-alive 未清理，造成状态错乱</li>
+<li>依赖 DOM 的逻辑写在 <code>mounted</code>，却没处理 <code>activated</code></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Vue/" class="category-chain-item">Vue</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Vue/" class="print-no-link">#Vue</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Vue-Router知识进阶</div>
+      <div>http://example.com/2026/01/08/Vue/Vue-Router知识进阶/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/" title="Vue3进阶学习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Vue3进阶学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/01/08/README/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
