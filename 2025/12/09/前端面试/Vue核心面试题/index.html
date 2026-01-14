@@ -1,0 +1,855 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.png">
+  <link rel="icon" href="/img/dog.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Xiang Chen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Vue 和 React的核心区别是什么？ Vue 和 React 的核心区别主要在定位和设计理念上。 Vue 更偏向一个完整框架，官方提供了比较完善的解决方案，比如路由、状态管理等，上手成本低、开发规范统一，比较适合快速开发和团队协作。 React 更偏向一个视图库，主要负责 UI 渲染，其它能力需要开发者自行选择和组合，灵活性更高，但对工程能力要求也更高。 从使用感受上看，Vue 对初学者更">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue核心面试题">
+<meta property="og:url" content="http://example.com/2025/12/09/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue%E6%A0%B8%E5%BF%83%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="相">
+<meta property="og:description" content="Vue 和 React的核心区别是什么？ Vue 和 React 的核心区别主要在定位和设计理念上。 Vue 更偏向一个完整框架，官方提供了比较完善的解决方案，比如路由、状态管理等，上手成本低、开发规范统一，比较适合快速开发和团队协作。 React 更偏向一个视图库，主要负责 UI 渲染，其它能力需要开发者自行选择和组合，灵活性更高，但对工程能力要求也更高。 从使用感受上看，Vue 对初学者更">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/12/09/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue%E6%A0%B8%E5%BF%83%E9%9D%A2%E8%AF%95%E9%A2%98/image-20260109160505657.png">
+<meta property="article:published_time" content="2025-12-09T08:03:21.000Z">
+<meta property="article:modified_time" content="2026-01-14T00:10:05.437Z">
+<meta property="article:author" content="Xiang Chen">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/12/09/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue%E6%A0%B8%E5%BF%83%E9%9D%A2%E8%AF%95%E9%A2%98/image-20260109160505657.png">
+  
+  
+  
+  <title>Vue核心面试题 - 相</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>相</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Vue核心面试题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-09 16:03" pubdate>
+          2025年12月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Vue核心面试题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <span id="more"></span>
+
+<h2 id="Vue-和-React的核心区别是什么？"><a href="#Vue-和-React的核心区别是什么？" class="headerlink" title="Vue 和 React的核心区别是什么？"></a>Vue 和 React的核心区别是什么？</h2><blockquote>
+<p>Vue 和 React 的核心区别主要在<strong>定位和设计理念</strong>上。</p>
+<p><strong>Vue 更偏向一个完整框架</strong>，官方提供了比较完善的解决方案，比如路由、状态管理等，上手成本低、开发规范统一，比较适合快速开发和团队协作。</p>
+<p><strong>React 更偏向一个视图库</strong>，主要负责 UI 渲染，其它能力需要开发者自行选择和组合，灵活性更高，但对工程能力要求也更高。</p>
+<p>从使用感受上看，Vue 对初学者更友好，React 更适合大型、长期维护的复杂项目。</p>
+</blockquote>
+<img src="/2025/12/09/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue%E6%A0%B8%E5%BF%83%E9%9D%A2%E8%AF%95%E9%A2%98/image-20260109160505657.png" srcset="/img/loading.gif" lazyload class title="image-20260109160505657">
+
+<h2 id="面试题：介绍一下-Vue-的生命周期"><a href="#面试题：介绍一下-Vue-的生命周期" class="headerlink" title="面试题：介绍一下 Vue 的生命周期"></a>面试题：介绍一下 Vue 的生命周期</h2><p><strong>口述回答模板：</strong></p>
+<p>Vue 的生命周期指的是：<strong>一个组件从创建、挂载、更新到销毁的完整过程</strong>。<br> Vue 在这个过程中，在关键阶段暴露了一系列生命周期钩子，让开发者可以在合适的时机执行逻辑，比如初始化数据、发起请求、操作 DOM、清理副作用等。</p>
+<p>从整体上看，Vue 的生命周期可以分为四个阶段：<strong>创建、挂载、更新和销毁</strong>。</p>
+<hr>
+<p>在<strong>创建阶段</strong>，组件实例刚被创建，但 DOM 还没有生成。<br> 这个阶段的特点是：<strong>数据已经初始化，但还不能访问真实 DOM</strong>。<br> 通常在这里做一些与 DOM 无关的初始化工作，比如初始化数据结构、读取本地缓存、设置定时器配置等。</p>
+<hr>
+<p>接下来是<strong>挂载阶段</strong>。<br> 在这个阶段，Vue 会把模板编译成真实 DOM，并挂载到页面中。<br> 当组件真正挂载完成后，就可以安全地访问和操作 DOM 了。<br> 因此，涉及 DOM 读取、第三方库初始化、依赖页面结构的逻辑，通常都放在挂载完成之后执行。</p>
+<hr>
+<p>第三个阶段是<strong>更新阶段</strong>。<br> 当组件的响应式数据发生变化时，Vue 会触发重新渲染流程。<br> 在更新前和更新后，Vue 都提供了对应的生命周期钩子，让我们可以在数据变化前后做一些处理，比如对比新旧数据、在更新后获取最新的 DOM 状态等。</p>
+<p>需要注意的是，这个阶段可能会被多次触发，因此不适合在这里做高成本或一次性的逻辑。</p>
+<hr>
+<p>最后是<strong>销毁阶段</strong>。<br> 当组件从页面中被移除时，会进入销毁流程。<br> 在这个阶段，Vue 会解绑事件、停止响应式追踪，并释放资源。<br> 开发者需要在这里手动清理一些副作用，比如定时器、全局事件监听、订阅关系等，防止内存泄漏。</p>
+<h2 id="响应式原理"><a href="#响应式原理" class="headerlink" title="响应式原理"></a>响应式原理</h2><h3 id="二、面试题一：什么是-Vue-的响应式原理？"><a href="#二、面试题一：什么是-Vue-的响应式原理？" class="headerlink" title="二、面试题一：什么是 Vue 的响应式原理？"></a>二、面试题一：什么是 Vue 的响应式原理？</h3><p><strong>口述回答模板：</strong></p>
+<p>Vue 的响应式原理指的是：<strong>当数据层的状态发生变化时，框架能够自动感知这个变化，并驱动视图层进行更新，而不需要开发者手动操作 DOM</strong>。</p>
+<p>从整体模型来看，它体现的是一种数据驱动视图的思想，也就是 Model 变化 → View 自动更新。<br> Vue 在中间做的事情，是建立数据和视图之间的依赖关系，并在数据变化时，精准通知相关视图进行更新。</p>
+<hr>
+<h3 id="三、面试题二：Vue-响应式的核心思想是什么？"><a href="#三、面试题二：Vue-响应式的核心思想是什么？" class="headerlink" title="三、面试题二：Vue 响应式的核心思想是什么？"></a>三、面试题二：Vue 响应式的核心思想是什么？</h3><p><strong>口述回答模板：</strong></p>
+<p>Vue 响应式的核心思想可以概括为两点：<strong>数据劫持 + 依赖收集与派发更新</strong>。</p>
+<p>数据劫持负责“感知变化”，也就是在数据被读取或修改时能够被拦截；<br> 依赖收集和派发更新负责“通知变化”，也就是知道哪些地方用到了这个数据，并在数据变化时通知它们重新执行。</p>
+<p>这套机制保证了 Vue 能做到<strong>精确更新，而不是全量刷新视图</strong>。</p>
+<hr>
+<h3 id="四、面试题三：Vue-2-的响应式原理是如何实现的？"><a href="#四、面试题三：Vue-2-的响应式原理是如何实现的？" class="headerlink" title="四、面试题三：Vue 2 的响应式原理是如何实现的？"></a>四、面试题三：Vue 2 的响应式原理是如何实现的？</h3><p><strong>口述回答模板：</strong></p>
+<p>在 Vue 2 中，响应式是通过 <code>Object.defineProperty</code> 来实现的。</p>
+<p>Vue 会在初始化阶段，遍历 data 中的每一个属性，为它们定义 getter 和 setter。<br> 当属性被读取时，会触发 getter，在 getter 中完成<strong>依赖收集</strong>，把当前使用这个数据的 Watcher 记录下来；<br> 当属性被修改时，会触发 setter，在 setter 中进行<strong>派发更新</strong>，通知所有依赖这个数据的 Watcher 重新执行，从而触发视图更新。</p>
+<p>在渲染过程中，模板中用到的数据都会触发 getter，因此 Vue 能自动建立“数据 → Watcher → 视图”的依赖关系。</p>
+<hr>
+<h3 id="五、面试题四：Vue-2-响应式有什么缺陷？为什么？"><a href="#五、面试题四：Vue-2-响应式有什么缺陷？为什么？" class="headerlink" title="五、面试题四：Vue 2 响应式有什么缺陷？为什么？"></a>五、面试题四：Vue 2 响应式有什么缺陷？为什么？</h3><p><strong>口述回答模板：</strong></p>
+<p>Vue 2 响应式的缺陷，根源在于 <code>Object.defineProperty</code> 的能力限制。</p>
+<p>首先，它只能拦截<strong>已经存在的属性</strong>，如果后续给对象新增或删除属性，是无法触发 getter 和 setter 的；<br> 其次，对于数组，它无法拦截通过索引直接赋值的行为，比如 <code>arr[0] = xxx</code>，因为这相当于新增属性。</p>
+<p>因此在 Vue 2 中，需要通过特定 API，比如 <code>$set</code>，或者通过数组变异方法，来保证响应式更新。</p>
+<hr>
+<h3 id="六、面试题五：Vue-3-的响应式原理和-Vue-2-有什么不同？"><a href="#六、面试题五：Vue-3-的响应式原理和-Vue-2-有什么不同？" class="headerlink" title="六、面试题五：Vue 3 的响应式原理和 Vue 2 有什么不同？"></a>六、面试题五：Vue 3 的响应式原理和 Vue 2 有什么不同？</h3><p><strong>口述回答模板：</strong></p>
+<p>Vue 3 在思想上和 Vue 2 是一致的，仍然是<strong>数据劫持 + 依赖收集 + 派发更新</strong>，但底层实现发生了变化。</p>
+<p>Vue 3 使用的是 <code>Proxy</code> 和 <code>Reflect</code>，通过代理整个对象来拦截操作。<br> 由于 Proxy 是基于对象本身进行代理的，它可以天然拦截属性的读取、修改、新增和删除操作，因此彻底解决了 Vue 2 中新增属性和数组索引不响应的问题。</p>
+<hr>
+<h3 id="七、面试题六：Vue-3-的-Proxy-是深度代理吗？"><a href="#七、面试题六：Vue-3-的-Proxy-是深度代理吗？" class="headerlink" title="七、面试题六：Vue 3 的 Proxy 是深度代理吗？"></a>七、面试题六：Vue 3 的 Proxy 是深度代理吗？</h3><p><strong>口述回答模板：</strong></p>
+<p>Vue 3 采用的是<strong>懒代理机制</strong>，而不是一次性递归代理所有嵌套对象。</p>
+<p>也就是说，只有当访问某个嵌套对象时，Vue 才会在那一刻对它进行 Proxy 包装。<br> 这种设计可以显著减少初始化阶段的性能开销，同时保证访问到的对象一定是响应式的。</p>
+<h2 id="Vue模板解析的过程"><a href="#Vue模板解析的过程" class="headerlink" title="Vue模板解析的过程"></a>Vue模板解析的过程</h2><h3 id="1-总览："><a href="#1-总览：" class="headerlink" title="1. 总览："></a>1. 总览：</h3><p>核心思想：**View &#x3D; f(state)**，Vue 用响应式系统知道“什么时候重新算 f”，用 VDOM+Diff 知道“怎么算得更省”。</p>
+<hr>
+<h3 id="2-Template-到-Render：Vue-编译做了什么"><a href="#2-Template-到-Render：Vue-编译做了什么" class="headerlink" title="2. Template 到 Render：Vue 编译做了什么"></a>2. Template 到 Render：Vue 编译做了什么</h3><h4 id="2-1-编译阶段的-3-步（Template-→-AST-→-Render）"><a href="#2-1-编译阶段的-3-步（Template-→-AST-→-Render）" class="headerlink" title="2.1 编译阶段的 3 步（Template → AST → Render）"></a>2.1 编译阶段的 3 步（Template → AST → Render）</h4><ul>
+<li><strong>Parse</strong>：把模板字符串解析成 <strong>AST（抽象语法树）</strong></li>
+<li><strong>Optimize（Vue2 典型）</strong>：标记静态节点&#x2F;静态根（不依赖数据的部分）</li>
+<li><strong>Generate</strong>：生成 <code>render()</code> 字符串代码，再 <code>new Function</code> 得到真正的 render 函数</li>
+</ul>
+<h4 id="2-2-render-大概长什么样（理解即可）"><a href="#2-2-render-大概长什么样（理解即可）" class="headerlink" title="2.2 render() 大概长什么样（理解即可）"></a>2.2 render() 大概长什么样（理解即可）</h4><p>render 的本质就是一堆 <code>_c()</code> &#x2F; <code>h()</code> 调用，返回 VNode：</p>
+<ul>
+<li>Vue2：<code>_c(&#39;div&#39;, data, children)</code> 生成 VNode</li>
+<li>Vue3：<code>h(&#39;div&#39;, props, children)</code>（并且编译器会加很多 PatchFlag 做优化）</li>
+</ul>
+<p>你只要记住：<strong>模板不是直接渲染 DOM，而是先被编译成“创建 VNode 的函数”</strong>。</p>
+<hr>
+<h3 id="3-虚拟-DOM（VNode）到底是什么"><a href="#3-虚拟-DOM（VNode）到底是什么" class="headerlink" title="3. 虚拟 DOM（VNode）到底是什么"></a>3. 虚拟 DOM（VNode）到底是什么</h3><h4 id="3-1-VNode-的本质"><a href="#3-1-VNode-的本质" class="headerlink" title="3.1 VNode 的本质"></a>3.1 VNode 的本质</h4><p>VNode 是一个 JS 对象，描述真实 DOM 节点所需的信息，例如：</p>
+<ul>
+<li><code>tag</code>：标签名（div、span…）</li>
+<li><code>data/props</code>：属性、事件、指令相关信息</li>
+<li><code>children</code>：子 VNode 列表</li>
+<li><code>text</code>：文本节点内容</li>
+<li><code>key</code>：用于列表 Diff 的稳定标识</li>
+<li><code>elm</code>：对应的真实 DOM 引用（patch 后才有）</li>
+</ul>
+<p>关键点：VNode 不是为了“比 DOM 快”，而是为了：</p>
+<ul>
+<li>把渲染过程抽象成<strong>可比较的数据结构</strong></li>
+<li>让更新变成：<strong>比较两棵树 → 做最少 DOM 操作</strong></li>
+</ul>
+<h4 id="3-2-为什么不直接操作-DOM"><a href="#3-2-为什么不直接操作-DOM" class="headerlink" title="3.2 为什么不直接操作 DOM"></a>3.2 为什么不直接操作 DOM</h4><p>DOM 操作的成本不只在“读写慢”，更在：</p>
+<ul>
+<li>触发布局&#x2F;重排&#x2F;重绘的链式代价</li>
+<li>操作不可控、难以批量合并<br> VDOM 的价值：<strong>把多次状态变化合并成一次批量更新</strong>（watcher 队列 + nextTick），并且用 Diff 限制 DOM 改动范围。</li>
+</ul>
+<hr>
+<h3 id="4-首次渲染：VNode-如何变成真实-DOM"><a href="#4-首次渲染：VNode-如何变成真实-DOM" class="headerlink" title="4. 首次渲染：VNode 如何变成真实 DOM"></a>4. 首次渲染：VNode 如何变成真实 DOM</h3><p>首次渲染时，<code>oldVnode</code> 可能是一个真实 DOM 容器（挂载点），流程类似：</p>
+<ol>
+<li>执行 <code>render()</code> 得到 <code>vnode</code></li>
+<li><code>patch(container, vnode)</code></li>
+<li>patch 发现 old 是 DOM：走 <strong>createElm(vnode)</strong></li>
+<li>递归创建子节点、设置属性、绑定事件、插入 DOM</li>
+<li>保存 <code>vnode.elm</code> 指向真实节点，后续更新复用</li>
+</ol>
+<p>首次渲染没有 Diff 的“最小更新”意义，因为没有旧树可比，基本是“整棵树创建”。</p>
+<hr>
+<h3 id="5-响应式如何驱动更新（更新为什么会发生）"><a href="#5-响应式如何驱动更新（更新为什么会发生）" class="headerlink" title="5. 响应式如何驱动更新（更新为什么会发生）"></a>5. 响应式如何驱动更新（更新为什么会发生）</h3><h4 id="5-1-Vue2：Object-defineProperty（你面试常说这一套）"><a href="#5-1-Vue2：Object-defineProperty（你面试常说这一套）" class="headerlink" title="5.1 Vue2：Object.defineProperty（你面试常说这一套）"></a>5.1 Vue2：Object.defineProperty（你面试常说这一套）</h4><ul>
+<li>每个响应式属性都有 getter&#x2F;setter</li>
+<li><strong>getter</strong>：当前正在渲染的 watcher（渲染 watcher）会被收集进 dep</li>
+<li><strong>setter</strong>：值变化 → dep.notify → watcher.update()</li>
+</ul>
+<h4 id="5-2-Vue3：Proxy（理解差异点即可）"><a href="#5-2-Vue3：Proxy（理解差异点即可）" class="headerlink" title="5.2 Vue3：Proxy（理解差异点即可）"></a>5.2 Vue3：Proxy（理解差异点即可）</h4><ul>
+<li>Proxy 能拦截更多操作（新增&#x2F;删除属性、数组索引等）</li>
+<li>依赖收集&#x2F;触发机制仍是：track（收集） &#x2F; trigger（触发）</li>
+</ul>
+<h4 id="5-3-watcher-队列与-nextTick：为什么不是立刻更新"><a href="#5-3-watcher-队列与-nextTick：为什么不是立刻更新" class="headerlink" title="5.3 watcher 队列与 nextTick：为什么不是立刻更新"></a>5.3 watcher 队列与 nextTick：为什么不是立刻更新</h4><p>数据可能在同一轮事件循环里被改很多次：</p>
+<ul>
+<li>Vue 会把 watcher <strong>去重入队</strong></li>
+<li>在微任务&#x2F;宏任务合适时机统一 flush<br> 效果：<strong>一次 UI 更新覆盖多次状态变动</strong>，降低抖动与重复渲染成本。</li>
+</ul>
+<hr>
+<h3 id="6-Diff：新旧-VNode-怎么比"><a href="#6-Diff：新旧-VNode-怎么比" class="headerlink" title="6. Diff：新旧 VNode 怎么比"></a>6. Diff：新旧 VNode 怎么比</h3><p>Diff 的目标不是“算出所有不同”，而是<strong>在可接受复杂度内找到足够好的最小变更</strong>。Vue 的 Diff 基于几个关键假设：</p>
+<ul>
+<li>同级节点（siblings）之间的比较是主要场景（不做跨层级的最优匹配）</li>
+<li><strong>key 决定节点身份</strong>（尤其列表）</li>
+<li>同一个 vnode 是否“同一个节点”，取决于 <code>sameVnode</code>（Vue2）&#x2F; 等价判断（Vue3）</li>
+</ul>
+<h4 id="6-1-sameVnode（判断是否能复用真实节点）"><a href="#6-1-sameVnode（判断是否能复用真实节点）" class="headerlink" title="6.1 sameVnode（判断是否能复用真实节点）"></a>6.1 sameVnode（判断是否能复用真实节点）</h4><p>典型判断维度：</p>
+<ul>
+<li><code>tag</code> 相同</li>
+<li><code>key</code> 相同（很重要）</li>
+<li>一些细节：是否是注释节点、输入类型等</li>
+</ul>
+<p>如果不是 sameVnode：直接替换（删除旧的，创建新的）<br> 如果是 sameVnode：复用 <code>elm</code>，进入<strong>精细对比</strong>（props&#x2F;text&#x2F;children）</p>
+<hr>
+<h3 id="7-Patch：Diff-之后怎么更新真实-DOM"><a href="#7-Patch：Diff-之后怎么更新真实-DOM" class="headerlink" title="7. Patch：Diff 之后怎么更新真实 DOM"></a>7. Patch：Diff 之后怎么更新真实 DOM</h3><p>Patch 做三类事：</p>
+<ol>
+<li><strong>更新节点自身</strong>：class&#x2F;style&#x2F;attrs&#x2F;domProps&#x2F;events</li>
+<li><strong>更新文本节点</strong>：text 不同就改 <code>textContent</code></li>
+<li><strong>更新子节点 children</strong>：最复杂，也最核心</li>
+</ol>
+<hr>
+<h3 id="8-核心：列表-children-的-Diff（双端比较）"><a href="#8-核心：列表-children-的-Diff（双端比较）" class="headerlink" title="8. 核心：列表 children 的 Diff（双端比较）"></a>8. 核心：列表 children 的 Diff（双端比较）</h3><p>Vue2 的经典策略是 <strong>双端指针 + key 映射</strong>（能背出来就很稳）：</p>
+<p>设旧 children：<code>oldStart ~ oldEnd</code><br> 新 children：<code>newStart ~ newEnd</code></p>
+<p>循环比较四种命中（命中就移动指针并 patch）：</p>
+<ol>
+<li><code>oldStart</code> vs <code>newStart</code>：头头相同 → patch，指针都 +1</li>
+<li><code>oldEnd</code> vs <code>newEnd</code>：尾尾相同 → patch，指针都 -1</li>
+<li><code>oldStart</code> vs <code>newEnd</code>：旧头 &#x3D; 新尾 → patch，并把旧头对应 DOM <strong>移动到末尾</strong></li>
+<li><code>oldEnd</code> vs <code>newStart</code>：旧尾 &#x3D; 新头 → patch，并把旧尾对应 DOM <strong>移动到开头</strong></li>
+</ol>
+<p>都不命中时：</p>
+<ul>
+<li>建一个 old 的 <code>key -&gt; index</code> 映射表</li>
+<li>用 <code>newStart.key</code> 去找：<ul>
+<li>找不到：说明是新增节点 → createElm 插入到合适位置</li>
+<li>找到了：取出旧 vnode → patch → 把它对应 DOM 移动到 newStart 前 → 旧位置标记为空</li>
+</ul>
+</li>
+</ul>
+<p>循环结束后：</p>
+<ul>
+<li>新的还有剩：批量新增</li>
+<li>旧的还有剩：批量删除</li>
+</ul>
+<p>你要传达的重点：</p>
+<ul>
+<li>Diff 主要优化的是<strong>同层列表重排</strong></li>
+<li>key 的存在让“查找复用节点”变成 O(1) 级别</li>
+<li>双端比较覆盖了大量头尾移动的高频场景</li>
+</ul>
+<hr>
+<h3 id="9-key-为什么这么重要"><a href="#9-key-为什么这么重要" class="headerlink" title="9. key 为什么这么重要"></a>9. key 为什么这么重要</h3><h4 id="9-1-不加-key-的后果（或用-index-当-key）"><a href="#9-1-不加-key-的后果（或用-index-当-key）" class="headerlink" title="9.1 不加 key 的后果（或用 index 当 key）"></a>9.1 不加 key 的后果（或用 index 当 key）</h4><p>Vue 可能采用“就地复用”策略：按位置对齐 patch<br> 如果列表发生插入&#x2F;删除&#x2F;排序：</p>
+<ul>
+<li>DOM 节点会被错误复用到别的数据项上</li>
+<li>表单输入、组件内部状态会串</li>
+<li>造成性能浪费（本该移动，结果变成大量 patch）</li>
+</ul>
+<h4 id="9-2-正确的-key"><a href="#9-2-正确的-key" class="headerlink" title="9.2 正确的 key"></a>9.2 正确的 key</h4><ul>
+<li>应该是<strong>稳定且唯一</strong>：如 id、业务唯一标识</li>
+<li>不推荐用 index（除非列表不增删不重排、纯展示）</li>
+</ul>
+<hr>
+<h3 id="10-从“改数据”到“页面更新”的口述闭环模板"><a href="#10-从“改数据”到“页面更新”的口述闭环模板" class="headerlink" title="10. 从“改数据”到“页面更新”的口述闭环模板"></a>10. 从“改数据”到“页面更新”的口述闭环模板</h3><ul>
+<li>模板先被编译成 render 函数</li>
+<li>首次渲染执行 render 得到 VNode 树，patch 把它变成真实 DOM</li>
+<li>渲染过程中读取响应式数据会触发 getter，收集当前渲染 watcher</li>
+<li>当数据修改触发 setter，会通知 watcher 入队，nextTick 批量刷新</li>
+<li>刷新时重新执行 render 生成新 VNode，与旧 VNode 做 Diff</li>
+<li>patch 把差异同步到真实 DOM，达到最小化更新</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/" class="category-chain-item">前端面试</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Vue/" class="print-no-link">#Vue</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Vue核心面试题</div>
+      <div>http://example.com/2025/12/09/前端面试/Vue核心面试题/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Xiang Chen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/10/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/NodeJS%E9%9D%A2%E8%AF%95%E9%A2%98/" title="【⭐】NodeJS面试题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【⭐】NodeJS面试题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue-Router%E9%9D%A2%E8%AF%95%E9%A2%98/" title="【⭐】Vue Router面试题">
+                        <span class="hidden-mobile">【⭐】Vue Router面试题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"xXfj7jVpB8fiyIpWQbXJP1Gj-gzGzoHsz","appKey":"RoFR6Po4mFIHocqHXZ42PUGO","path":"window.location.pathname","placeholder":"输入你的评论","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

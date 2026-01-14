@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://example.com/2025/12/17/NodeJS/NodeJS%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93/1603965685769-63a91dae-936d-42d3-8571-577cefa11e33.png">
 <meta property="og:image" content="http://example.com/2025/12/17/NodeJS/NodeJS%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93/20221010132511667-1024x574.png">
 <meta property="article:published_time" content="2025-12-17T05:34:33.000Z">
-<meta property="article:modified_time" content="2026-01-08T13:38:47.358Z">
+<meta property="article:modified_time" content="2026-01-13T05:47:41.224Z">
 <meta property="article:author" content="Xiang Chen">
 <meta property="article:tag" content="NodeJS">
 <meta name="twitter:card" content="summary_large_image">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          55k 字
+          60k 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          460 分钟
+          503 分钟
         
       </span>
     
@@ -4187,6 +4187,719 @@
 <li>对于简单项目：推荐使用 Fetch（现代浏览器环境）</li>
 <li>对于需要兼容性、丰富功能的项目：推荐使用 Axios</li>
 <li>在老旧浏览器环境且无库支持：只能使用 XMLHttpRequest</li>
+</ul>
+<h1 id="前端打包工具"><a href="#前端打包工具" class="headerlink" title="前端打包工具"></a>前端打包工具</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Kd4y147gg?spm_id_from=333.788.player.switch&vd_source=ff414aaf189e3a685358d2a984fd4742&p=6">06_loader_哔哩哔哩_bilibili</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/cuggz/interview/hx0sf2#Tztcn">前端面试题之前端工程化篇</a></p>
+</blockquote>
+<h2 id="什么是前端打包工具"><a href="#什么是前端打包工具" class="headerlink" title="什么是前端打包工具"></a>什么是前端打包工具</h2><p>前端打包工具（Bundler &#x2F; Build Tool）的核心目标是：</p>
+<p><strong>将分散的源代码与资源，转换、整合并输出为浏览器或运行环境可理解的高性能生产代码。</strong></p>
+<p>打包工具到底“打包”了什么</p>
+<p>打包工具处理的不是只有 JS，而是整个前端工程的所有输入：</p>
+<ul>
+<li>JavaScript &#x2F; TypeScript</li>
+<li>CSS &#x2F; SCSS &#x2F; Less</li>
+<li>图片 &#x2F; 字体 &#x2F; SVG</li>
+<li>JSON &#x2F; WASM</li>
+<li>环境变量 &#x2F; 配置文件</li>
+</ul>
+<p>最终目标只有一个：</p>
+<blockquote>
+<p> <strong>生成一组浏览器能够高效加载、稳定运行、长期缓存的静态资源。</strong></p>
+</blockquote>
+<h3 id="【打包工具解决的问题】"><a href="#【打包工具解决的问题】" class="headerlink" title="【打包工具解决的问题】"></a>【打包工具解决的问题】</h3><p>本质解决三类问题：</p>
+<ul>
+<li><strong>工程化问题</strong>：模块拆分、依赖管理、开发规范</li>
+<li><strong>兼容性问题</strong>：语法降级、Polyfill、浏览器差异</li>
+<li><strong>性能问题</strong>：减少体积、减少请求、提升加载速度</li>
+</ul>
+<h4 id="工程化问题：代码如何从“可维护”变成“可执行”"><a href="#工程化问题：代码如何从“可维护”变成“可执行”" class="headerlink" title="工程化问题：代码如何从“可维护”变成“可执行”"></a>工程化问题：代码如何从“可维护”变成“可执行”</h4><ol>
+<li>工程化问题到底指什么</li>
+</ol>
+<p>现代前端项目几乎都采用<strong>模块化工程设计</strong>：</p>
+<ul>
+<li>一个系统会被拆分成多个功能模块</li>
+<li>每个模块只关注自己的职责</li>
+<li>模块之间通过 <code>import / export</code> 建立依赖关系</li>
+</ul>
+<p>这种方式<strong>对人非常友好</strong>，但对浏览器并不友好。</p>
+<hr>
+<ol start="2">
+<li>浏览器面临的根本问题</li>
+</ol>
+<p>浏览器本身存在三个限制：</p>
+<ul>
+<li>它并不关心“工程结构”</li>
+<li>它不会帮你分析模块依赖关系</li>
+<li>它只会按资源加载顺序执行脚本</li>
+</ul>
+<p>也就是说，浏览器无法自动完成：</p>
+<ul>
+<li>哪个模块应该先执行</li>
+<li>模块之间是否存在循环依赖</li>
+<li>多个模块如何组合成一个整体应用</li>
+</ul>
+<hr>
+<ol start="3">
+<li>打包工具在工程化问题中的作用</li>
+</ol>
+<p>打包工具在这里扮演的是一个<strong>“工程解释器”</strong>：</p>
+<ul>
+<li>分析所有模块之间的依赖关系</li>
+<li>构建完整的依赖关系图</li>
+<li>根据依赖关系，重新组织代码的加载和执行顺序</li>
+<li>将“工程化拆分的代码”整合为“浏览器可执行的结构”</li>
+</ul>
+<p>换句话说：</p>
+<blockquote>
+<p><strong>工程化让代码更容易被人理解，打包工具让代码重新变得可被浏览器理解。</strong></p>
+</blockquote>
+<hr>
+<h4 id="兼容性问题：浏览器不认识你的“工程语言”"><a href="#兼容性问题：浏览器不认识你的“工程语言”" class="headerlink" title="兼容性问题：浏览器不认识你的“工程语言”"></a>兼容性问题：浏览器不认识你的“工程语言”</h4><ol>
+<li>为什么会出现兼容性问题</li>
+</ol>
+<p>现代前端工程中，开发者大量使用：</p>
+<ul>
+<li>TypeScript</li>
+<li>SCSS &#x2F; Less</li>
+<li>JSX</li>
+<li>新版本 JavaScript 语法</li>
+</ul>
+<p>这些语言和语法的共同特点是：</p>
+<ul>
+<li><strong>浏览器无法直接识别</strong></li>
+<li>它们是“工程阶段语言”，不是“运行阶段语言”</li>
+</ul>
+<hr>
+<ol start="2">
+<li>不同浏览器之间的现实差异</li>
+</ol>
+<p>即使是标准 JavaScript，不同浏览器之间仍然存在：</p>
+<ul>
+<li>语法支持差异</li>
+<li>API 支持差异</li>
+<li>行为细节差异</li>
+</ul>
+<p>如果直接将源码交给浏览器执行，就会出现：</p>
+<ul>
+<li>某些浏览器报错</li>
+<li>某些功能不可用</li>
+<li>行为不一致</li>
+</ul>
+<hr>
+<ol start="3">
+<li>打包工具如何解决兼容性问题</li>
+</ol>
+<p>打包工具在构建阶段会：</p>
+<ul>
+<li>将工程语言转换为浏览器通用的 JavaScript &#x2F; CSS</li>
+<li>对新语法进行降级处理</li>
+<li>按目标浏览器环境生成对应的代码形式</li>
+</ul>
+<p>这一步的本质是：</p>
+<blockquote>
+<p><strong>把“开发时的高级表达”，翻译成“运行时的通用表达”。</strong></p>
+</blockquote>
+<p>兼容性问题并不是浏览器运行时才解决的，而是<strong>在打包阶段被提前消化掉的</strong>。</p>
+<hr>
+<h4 id="性能问题：工程化代码如何高效加载"><a href="#性能问题：工程化代码如何高效加载" class="headerlink" title="性能问题：工程化代码如何高效加载"></a>性能问题：工程化代码如何高效加载</h4><ol>
+<li>工程化本身会带来性能风险</li>
+</ol>
+<p>模块化拆分虽然利于开发，但会导致：</p>
+<ul>
+<li>文件数量急剧增加</li>
+<li>重复代码增多</li>
+<li>请求次数变多</li>
+<li>首屏加载成本变高</li>
+</ul>
+<p>如果直接让浏览器加载这些工程化文件，性能会迅速恶化。</p>
+<hr>
+<ol start="2">
+<li>打包工具如何从构建阶段解决性能问题</li>
+</ol>
+<p>打包工具在性能层面主要做三类事情：</p>
+<p>第一，减少体积</p>
+<ul>
+<li>删除未使用代码</li>
+<li>压缩代码体积</li>
+<li>合并重复逻辑</li>
+</ul>
+<p>第二，减少请求数量</p>
+<ul>
+<li>将多个模块合并成一个或几个必要的文件</li>
+<li>避免浏览器发起大量零散请求</li>
+</ul>
+<p>第三，重新组织加载方式</p>
+<ul>
+<li>将代码拆分为多个块（Chunk）</li>
+<li>首屏只加载必要代码</li>
+<li>非关键功能按需加载</li>
+</ul>
+<hr>
+<ol start="3">
+<li>性能优化的核心思想</li>
+</ol>
+<p>打包工具并不是简单地“把代码全部合成一个文件”，而是：</p>
+<blockquote>
+<p><strong>在“加载成本”和“执行效率”之间做结构性权衡。</strong></p>
+</blockquote>
+<ul>
+<li>小项目：可能合并成一个文件更快</li>
+<li>大项目：必须拆分、按需加载</li>
+</ul>
+<p>这些决策<strong>只能在打包阶段完成</strong>，浏览器无法自动完成。</p>
+<h3 id="【常见的前端打包工具】"><a href="#【常见的前端打包工具】" class="headerlink" title="【常见的前端打包工具】"></a>【常见的前端打包工具】</h3><h4 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h4><p><strong>定位</strong>：通用型、全功能前端打包工具</p>
+<p>Webpack 是目前应用最广、生态最成熟的前端打包工具，核心思想是<strong>以模块为中心构建依赖图</strong>。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>支持 JS、CSS、图片等一切资源的模块化</li>
+<li>Loader 负责模块内容转换</li>
+<li>Plugin 负责构建流程扩展</li>
+<li>功能全面、可定制性极强</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>中大型前端项目</li>
+<li>对构建流程和优化策略有高度控制需求的工程</li>
+<li>历史项目或复杂企业级项目</li>
+</ul>
+<hr>
+<h4 id="Vite"><a href="#Vite" class="headerlink" title="Vite"></a>Vite</h4><p><strong>定位</strong>：现代前端开发工具，强调开发体验</p>
+<p>Vite 的核心创新在于：<strong>开发阶段不打包，直接基于浏览器原生 ESM 运行</strong>。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>开发阶段启动极快</li>
+<li>按需编译模块</li>
+<li>生产环境使用 Rollup 打包</li>
+<li>配置轻量，默认即最佳实践</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>Vue &#x2F; React 等现代前端项目</li>
+<li>中小型到中大型应用</li>
+<li>追求开发效率和现代工程体验的项目</li>
+</ul>
+<hr>
+<h4 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h4><p><strong>定位</strong>：专注于“干净输出”的打包工具</p>
+<p>Rollup 更关注<strong>输出代码质量</strong>，而非开发阶段体验。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>天然支持 ES Module</li>
+<li>Tree Shaking 能力非常强</li>
+<li>输出结果结构清晰、体积小</li>
+<li>配置偏向构建产物而非开发服务器</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>类库、SDK、工具函数库</li>
+<li>对输出体积和结构要求极高的项目</li>
+<li>作为 Vite 的生产环境打包底层工具</li>
+</ul>
+<hr>
+<h4 id="esbuild"><a href="#esbuild" class="headerlink" title="esbuild"></a>esbuild</h4><p><strong>定位</strong>：高性能构建引擎</p>
+<p>esbuild 使用 Go 编写，核心目标是<strong>极致构建速度</strong>。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>构建速度非常快</li>
+<li>支持 TS、JSX 等常见语法</li>
+<li>功能相对精简</li>
+<li>多作为底层构建能力使用</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>构建工具的底层依赖</li>
+<li>对构建速度要求极高的场景</li>
+<li>不需要复杂插件体系的项目</li>
+</ul>
+<hr>
+<h4 id="Parcel"><a href="#Parcel" class="headerlink" title="Parcel"></a>Parcel</h4><p><strong>定位</strong>：零配置打包工具</p>
+<p>Parcel 强调“开箱即用”，目标是降低前端工程化的使用门槛。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>几乎不需要配置</li>
+<li>自动处理常见资源类型</li>
+<li>学习成本低</li>
+<li>可控性相对较弱</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>小型项目</li>
+<li>快速原型开发</li>
+<li>初学者或对构建细节要求不高的项目</li>
+</ul>
+<h2 id="Webpack-1"><a href="#Webpack-1" class="headerlink" title="Webpack"></a>Webpack</h2><p><a target="_blank" rel="noopener" href="https://www.webpackjs.com/concepts/">概念 | webpack 中文文档 | webpack中文文档 | webpack中文网</a></p>
+<h3 id="【Webpack-是什么】"><a href="#【Webpack-是什么】" class="headerlink" title="【Webpack 是什么】"></a>【Webpack 是什么】</h3><p>Webpack 是一个<strong>以模块为核心</strong>的前端构建工具，其本质是：</p>
+<blockquote>
+<p><strong>从一个或多个入口文件出发，构建整个应用的依赖图（Dependency Graph），并将其打包为若干个可部署的静态资源。</strong></p>
+</blockquote>
+<hr>
+<p>Webpack 的核心思想</p>
+<ul>
+<li>一切皆模块 JS&#x2F;CSS&#x2F;图片&#x2F;字体&#x2F;JSON</li>
+<li>模块之间通过 <code>import / require</code> 建立依赖</li>
+<li>Webpack 递归分析依赖，最终形成资源图</li>
+</ul>
+<h3 id="【Webpack-核心概念】"><a href="#【Webpack-核心概念】" class="headerlink" title="【Webpack 核心概念】"></a>【Webpack 核心概念】</h3><h4 id="Entry（入口）"><a href="#Entry（入口）" class="headerlink" title="Entry（入口）"></a>Entry（入口）</h4><p>入口决定了<strong>依赖分析的起点</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./src/index.js&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>单入口：适合 SPA</li>
+<li>多入口：适合多页面应用（MPA）</li>
+</ul>
+<hr>
+<h4 id="Output（输出）"><a href="#Output（输出）" class="headerlink" title="Output（输出）"></a>Output（输出）</h4><p>输出定义了<strong>打包结果的结构与位置</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">output</span>: &#123;<br>  <span class="hljs-attr">path</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&#x27;dist&#x27;</span>),<br>  <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;bundle.js&#x27;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>常见关注点：</p>
+<ul>
+<li>输出目录</li>
+<li>文件名规则</li>
+<li>hash &#x2F; chunkhash &#x2F; contenthash</li>
+</ul>
+<hr>
+<h4 id="Loader（加载器）"><a href="#Loader（加载器）" class="headerlink" title="Loader（加载器）"></a>Loader（加载器）</h4><p>Loader 的本质是：</p>
+<blockquote>
+<p><strong>将非 JS 资源转换为 Webpack 能理解的模块</strong></p>
+</blockquote>
+<p>常见 Loader 分类</p>
+<ul>
+<li>语法转换<ul>
+<li><code>babel-loader</code></li>
+<li><code>ts-loader</code></li>
+</ul>
+</li>
+<li>样式处理<ul>
+<li><code>css-loader</code></li>
+<li><code>style-loader</code></li>
+<li><code>sass-loader</code></li>
+</ul>
+</li>
+<li>资源处理<ul>
+<li><code>file-loader</code></li>
+<li><code>url-loader</code></li>
+<li><code>asset module</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="Loader-执行特点"><a href="#Loader-执行特点" class="headerlink" title="Loader 执行特点"></a>Loader 执行特点</h4><ul>
+<li>从右到左（或从下到上）</li>
+<li>纯函数</li>
+<li>单一职责</li>
+</ul>
+<hr>
+<h4 id="Plugin（插件）"><a href="#Plugin（插件）" class="headerlink" title="Plugin（插件）"></a>Plugin（插件）</h4><p>Plugin 解决的是：</p>
+<blockquote>
+<p><strong>Loader 无法处理的构建阶段问题</strong></p>
+</blockquote>
+<p>Plugin 的能力范围</p>
+<ul>
+<li>构建流程控制</li>
+<li>资源优化</li>
+<li>注入环境变量</li>
+<li>生成 HTML</li>
+<li>压缩与分析</li>
+</ul>
+<p>常见插件</p>
+<ul>
+<li><code>HtmlWebpackPlugin</code></li>
+<li><code>DefinePlugin</code></li>
+<li><code>MiniCssExtractPlugin</code></li>
+<li><code>CleanWebpackPlugin</code></li>
+<li><code>CopyWebpackPlugin</code></li>
+</ul>
+<h3 id="【Webpack基本配置】"><a href="#【Webpack基本配置】" class="headerlink" title="【Webpack基本配置】"></a>【Webpack基本配置】</h3><h4 id="一、配套依赖（最小集合）"><a href="#一、配套依赖（最小集合）" class="headerlink" title="一、配套依赖（最小集合）"></a>一、配套依赖（最小集合）</h4><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs livescript"><span class="hljs-built_in">npm</span> install -D <span class="hljs-string">\</span><br>webpack webpack-cli webpack-dev-server <span class="hljs-string">\</span><br>html-webpack-plugin <span class="hljs-string">\</span><br>babel-loader @babel/core @babel/preset-env <span class="hljs-string">\</span><br>css-loader style-loader <span class="hljs-string">\</span><br>mini-css-extract-plugin<br></code></pre></td></tr></table></figure>
+
+<p><code>babel.config.js</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">module</span>.<span class="hljs-keyword">exports</span> = &#123;<br>  presets: [<span class="hljs-string">&#x27;@babel/preset-env&#x27;</span>]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="二、推荐项目结构"><a href="#二、推荐项目结构" class="headerlink" title="二、推荐项目结构"></a>二、推荐项目结构</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs stylus">project<br>├─ public<br>│  └─ index<span class="hljs-selector-class">.html</span><br>├─ <span class="hljs-attribute">src</span><br>│  ├─ index<span class="hljs-selector-class">.js</span><br>│  ├─ index<span class="hljs-selector-class">.css</span><br>│  └─ assets<br>├─ dist<br>├─ babel<span class="hljs-selector-class">.config</span><span class="hljs-selector-class">.js</span><br>└─ webpack<span class="hljs-selector-class">.config</span>.js<br></code></pre></td></tr></table></figure>
+
+<h4 id="三、基本配置项"><a href="#三、基本配置项" class="headerlink" title="三、基本配置项"></a>三、基本配置项</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>)<br><span class="hljs-keyword">const</span> <span class="hljs-title class_">HtmlWebpackPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;html-webpack-plugin&#x27;</span>)<br><span class="hljs-keyword">const</span> <span class="hljs-title class_">MiniCssExtractPlugin</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;mini-css-extract-plugin&#x27;</span>)<br><br><span class="hljs-keyword">const</span> isProd = process.<span class="hljs-property">env</span>.<span class="hljs-property">NODE_ENV</span> === <span class="hljs-string">&#x27;production&#x27;</span><br><br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-comment">// 构建模式</span><br>  <span class="hljs-attr">mode</span>: isProd ? <span class="hljs-string">&#x27;production&#x27;</span> : <span class="hljs-string">&#x27;development&#x27;</span>,<br><br>  <span class="hljs-comment">// 入口</span><br>  <span class="hljs-attr">entry</span>: <span class="hljs-string">&#x27;./src/index.js&#x27;</span>,<br><br>  <span class="hljs-comment">// 输出</span><br>  <span class="hljs-attr">output</span>: &#123;<br>    <span class="hljs-attr">path</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&#x27;dist&#x27;</span>),<br>    <span class="hljs-attr">filename</span>: isProd<br>      ? <span class="hljs-string">&#x27;js/[name].[contenthash:8].js&#x27;</span><br>      : <span class="hljs-string">&#x27;js/[name].js&#x27;</span>,<br>    <span class="hljs-attr">assetModuleFilename</span>: <span class="hljs-string">&#x27;assets/[hash][ext][query]&#x27;</span>,<br>    <span class="hljs-attr">clean</span>: <span class="hljs-literal">true</span><br>  &#125;,<br><br>  <span class="hljs-comment">// 模块解析规则</span><br>  <span class="hljs-attr">module</span>: &#123;<br>    <span class="hljs-attr">rules</span>: [<br>      <span class="hljs-comment">// JS / ES6+</span><br>      &#123;<br>        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.js$/</span>,<br>        <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span>,<br>        <span class="hljs-attr">use</span>: <span class="hljs-string">&#x27;babel-loader&#x27;</span><br>      &#125;,<br><br>      <span class="hljs-comment">// CSS</span><br>      &#123;<br>        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.css$/</span>,<br>        <span class="hljs-attr">use</span>: [<br>          isProd ? <span class="hljs-title class_">MiniCssExtractPlugin</span>.<span class="hljs-property">loader</span> : <span class="hljs-string">&#x27;style-loader&#x27;</span>,<br>          <span class="hljs-string">&#x27;css-loader&#x27;</span><br>        ]<br>      &#125;,<br><br>      <span class="hljs-comment">// 图片 / 字体 / 媒体资源（Webpack 5 内置）</span><br>      &#123;<br>        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.(png|jpe?g|gif|svg|woff2?|eot|ttf)$/i</span>,<br>        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;asset&#x27;</span>,<br>        <span class="hljs-attr">parser</span>: &#123;<br>          <span class="hljs-attr">dataUrlCondition</span>: &#123;<br>            <span class="hljs-attr">maxSize</span>: <span class="hljs-number">8</span> * <span class="hljs-number">1024</span><br>          &#125;<br>        &#125;<br>      &#125;<br>    ]<br>  &#125;,<br><br>  <span class="hljs-comment">// 插件</span><br>  <span class="hljs-attr">plugins</span>: [<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">HtmlWebpackPlugin</span>(&#123;<br>      <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;./public/index.html&#x27;</span>,<br>      <span class="hljs-attr">inject</span>: <span class="hljs-string">&#x27;body&#x27;</span><br>    &#125;),<br><br>    isProd &amp;&amp;<br>      <span class="hljs-keyword">new</span> <span class="hljs-title class_">MiniCssExtractPlugin</span>(&#123;<br>        <span class="hljs-attr">filename</span>: <span class="hljs-string">&#x27;css/[name].[contenthash:8].css&#x27;</span><br>      &#125;)<br>  ].<span class="hljs-title function_">filter</span>(<span class="hljs-title class_">Boolean</span>),<br><br>  <span class="hljs-comment">// 模块解析配置</span><br>  <span class="hljs-attr">resolve</span>: &#123;<br>    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&#x27;.js&#x27;</span>, <span class="hljs-string">&#x27;.json&#x27;</span>],<br>    <span class="hljs-attr">alias</span>: &#123;<br>      <span class="hljs-string">&#x27;@&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&#x27;src&#x27;</span>)<br>    &#125;<br>  &#125;,<br><br>  <span class="hljs-comment">// Source Map</span><br>  <span class="hljs-attr">devtool</span>: isProd ? <span class="hljs-string">&#x27;source-map&#x27;</span> : <span class="hljs-string">&#x27;eval-cheap-module-source-map&#x27;</span>,<br><br>  <span class="hljs-comment">// 开发服务器</span><br>  <span class="hljs-attr">devServer</span>: &#123;<br>    <span class="hljs-attr">port</span>: <span class="hljs-number">3000</span>,<br>    <span class="hljs-attr">open</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">hot</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">historyApiFallback</span>: <span class="hljs-literal">true</span><br>  &#125;,<br><br>  <span class="hljs-comment">// 性能与拆包优化（基础）</span><br>  <span class="hljs-attr">optimization</span>: &#123;<br>    <span class="hljs-attr">splitChunks</span>: &#123;<br>      <span class="hljs-attr">chunks</span>: <span class="hljs-string">&#x27;all&#x27;</span><br>    &#125;,<br>    <span class="hljs-attr">runtimeChunk</span>: <span class="hljs-string">&#x27;single&#x27;</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mode</td>
+<td>控制构建优化策略</td>
+</tr>
+<tr>
+<td>entry</td>
+<td>依赖分析起点</td>
+</tr>
+<tr>
+<td>output</td>
+<td>打包结果规则</td>
+</tr>
+<tr>
+<td>module.rules</td>
+<td>各类资源处理</td>
+</tr>
+<tr>
+<td>plugins</td>
+<td>构建生命周期增强</td>
+</tr>
+<tr>
+<td>resolve</td>
+<td>模块解析与别名</td>
+</tr>
+<tr>
+<td>devtool</td>
+<td>源码映射</td>
+</tr>
+<tr>
+<td>devServer</td>
+<td>本地开发体验</td>
+</tr>
+<tr>
+<td>optimization</td>
+<td>拆包与缓存</td>
+</tr>
+</tbody></table>
+<h3 id="【Webpack基本指令】"><a href="#【Webpack基本指令】" class="headerlink" title="【Webpack基本指令】"></a>【Webpack基本指令】</h3><ul>
+<li><p><code>npx webpack</code><br> 执行一次构建，读取默认 <code>webpack.config.js</code></p>
+</li>
+<li><p><code>npx webpack build</code><br> 等价于 <code>webpack</code>，显式表示“构建”</p>
+</li>
+<li><p><code>npx webpack --config webpack.config.js</code><br> 指定使用的配置文件</p>
+</li>
+<li><p><code>npx webpack --config webpack.prod.js</code><br> 使用生产环境配置</p>
+</li>
+<li><p><code>npx webpack --mode development</code><br> 使用开发模式（不压缩、快速构建）</p>
+</li>
+<li><p><code>npx webpack --mode production</code><br> 使用生产模式（压缩、优化、Tree Shaking）</p>
+</li>
+<li><p><code>npx webpack serve</code><br> 启动开发服务器</p>
+</li>
+<li><p><code>npx webpack serve --port 3000</code><br> 指定开发端口</p>
+</li>
+<li><p><code>npx webpack serve --open</code><br> 自动打开浏览器</p>
+</li>
+<li><p><code>npx webpack serve --hot</code><br> 启用热模块替换（HMR）</p>
+</li>
+<li><p><code>npx webpack serve --static public</code><br> 指定静态资源目录</p>
+</li>
+<li><p><code>npx webpack --output-path dist</code><br> 指定输出目录</p>
+</li>
+<li><p><code>npx webpack --output-filename bundle.js</code><br> 指定输出文件名</p>
+</li>
+<li><p><code>npx webpack --progress</code><br> 显示构建进度条</p>
+</li>
+<li><p><code>npx webpack --watch</code><br> 监听文件变化，自动重新构建</p>
+</li>
+<li><p><code>npx webpack --stats detailed</code><br> 输出详细构建信息</p>
+</li>
+<li><p><code>npx webpack --profile</code><br> 显示构建性能数据</p>
+</li>
+<li><p><code>npx webpack serve --mode development --open</code><br> 本地开发常用启动方式</p>
+</li>
+<li><p><code>npx webpack --mode production</code><br> 生产环境打包</p>
+</li>
+</ul>
+<h3 id="【Webpack打包流程】"><a href="#【Webpack打包流程】" class="headerlink" title="【Webpack打包流程】"></a>【Webpack打包流程】</h3><h4 id="第一步：读取入口（Entry）"><a href="#第一步：读取入口（Entry）" class="headerlink" title="第一步：读取入口（Entry）"></a><strong>第一步：读取入口（Entry）</strong></h4><p>打包从一个或多个<strong>入口文件</strong>开始。</p>
+<p>入口的意义不是“第一个执行的文件”，而是：</p>
+<blockquote>
+<p><strong>依赖分析的起点</strong></p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-attribute">src</span>/<span class="hljs-selector-tag">main</span><span class="hljs-selector-class">.js</span><br></code></pre></td></tr></table></figure>
+
+<p>打包工具会认为：</p>
+<ul>
+<li>这个文件是应用的根节点</li>
+<li>所有代码必须从这里“可达”</li>
+</ul>
+<hr>
+<h4 id="第二步：构建依赖关系图（Dependency-Graph）"><a href="#第二步：构建依赖关系图（Dependency-Graph）" class="headerlink" title="第二步：构建依赖关系图（Dependency Graph）"></a><strong>第二步：构建依赖关系图（Dependency Graph）</strong></h4><p>这是整个打包过程<strong>最核心的一步</strong>。</p>
+<p>打包工具会做什么？</p>
+<ul>
+<li>解析 <code>import / require</code></li>
+<li>找到当前模块依赖的所有模块</li>
+<li>对依赖模块递归执行同样的过程</li>
+<li>最终形成一个完整的依赖图</li>
+</ul>
+<p>这个依赖图本质是一个<strong>有向图</strong>：</p>
+<ul>
+<li>节点：模块</li>
+<li>边：依赖关系</li>
+</ul>
+<hr>
+<h4 id="第三步：模块内容转换（Transpilation）"><a href="#第三步：模块内容转换（Transpilation）" class="headerlink" title="第三步：模块内容转换（Transpilation）"></a><strong>第三步：模块内容转换（Transpilation）</strong></h4><p>在依赖图构建过程中，每一个模块都会被“加工”。</p>
+<p>为什么要转换？</p>
+<p>因为源码通常包含：</p>
+<ul>
+<li>浏览器不支持的语法</li>
+<li>非 JS 资源</li>
+<li>工程阶段的写法</li>
+</ul>
+<p>转换内容包括：</p>
+<ul>
+<li>TypeScript → JavaScript</li>
+<li>JSX → JavaScript</li>
+<li>SCSS → CSS</li>
+<li>新语法 → 旧语法</li>
+</ul>
+<p>这一步的结果是：</p>
+<blockquote>
+<p><strong>所有模块在逻辑层面都变成“可执行的 JS 模块”</strong></p>
+</blockquote>
+<hr>
+<h4 id="第四步：模块合并与拆分"><a href="#第四步：模块合并与拆分" class="headerlink" title="第四步：模块合并与拆分"></a><strong>第四步：模块合并与拆分</strong></h4><p>此时，打包工具已经：</p>
+<ul>
+<li>知道所有模块</li>
+<li>知道它们的依赖关系</li>
+<li>知道模块的最终代码内容</li>
+</ul>
+<p>接下来要解决的问题是：</p>
+<p><strong>这些模块应该如何组织成最终文件？</strong></p>
+<p>可能的策略包括：</p>
+<ul>
+<li>合并成一个文件（小项目）</li>
+<li>拆成多个 Chunk（按路由、按功能）</li>
+<li>抽离公共依赖（vendor）</li>
+</ul>
+<p>这是<strong>性能优化决策阶段</strong>。</p>
+<hr>
+<h4 id="第五步：构建阶段优化"><a href="#第五步：构建阶段优化" class="headerlink" title="第五步：构建阶段优化"></a><strong>第五步：构建阶段优化</strong></h4><p>在确定输出结构后，打包工具会进行一系列“只在构建阶段存在”的优化：</p>
+<ul>
+<li>Tree Shaking：删除无用代码</li>
+<li>Minify：压缩代码</li>
+<li>Scope Hoisting：减少函数包裹</li>
+<li>资源压缩（CSS &#x2F; 图片）</li>
+</ul>
+<p>这些优化<strong>不会改变业务逻辑，只改变代码形态</strong>。</p>
+<hr>
+<h4 id="第六步：生成最终产物（Output）"><a href="#第六步：生成最终产物（Output）" class="headerlink" title="第六步：生成最终产物（Output）"></a><strong>第六步：生成最终产物（Output）</strong></h4><p>最终输出的是：</p>
+<ul>
+<li>HTML（可能自动生成）</li>
+<li>JS 文件（带 hash）</li>
+<li>CSS 文件</li>
+<li>静态资源</li>
+</ul>
+<p>这些文件的特点是：</p>
+<ul>
+<li>浏览器可直接加载</li>
+<li>内容稳定</li>
+<li>可长期缓存</li>
+<li>与源码结构无直接对应关系</li>
+</ul>
+<h2 id="Vite-1"><a href="#Vite-1" class="headerlink" title="Vite"></a>Vite</h2><p>Vite 的“构建”分两条线：</p>
+<ul>
+<li>开发阶段（dev）：不做整体打包，按需提供模块</li>
+<li>生产阶段（build）：做完整打包、压缩、拆包、产物输出</li>
+</ul>
+<p>理解 Vite 的关键是分清：<strong>开发不是 build，只是 dev server + 按需编译</strong>。</p>
+<h3 id="【开发阶段的本质】"><a href="#【开发阶段的本质】" class="headerlink" title="【开发阶段的本质】"></a>【开发阶段的本质】</h3><p>Vite 在开发时更像一个“模块服务器”：</p>
+<ul>
+<li>浏览器用原生 ES Module（import）加载模块</li>
+<li>Vite 负责把浏览器请求到的文件：<ul>
+<li>必要时转换（TS、JSX、Vue SFC、CSS 等）</li>
+<li>返回给浏览器</li>
+</ul>
+</li>
+<li>浏览器继续解析 import，再去请求下一个模块</li>
+<li>Vite 再按需处理并返回</li>
+</ul>
+<p>也就是说：<strong>依赖图不是 Vite 一次性扫描出来的，而是浏览器在运行时逐步触发请求，Vite 逐步响应。</strong></p>
+<hr>
+<h3 id="【完整请求链路】"><a href="#【完整请求链路】" class="headerlink" title="【完整请求链路】"></a>【完整请求链路】</h3><p>假设入口是 <code>index.html</code>，其中有：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;module&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/src/main.ts&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>浏览器的行为与 Vite 的行为按时间顺序是：</p>
+<ol>
+<li>浏览器请求 <code>GET /index.html</code><ul>
+<li>Vite 返回 HTML</li>
+<li>同时会在 HTML 中注入 HMR 客户端脚本（用于热更新通信）</li>
+</ul>
+</li>
+<li>浏览器看到 <code>&lt;script type=&quot;module&quot; src=&quot;/src/main.ts&quot;&gt;</code><ul>
+<li>请求 <code>GET /src/main.ts</code></li>
+</ul>
+</li>
+<li>Vite 收到 <code>/src/main.ts</code> 请求<ul>
+<li>如果是 TS：用 esbuild 做快速转译成 JS（不做类型检查）</li>
+<li>如果里面有 import：Vite 会把 import 路径改写成浏览器可请求的 URL 形式（重要）</li>
+<li>返回转译后的 JS 给浏览器</li>
+</ul>
+</li>
+<li>浏览器执行并解析 import，例如：<ul>
+<li><code>import App from &#39;./App.vue&#39;</code> → 浏览器会请求 <code>GET /src/App.vue</code></li>
+<li><code>import &#123; createApp &#125; from &#39;vue&#39;</code> → 浏览器会请求一个被改写后的依赖地址（通常带 <code>/@modules/</code> 或 <code>/node_modules/.vite/deps/...</code> 的形式，取决于版本与实现）</li>
+</ul>
+</li>
+<li>Vite 针对不同资源类型做不同处理并返回<ul>
+<li><code>.vue</code>：走 Vue 插件，把 SFC 拆成多个虚拟模块（template&#x2F;script&#x2F;style），再分别返回</li>
+<li><code>.css</code>：转换成 JS 模块（用于插入样式或 CSS Modules 处理），并建立 HMR 依赖</li>
+<li>图片字体等：返回 URL 或内联数据（取决于大小与配置）</li>
+<li>第三方依赖：优先走“依赖预构建”后的产物（下面详讲）</li>
+</ul>
+</li>
+<li>浏览器继续递归请求所有 import 依赖<ul>
+<li>Vite 继续按需编译与返回</li>
+<li>没有“全量打包”这一步</li>
+</ul>
+</li>
+</ol>
+<p>这就是 Vite 开发阶段启动快的根源：<strong>启动时不需要扫描整个项目并生成 bundle，只要起服务即可。</strong></p>
+<h3 id="【最重要的三件事】"><a href="#【最重要的三件事】" class="headerlink" title="【最重要的三件事】"></a>【最重要的三件事】</h3><h4 id="1-import-路径改写（为什么必须改写）"><a href="#1-import-路径改写（为什么必须改写）" class="headerlink" title="1. import 路径改写（为什么必须改写）"></a>1. import 路径改写（为什么必须改写）</h4><p>浏览器对 ESM 的 import 有严格规则：</p>
+<ul>
+<li>必须是相对路径或绝对路径 URL（<code>./</code>、<code>../</code>、<code>/</code>、或完整 URL）</li>
+<li>不能直接识别 Node 的包解析规则（例如 <code>import vue from &#39;vue&#39;</code> 这种 bare import）</li>
+</ul>
+<p>所以 Vite 必须把 bare import 改写成浏览器能请求的地址。</p>
+<p>例如把：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean"><span class="hljs-keyword">import</span> &#123; createApp &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>改写成类似：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean"><span class="hljs-keyword">import</span> &#123; createApp &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;/node_modules/.vite/deps/vue.js?v=xxxx&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>这样浏览器才能发起 HTTP 请求拿到对应模块。</p>
+<p>改写不仅针对第三方包，也会处理一些特殊资源引用与查询参数模块（如 <code>?import</code>、<code>?url</code>、<code>?raw</code>）。</p>
+<hr>
+<h4 id="2-依赖预构建（pre-bundling，为什么要做）"><a href="#2-依赖预构建（pre-bundling，为什么要做）" class="headerlink" title="2. 依赖预构建（pre-bundling，为什么要做）"></a>2. 依赖预构建（pre-bundling，为什么要做）</h4><p>如果开发阶段完全不处理依赖，会遇到两个大问题：</p>
+<ol>
+<li>第三方库可能是 CommonJS 或 UMD，浏览器无法直接按 ESM 方式加载</li>
+<li>第三方库内部文件多，如果浏览器逐个请求，会导致请求数量爆炸，开发体验很差</li>
+</ol>
+<p>因此 Vite 会在 dev 启动或依赖变动时，对 <code>node_modules</code> 做一次“预构建”：</p>
+<ul>
+<li>使用 esbuild（速度极快）</li>
+<li>把常用依赖：<ul>
+<li>转成 ESM</li>
+<li>合并成更少的模块文件</li>
+<li>产物缓存到 <code>node_modules/.vite/deps</code>（常见位置）</li>
+</ul>
+</li>
+</ul>
+<p>这样浏览器加载第三方依赖时：</p>
+<ul>
+<li>既是 ESM</li>
+<li>请求数显著减少</li>
+<li>还能利用强缓存</li>
+</ul>
+<p>依赖预构建的触发时机</p>
+<ul>
+<li>首次启动 dev server</li>
+<li>lockfile 改变（package-lock&#x2F;yarn.lock&#x2F;pnpm-lock）</li>
+<li>依赖安装变化</li>
+<li><code>optimizeDeps</code> 配置变化</li>
+<li>某些依赖无法被正确扫描，需要手动 include&#x2F;exclude</li>
+</ul>
+<hr>
+<h4 id="3-HMR（热更新）为什么会更快"><a href="#3-HMR（热更新）为什么会更快" class="headerlink" title="3. HMR（热更新）为什么会更快"></a>3. HMR（热更新）为什么会更快</h4><p>传统 bundler 的 HMR 通常要基于打包产物与依赖图做复杂替换。</p>
+<p>Vite 的 HMR 更轻，是因为它的模块天然就是 ESM：</p>
+<ul>
+<li>每个模块都是独立的请求与响应</li>
+<li>修改某个文件时：<ul>
+<li>Vite 只需要让浏览器更新这个模块</li>
+<li>并沿着模块依赖边界做最小范围的传播</li>
+</ul>
+</li>
+</ul>
+<p>HMR 的工作机制（概念层）</p>
+<ol>
+<li>文件变更（监听）</li>
+<li>Vite 判定变更模块类型（JS、CSS、Vue SFC 等）</li>
+<li>生成更新 payload（包含模块 id、变更类型等）</li>
+<li>通过 WebSocket 推送给浏览器 HMR 客户端</li>
+<li>浏览器按模块粒度执行更新逻辑：<ul>
+<li>CSS 通常直接替换样式</li>
+<li>Vue 组件更新会尽量保留状态（取决于边界与实现）</li>
+<li>JS 模块需要模块接受更新（HMR accept），否则触发页面刷新</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="【Vite-如何处理常见资源】"><a href="#【Vite-如何处理常见资源】" class="headerlink" title="【Vite 如何处理常见资源】"></a>【Vite 如何处理常见资源】</h3><h4 id="1-TypeScript"><a href="#1-TypeScript" class="headerlink" title="1. TypeScript"></a>1. TypeScript</h4><ul>
+<li>默认使用 esbuild 做“语法转译”</li>
+<li>不做类型检查（类型检查建议单独跑 <code>tsc --noEmit</code> 或用插件&#x2F;脚本）</li>
+</ul>
+<p>所以你会看到：</p>
+<ul>
+<li>转译很快</li>
+<li>但类型错误不一定阻止 dev 运行（除非你加了额外检查）</li>
+</ul>
+<hr>
+<h4 id="2-Vue-单文件组件（-vue）"><a href="#2-Vue-单文件组件（-vue）" class="headerlink" title="2. Vue 单文件组件（.vue）"></a>2. Vue 单文件组件（.vue）</h4><p>Vite 通过插件将 <code>.vue</code> 拆成多段模块：</p>
+<ul>
+<li>script 部分：转成 JS 模块</li>
+<li>template 部分：编译成 render 函数模块</li>
+<li>style 部分：作为 CSS 模块处理并注入 HMR</li>
+</ul>
+<p>这也是为什么 Vue + Vite 的开发体验很顺滑：<strong>SFC 的编译是按需且增量的</strong>。</p>
+<hr>
+<h4 id="3-CSS-与预处理器"><a href="#3-CSS-与预处理器" class="headerlink" title="3. CSS 与预处理器"></a>3. CSS 与预处理器</h4><p>CSS 在 Vite 中通常会被当成模块依赖处理：</p>
+<ul>
+<li>在 dev：注入到页面（或通过插件机制处理）</li>
+<li>在 build：抽离成独立 CSS 文件并做压缩（由 Rollup 生态完成）</li>
+</ul>
+<p>CSS Modules、PostCSS、Sass&#x2F;Less 等也都是在这个链路中按需处理。</p>
+<hr>
+<h4 id="4-静态资源（图片、字体等）"><a href="#4-静态资源（图片、字体等）" class="headerlink" title="4. 静态资源（图片、字体等）"></a>4. 静态资源（图片、字体等）</h4><p>常见两种使用方式：</p>
+<ul>
+<li><code>import imgUrl from &#39;./a.png&#39;</code><ul>
+<li>dev：返回一个可访问 URL</li>
+<li>build：根据规则复制到 <code>dist/assets</code> 并重写引用</li>
+</ul>
+</li>
+<li><code>?raw</code>、<code>?url</code> 等查询参数<ul>
+<li><code>?raw</code>：当成纯文本返回（常用于加载 shader、md 等）</li>
+<li><code>?url</code>：强制返回 URL 字符串</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="【生产构建阶段（vite-build）】"><a href="#【生产构建阶段（vite-build）】" class="headerlink" title="【生产构建阶段（vite build）】"></a>【生产构建阶段（vite build）】</h3><p>开发阶段不打包，但生产必须打包，因为要：</p>
+<ul>
+<li>合并与压缩</li>
+<li>Tree Shaking</li>
+<li>代码分割（懒加载 chunk）</li>
+<li>产物 hash（缓存）</li>
+<li>资源拷贝与引用重写</li>
+<li>生成最终可部署目录 <code>dist</code></li>
+</ul>
+<p>【构建链路概览】</p>
+<ol>
+<li>以 <code>index.html</code> 为构建入口（Vite 的一个重要点）</li>
+<li>Rollup 负责构建依赖图与打包输出</li>
+<li>插件体系介入（Vite 插件兼容 Rollup 插件思想）</li>
+<li>输出到 <code>dist</code>，包含：<ul>
+<li><code>assets/*.js</code></li>
+<li><code>assets/*.css</code></li>
+<li>静态资源文件</li>
+<li>处理后的 <code>index.html</code></li>
+</ul>
+</li>
+</ol>
+<p>【生产构建的关键能力】</p>
+<ul>
+<li>Tree Shaking：基于 ESM 的静态分析移除未使用代码</li>
+<li>Code Splitting：动态 import 自动切 chunk</li>
+<li>资源指纹：<code>[hash]</code> 用于长期缓存</li>
+<li>压缩：JS&#x2F;CSS 压缩与优化（取决于配置与版本）</li>
+</ul>
+<hr>
+<p>【为什么 Vite 要“dev 用 esbuild，build 用 Rollup”】</p>
+<p>这不是矛盾，而是分工明确：</p>
+<ul>
+<li>dev 最关心：启动快、更新快<ul>
+<li>esbuild 在转译层面极快，适合 dev 的“按需编译”</li>
+</ul>
+</li>
+<li>build 最关心：产物质量、生态成熟、可控的拆包与输出<ul>
+<li>Rollup 在打包与产物优化上生态成熟，适合生产构建</li>
+</ul>
+</li>
+</ul>
+<p>因此 Vite 采取“混合策略”：</p>
+<ul>
+<li>dev：模块服务器 + esbuild 转译 + 依赖预构建</li>
+<li>build：Rollup 打包</li>
 </ul>
 
                 

@@ -27,7 +27,7 @@
 <meta property="og:image" content="http://example.com/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE2.png">
 <meta property="og:image" content="http://example.com/2026/01/09/Vue/Vue3%E8%BF%9B%E9%98%B6%E5%AD%A6%E4%B9%A0/%E5%9B%BE3.png">
 <meta property="article:published_time" content="2026-01-09T07:42:36.000Z">
-<meta property="article:modified_time" content="2026-01-09T08:02:42.534Z">
+<meta property="article:modified_time" content="2026-01-14T00:09:12.498Z">
 <meta property="article:author" content="Xiang Chen">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary_large_image">
@@ -224,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          3.3k 字
         
       </span>
     
@@ -235,7 +235,7 @@
         
         
         
-          23 分钟
+          28 分钟
         
       </span>
     
@@ -485,6 +485,58 @@
 <li>将 <code>destroy</code> 改为 <code>unmount</code>，语义更清晰</li>
 </ol>
 </blockquote>
+<h1 id="2-Vue的响应式原理"><a href="#2-Vue的响应式原理" class="headerlink" title="2. Vue的响应式原理"></a>2. Vue的响应式原理</h1><blockquote>
+<p><a href="..%5C%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%5C5-Vue%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86.md">链接</a></p>
+</blockquote>
+<h1 id="3-Vue的模板解析过程"><a href="#3-Vue的模板解析过程" class="headerlink" title="3. Vue的模板解析过程"></a>3. Vue的模板解析过程</h1><p>Vue 的核心目标是：<strong>当数据变化时，让视图以尽可能小的代价更新</strong>。<br> 它靠两套系统配合完成：</p>
+<ul>
+<li><strong>响应式系统</strong>：决定“什么时候需要更新”（数据变了，谁受影响）</li>
+<li><strong>渲染系统（VDOM + Diff + Patch）</strong>：决定“怎么更新更省”（只改动必要 DOM）</li>
+</ul>
+<p><strong>一条更新链路（你要记住的主线）</strong></p>
+<ol>
+<li><strong>Template 编译</strong>：<code>template</code> &#x2F; <code>render</code> → 生成 <code>render()</code> 函数（Vue2 还会生成静态渲染函数数组）</li>
+<li><strong>首次渲染</strong>：执行 <code>render()</code> → 产出 <strong>VNode 树</strong>（虚拟 DOM）</li>
+<li><strong>Patch 挂载</strong>：<code>patch(oldVnode, vnode)</code> → 把 VNode 变成真实 DOM 并插入页面</li>
+<li><strong>依赖收集</strong>：渲染时读取响应式数据 → 触发 getter → 收集依赖（把“谁用过我”记录下来）</li>
+<li><strong>更新触发</strong>：数据变化 → setter 通知依赖 → watcher 入队 → nextTick 统一刷新</li>
+<li><strong>Diff + Patch</strong>：新旧 VNode 对比（Diff）→ 只把最小差异同步到真实 DOM</li>
+</ol>
+<h2 id="1-从-template-到-render？"><a href="#1-从-template-到-render？" class="headerlink" title="1. 从 template 到 render？"></a>1. 从 template 到 render？</h2><h3 id="1-1-为什么要编译？"><a href="#1-1-为什么要编译？" class="headerlink" title="1.1 为什么要编译？"></a>1.1 为什么要编译？</h3><p>浏览器看得懂的是 HTML、CSS、JS，但 Vue 的模板里有：</p>
+<ul>
+<li>插值：<code>&#123;&#123; msg &#125;&#125;</code></li>
+<li>指令：<code>v-if / v-for / v-model</code></li>
+<li>事件：<code>@click=&quot;fn&quot;</code></li>
+<li>动态绑定：<code>:class=&quot;...&quot;</code></li>
+</ul>
+<p>这些都不是原生 HTML 能直接执行的，所以 Vue 需要把模板<strong>编译成 JavaScript 函数</strong>，渲染时执行这个函数得到“页面结构描述”。</p>
+<p>最终产物就是：<strong>render 函数</strong>。</p>
+<hr>
+<h3 id="1-2-编译的-3-步：Parse-→-Optimize（Vue2）→-Generate"><a href="#1-2-编译的-3-步：Parse-→-Optimize（Vue2）→-Generate" class="headerlink" title="1.2 编译的 3 步：Parse → Optimize（Vue2）→ Generate"></a>1.2 编译的 3 步：Parse → Optimize（Vue2）→ Generate</h3><p>以 Vue2 典型的编译流程为例：</p>
+<h4 id="1-Parse：模板-→-AST"><a href="#1-Parse：模板-→-AST" class="headerlink" title="(1) Parse：模板 → AST"></a>(1) Parse：模板 → AST</h4><p>Vue 会把模板解析成一棵 <strong>AST（抽象语法树）</strong>。</p>
+<p>模板：</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;app&quot;</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">msg</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>AST 的直观结构类似：</p>
+<ul>
+<li>div (attrs: id&#x3D;app)<ul>
+<li>p<ul>
+<li>text( expression: msg )</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>你可以把 AST 理解为：<strong>“结构化的模板”</strong>，后续所有分析与生成都基于它。</p>
+<h4 id="2-Optimize（Vue2-典型）：标记静态节点"><a href="#2-Optimize（Vue2-典型）：标记静态节点" class="headerlink" title="(2) Optimize（Vue2 典型）：标记静态节点"></a>(2) Optimize（Vue2 典型）：标记静态节点</h4><p>Vue2 会标记哪些节点是<strong>静态的</strong>（不依赖响应式数据），例如：</p>
+<figure class="highlight handlebars"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs handlebars"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>固定文本<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>   <span class="hljs-comment">&lt;!-- 静态 --&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span></span><span class="hljs-template-variable">&#123;&#123; <span class="hljs-name">msg</span> &#125;&#125;</span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span> <span class="hljs-comment">&lt;!-- 动态 --&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>静态节点的好处：更新时不需要重新创建&#x2F;对比这些部分。</p>
+<blockquote>
+<p>Vue3 的思路更进一步：不仅标静态，还会在编译期给动态点打“更新标记”（后面讲）。</p>
+</blockquote>
+<h4 id="3-Generate：AST-→-render-代码"><a href="#3-Generate：AST-→-render-代码" class="headerlink" title="(3) Generate：AST → render 代码"></a>(3) Generate：AST → render 代码</h4><p>Vue 会把 AST 生成一段 JS 代码字符串，再变成真正的函数。</p>
+<p>简化理解即可：<strong>模板最终会变成一堆“创建虚拟节点”的调用</strong>。</p>
 
                 
               </div>
@@ -575,9 +627,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/09/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue%E6%A0%B8%E5%BF%83%E9%9D%A2%E8%AF%95%E9%A2%98/" title="Vue核心面试题">
+                      <a href="/2026/01/10/HTMLCSS/CSS%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9/" title="HTML核心内容">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Vue核心面试题</span>
+                        <span class="hidden-mobile">HTML核心内容</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

@@ -19,12 +19,12 @@
     <meta name="description" content="跨域问题面试题 1：什么是跨域？为什么会有跨域问题？回答模板： 跨域本质是浏览器的同源策略限制。 同源指的是：协议、域名、端口三者完全一致。 只要三者中任意一个不同，浏览器就会认为是跨域，从而限制前端脚本读取响应内容，以防止恶意网站窃取用户数据。 需要注意的是：跨域是浏览器层面的安全限制，服务器本身并不受影响。 面试题 2：同源策略限制了哪些行为？回答模板： 同源策略主要限制的是：  JS 读取跨">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【⭐】浏览器&#x2F;网络相关面试题">
-<meta property="og:url" content="http://example.com/2026/01/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:url" content="http://example.com/2025/12/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BD%91%E7%BB%9C%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
 <meta property="og:site_name" content="相">
 <meta property="og:description" content="跨域问题面试题 1：什么是跨域？为什么会有跨域问题？回答模板： 跨域本质是浏览器的同源策略限制。 同源指的是：协议、域名、端口三者完全一致。 只要三者中任意一个不同，浏览器就会认为是跨域，从而限制前端脚本读取响应内容，以防止恶意网站窃取用户数据。 需要注意的是：跨域是浏览器层面的安全限制，服务器本身并不受影响。 面试题 2：同源策略限制了哪些行为？回答模板： 同源策略主要限制的是：  JS 读取跨">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-01-08T08:44:32.000Z">
-<meta property="article:modified_time" content="2026-01-10T22:54:43.491Z">
+<meta property="article:published_time" content="2025-12-08T08:44:32.000Z">
+<meta property="article:modified_time" content="2026-01-14T00:09:32.999Z">
 <meta property="article:author" content="Xiang Chen">
 <meta property="article:tag" content="前端工程">
 <meta name="twitter:card" content="summary_large_image">
@@ -208,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-08 16:44" pubdate>
-          2026年1月8日 下午
+        <time datetime="2025-12-08 16:44" pubdate>
+          2025年12月8日 下午
         </time>
       </span>
     
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          15k 字
+          17k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          123 分钟
+          142 分钟
         
       </span>
     
@@ -1449,7 +1449,7 @@
 <li>可剥夺资源：即当某进程获得了部分资源，但得不到其它资源，则释放已占有的资源（破坏不可剥夺条件）</li>
 <li>资源有序分配法：系统给每类资源赋予一个编号，每一个进程按编号递增的顺序请求资源，释放则相反（破坏环路等待条件）</li>
 </ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="面试题：CDN-和-Service-worker是什么？"><a href="#面试题：CDN-和-Service-worker是什么？" class="headerlink" title="面试题：CDN 和 Service worker是什么？"></a>面试题：CDN 和 Service worker是什么？</h3><p>一、CDN 的介绍（面试模板）</p>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="面试题：CDN-和-Service-worker是什么？"><a href="#面试题：CDN-和-Service-worker是什么？" class="headerlink" title="面试题：CDN 和 Service worker是什么？"></a>面试题：CDN 和 Service worker是什么？</h3><p>一、CDN 的介绍（面试模板）</p>
 <p><strong>CDN（内容分发网络）</strong> 是通过在全球各地部署边缘节点，把静态资源缓存到离用户最近的节点，从而减少网络延迟、减轻源站压力、提升访问速度。<br> 用户请求资源时，优先从就近节点命中缓存，只有未命中时才回源站。</p>
 <hr>
 <p>CDN 的核心思想是 <strong>“空间换时间”</strong>。</p>
@@ -1471,7 +1471,26 @@
 <li>JS &#x2F; CSS &#x2F; 图片 &#x2F; 视频</li>
 <li>部分可缓存的接口响应（配合缓存策略）</li>
 </ul>
-<p><strong>CDN 是否一定比源站快？</strong><br> 不一定，首次请求或缓存未命中时仍需回源。</p>
+<p><strong>CDN 是否一定比源站快？</strong></p>
+<p><strong>CDN的工作原理：</strong></p>
+<p>（1）用户未使用CDN缓存资源的过程：</p>
+<ol>
+<li>浏览器通过DNS对域名进行解析（就是上面的DNS解析过程），依次得到此域名对应的IP地址</li>
+<li>浏览器根据得到的IP地址，向域名的服务主机发送数据请求</li>
+<li>服务器向浏览器返回响应数据</li>
+</ol>
+<p>（2）用户使用CDN缓存资源的过程：</p>
+<ol>
+<li>对于点击的数据的URL，经过本地DNS系统的解析，发现该URL对应的是一个CDN专用的DNS服务器，DNS系统就会将域名解析权交给CNAME指向的CDN专用的DNS服务器。</li>
+<li>CND专用DNS服务器将CND的全局负载均衡设备IP地址返回给用户</li>
+<li>用户向CDN的全局负载均衡设备发起数据请求</li>
+<li>CDN的全局负载均衡设备根据用户的IP地址，以及用户请求的内容URL，选择一台用户所属区域的区域负载均衡设备，告诉用户向这台设备发起请求</li>
+<li>区域负载均衡设备选择一台合适的缓存服务器来提供服务，将该缓存服务器的IP地址返回给全局负载均衡设备</li>
+<li>全局负载均衡设备把服务器的IP地址返回给用户</li>
+<li>用户向该缓存服务器发起请求，缓存服务器响应用户的请求，将用户所需内容发送至用户终端。</li>
+</ol>
+<p>如果缓存服务器没有用户想要的内容，那么缓存服务器就会向它的上一级缓存服务器请求内容，以此类推，直到获取到需要的资源。最后如果还是没有，就会回到自己的服务器去获取资源。</p>
+<p> 不一定，首次请求或缓存未命中时仍需回源。</p>
 <hr>
 <p>二、Service Worker 的介绍（面试模板）</p>
 <p><strong>Service Worker 是运行在浏览器中的独立脚本线程</strong>，位于页面和网络之间，可以拦截网络请求，实现资源缓存、离线访问和请求控制，是 PWA 的核心能力之一。</p>
@@ -1536,7 +1555,52 @@
 <blockquote>
 <p>实际项目中，通常 <strong>CDN + Service Worker 结合使用</strong>：<br> CDN 负责首次访问和大规模分发，<br> Service Worker 负责二次访问、离线体验和弱网优化。</p>
 </blockquote>
-<h3 id="面试题：HTTP-状态码概念"><a href="#面试题：HTTP-状态码概念" class="headerlink" title="面试题：HTTP 状态码概念"></a>面试题：HTTP 状态码概念</h3><p>HTTP 状态码用于表示服务器对请求的处理结果，按首位数字分为五类。</p>
+<h3 id="面试题：懒加载和预加载"><a href="#面试题：懒加载和预加载" class="headerlink" title="面试题：懒加载和预加载"></a>面试题：懒加载和预加载</h3><h4 id="面试题一：什么是懒加载？它解决了什么问题？"><a href="#面试题一：什么是懒加载？它解决了什么问题？" class="headerlink" title="面试题一：什么是懒加载？它解决了什么问题？"></a>面试题一：什么是懒加载？它解决了什么问题？</h4><p><strong>口述回答模板：</strong></p>
+<p>本质：<strong>代码分割（Code Splitting）+ 按需加载（On-Demand Loading）</strong>。</p>
+<p>懒加载指的是：资源并不是在页面一开始就全部加载，而是等到真正需要使用的时候才去加载。<br> 这里的资源可以是图片、组件、路由模块，甚至是数据请求。</p>
+<p>引入懒加载的根本原因在于性能优化。现代前端页面资源体积越来越大，如果在首屏阶段一次性加载所有内容，会显著拉长首屏渲染时间，影响用户体验。懒加载通过“延后非关键资源”的加载时机，把带宽和计算资源优先留给首屏和核心功能。</p>
+<p>从工程角度看，懒加载的本质不是少加载，而是<strong>把加载时机推迟到最合适的时间点</strong>，从而在性能和功能之间取得平衡。</p>
+<hr>
+<h4 id="面试题二：什么是预加载？和懒加载的出发点有什么不同？"><a href="#面试题二：什么是预加载？和懒加载的出发点有什么不同？" class="headerlink" title="面试题二：什么是预加载？和懒加载的出发点有什么不同？"></a>面试题二：什么是预加载？和懒加载的出发点有什么不同？</h4><p><strong>口述回答模板：</strong></p>
+<p>预加载的思路和懒加载恰好相反。<br> 预加载是指：在当前阶段还没用到某些资源时，<strong>提前把它们加载到浏览器中</strong>，以便在真正需要时能够立刻使用。</p>
+<p>预加载的出发点不是减少请求数量，而是减少“等待时间”。<br> 比如用户接下来很可能会跳转到下一个页面，如果等到真正跳转时才开始加载资源，就会产生明显的延迟。预加载则是利用浏览器空闲时间，提前准备好未来可能用到的资源。</p>
+<p>因此，预加载关注的是<strong>未来体验的平滑性</strong>，而懒加载关注的是<strong>当前性能的优化</strong>。</p>
+<hr>
+<h4 id="面试题三：懒加载和预加载的核心区别是什么？"><a href="#面试题三：懒加载和预加载的核心区别是什么？" class="headerlink" title="面试题三：懒加载和预加载的核心区别是什么？"></a>面试题三：懒加载和预加载的核心区别是什么？</h4><p><strong>口述回答模板：</strong></p>
+<p>懒加载和预加载的核心区别在于加载时机和目标不同。</p>
+<p>懒加载强调“<strong>非必要不加载</strong>”，优先保证当前页面和首屏体验，把非关键资源推迟到真正需要时再加载；<br> 预加载强调“<strong>即将需要先准备</strong>”，在不影响当前性能的前提下，提前加载未来高概率会用到的资源。</p>
+<p>可以理解为：懒加载是减法，减少首屏负担；预加载是加法，减少未来等待。<br> 在实际工程中，两者并不是对立关系，而是常常配合使用。</p>
+<hr>
+<h4 id="面试题四：前端常见的懒加载和预加载应用场景有哪些？"><a href="#面试题四：前端常见的懒加载和预加载应用场景有哪些？" class="headerlink" title="面试题四：前端常见的懒加载和预加载应用场景有哪些？"></a>面试题四：前端常见的懒加载和预加载应用场景有哪些？</h4><p><strong>口述回答模板：</strong></p>
+<p>懒加载最常见的场景包括：图片懒加载、路由级代码拆分、组件级异步加载以及滚动加载列表数据。这些场景的共同点是：资源在首屏并不一定会用到，但体积或数量较大。</p>
+<p>预加载常见于：路由切换、用户行为可预测的页面跳转、关键交互所需的脚本或样式提前准备等。<br> 比如用户 hover 到某个菜单项时，提前加载对应页面的代码，就是一种典型的预加载策略。</p>
+<p>在复杂应用中，是否使用懒加载或预加载，取决于资源是否关键、使用时机是否可预测以及当前网络和设备性能。</p>
+<hr>
+<h4 id="面试题五：懒加载和预加载在构建和运行阶段是如何实现的？"><a href="#面试题五：懒加载和预加载在构建和运行阶段是如何实现的？" class="headerlink" title="面试题五：懒加载和预加载在构建和运行阶段是如何实现的？"></a>面试题五：懒加载和预加载在构建和运行阶段是如何实现的？</h4><p><strong>口述回答模板：</strong></p>
+<p>从构建角度看，懒加载通常依赖代码拆分，把大资源拆成多个独立块，在运行时按需加载。<br> 而预加载更多是通过构建工具或浏览器机制，提前告诉浏览器“某些资源很快会用到”，从而在合适的时机加载。</p>
+<p>从运行时角度看，懒加载往往和用户行为相关，比如滚动、点击、路由切换；<br> 预加载则更多依赖浏览器调度和开发者对用户路径的预判。</p>
+<p>本质上，两者都是在<strong>控制浏览器加载资源的优先级和时机</strong>。</p>
+<h4 id="面试题：什么是-preload-和-prefetch？它们有什么区别？"><a href="#面试题：什么是-preload-和-prefetch？它们有什么区别？" class="headerlink" title="面试题：什么是 preload 和 prefetch？它们有什么区别？"></a>面试题：什么是 preload 和 prefetch？它们有什么区别？</h4><p><strong>口述回答模板：</strong></p>
+<p>preload 和 prefetch 都是浏览器提供的<strong>资源预加载机制</strong>，本质目的都是：提前获取资源，减少用户等待时间。但它们解决的问题不同，加载优先级和使用时机也完全不同。</p>
+<p>preload 的含义是：<strong>当前页面“马上就要用到”的关键资源，要求浏览器尽早加载</strong>。<br> 它的特点是优先级高，浏览器会把 preload 的资源当作当前页面渲染路径上的一部分来对待。<br> 典型场景是：关键脚本、关键样式、首屏字体等，如果这些资源不及时加载，就会直接影响当前页面的渲染或交互。</p>
+<p>prefetch 的含义是：<strong>当前页面暂时用不到，但未来很可能会用到的资源，提前在空闲时加载</strong>。<br> 它的特点是优先级低，浏览器只会在网络和主线程空闲时才去加载，不会影响当前页面的关键资源。<br> 典型场景是：用户可能即将跳转到的下一个页面所需的脚本或数据。</p>
+<p>从时间维度上看，preload 面向的是“现在”，prefetch 面向的是“将来”；</p>
+<p>从优先级上看，preload 是高优先级，prefetch 是低优先级</p>
+<p>从使用目的上看，preload 是为了解决当前页面性能瓶颈，prefetch 是为了提升未来页面切换的流畅度。</p>
+<h3 id="面试题：对节流与防抖的理解"><a href="#面试题：对节流与防抖的理解" class="headerlink" title="面试题：对节流与防抖的理解"></a>面试题：对节流与防抖的理解</h3><p><strong>口述回答模板：</strong></p>
+<p>节流和防抖都是用来控制高频事件触发频率的手段，解决的问题是：像 scroll、resize、mousemove、input 这种事件触发太密集，会导致频繁执行回调，带来性能问题或者重复请求。</p>
+<p>防抖的思路是“只要触发就重新计时”，也就是事件持续触发时不执行，等到停止触发一段时间后才执行一次。它适合“只关心最终结果”的场景，比如搜索框输入联想、窗口大小调整完成后的重新计算、表单校验等。</p>
+<p>节流的思路是“固定时间窗口最多执行一次”，不管事件多频繁，回调都按节奏执行。它适合“需要过程反馈”的场景，比如滚动监听上报、拖拽过程位置更新、页面滚动加载、mousemove 跟随效果等。</p>
+<p>工程上常见的区别点是：防抖更像把多次触发合并成最后一次；节流更像把触发频率压到一个可控范围。两者都可以做“立即执行”或“尾部再补一次”的变种，具体选哪种取决于业务要的是开始响应、过程响应还是结束响</p>
+<h4 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">debounce</span>(<span class="hljs-params">fn, wait</span>) &#123;<br>  <span class="hljs-keyword">var</span> timer = <span class="hljs-literal">null</span>;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">var</span> context = <span class="hljs-variable language_">this</span>,<br>      args = [...<span class="hljs-variable language_">arguments</span>];<br><br>    <span class="hljs-comment">// 如果此时存在定时器的话，则取消之前的定时器重新记时</span><br>    <span class="hljs-keyword">if</span> (timer) &#123;<br>      <span class="hljs-built_in">clearTimeout</span>(timer);<br>      timer = <span class="hljs-literal">null</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 设置定时器，使事件间隔指定事件后执行</span><br>    timer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>      fn.<span class="hljs-title function_">apply</span>(context, args);<br>    &#125;, wait);<br>  &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 时间戳版</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">throttle</span>(<span class="hljs-params">fn, delay</span>) &#123;<br>  <span class="hljs-keyword">var</span> preTime = <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>();<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">var</span> context = <span class="hljs-variable language_">this</span>,<br>      args = [...<span class="hljs-variable language_">arguments</span>],<br>      nowTime = <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>();<br><br>    <span class="hljs-comment">// 如果两次时间间隔超过了指定时间，则执行函数。</span><br>    <span class="hljs-keyword">if</span> (nowTime - preTime &gt;= delay) &#123;<br>      preTime = <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>();<br>      <span class="hljs-keyword">return</span> fn.<span class="hljs-title function_">apply</span>(context, args);<br>    &#125;<br>  &#125;;<br>&#125;<br><br><span class="hljs-comment">// 定时器版</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">throttle</span> (<span class="hljs-params">fun, wait</span>)&#123;<br>  <span class="hljs-keyword">let</span> timeout = <span class="hljs-literal">null</span><br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-keyword">let</span> context = <span class="hljs-variable language_">this</span><br>    <span class="hljs-keyword">let</span> args = [...<span class="hljs-variable language_">arguments</span>]<br>    <span class="hljs-keyword">if</span>(!timeout)&#123;<br>      timeout = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>        fun.<span class="hljs-title function_">apply</span>(context, args)<br>        timeout = <span class="hljs-literal">null</span> <br>      &#125;, wait)<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><h3 id="面试题：HTTP-状态码概念"><a href="#面试题：HTTP-状态码概念" class="headerlink" title="面试题：HTTP 状态码概念"></a>面试题：HTTP 状态码概念</h3><p>HTTP 状态码用于表示服务器对请求的处理结果，按首位数字分为五类。</p>
 <hr>
 <p>状态码分类</p>
 <ul>
@@ -1625,7 +1689,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>【⭐】浏览器/网络相关面试题</div>
-      <div>http://example.com/2026/01/08/前端面试/浏览器网络面试题/</div>
+      <div>http://example.com/2025/12/08/前端面试/浏览器网络面试题/</div>
     </div>
     <div class="license-meta">
       
@@ -1637,7 +1701,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年1月8日</div>
+          <div>2025年12月8日</div>
         </div>
       
       
@@ -1669,7 +1733,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/01/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue-Router%E9%9D%A2%E8%AF%95%E9%A2%98/" title="【⭐】Vue Router面试题">
+                      <a href="/2025/12/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/Vue-Router%E9%9D%A2%E8%AF%95%E9%A2%98/" title="【⭐】Vue Router面试题">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">【⭐】Vue Router面试题</span>
                         <span class="visible-mobile">上一篇</span>
@@ -1679,8 +1743,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/01/08/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/El-Menu%E5%A6%82%E4%BD%95%E7%BB%91%E5%AE%9AVue-Router/" title="El-Menu如何绑定Vue Router？">
-                        <span class="hidden-mobile">El-Menu如何绑定Vue Router？</span>
+                      <a href="/2025/12/05/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/Django%E4%BB%8E0%E5%88%B01/" title="Django从0到1搭建">
+                        <span class="hidden-mobile">Django从0到1搭建</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
